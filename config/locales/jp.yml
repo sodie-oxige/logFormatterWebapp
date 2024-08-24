@@ -1,0 +1,32 @@
+jp:
+  activerecord:
+    models:
+      appear_pc: 参加PC
+      log: ログ
+      pc: PC
+      pl: PL
+    attributes:
+      appear_pc:
+        log_id: ログID
+        pc: PC
+      log:
+        name: シナリオ名
+        date: 日付
+        gm: GM
+      pc:
+        name: 名前
+        pl: PL
+      pl:
+        name: 名前
+  helper:
+    label:
+      name: シナリオ名
+      date: 日付
+      gm: GM
+      pc: 参加PC
+    submit:
+      create: 保存
+      updata: 更新
+  logs:
+    index:
+      title: ログ一覧
