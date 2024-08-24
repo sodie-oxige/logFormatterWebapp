@@ -8,7 +8,7 @@
         <th colspan=4><%= AppearPc.human_attribute_name(:pc) %></th>
     </tr>
     <% @logs.each do |log| %>
-    <tr>
+    <tr data-url="<%= log_path(log.id) %>">
         <td><%= log.name %></td>
         <td><%= log.date %></td>
         <td><%= Pl.find(log.gm).name %></td>
@@ -24,4 +24,8 @@
 </table>
 <% else %>
     <p>ここにhtmlファイルをドラッグ＆ドロップ</p>
+<% end %>
+
+<% content_for :js do %>
+    <%= javascript_import_module_tag "logs/index" %>
 <% end %>
