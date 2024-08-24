@@ -1,0 +1,2 @@
+class AppearPc < ApplicationRecord
+end
