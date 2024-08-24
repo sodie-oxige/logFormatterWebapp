@@ -1,0 +1,12 @@
+<h1><%= t '.title' %></h1>
+<%= form_with url: logs_path do |form| %>
+<%= form.label :name, Log.human_attribute_name(:name) %>
+<%= form.text_field :name %>
+<%= form.label :date, Log.human_attribute_name(:date) %>
+<%= form.date_field :date %>
+<%= form.label :gm, Log.human_attribute_name(:gm) %>
+<%= form.collection_select :pc, Pl.all, :id, :name, include_blank: true %>
+<%= form.label :gm, Log.human_attribute_name(:pc) %>
+<%= form.collection_select :pc, Pc.all, :id, :name, multiple: true %>
+<%= form.submit %>
+<% end %>

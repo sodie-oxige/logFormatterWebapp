@@ -20,7 +20,9 @@
     padding: 0;
     box-sizing: border-box;
 }
-
+body{
+    min-height: 100vh;
+}
 nav {
     position: sticky;
     top: 0;
@@ -51,4 +53,9 @@ tr:not(:last-child){
 td{
     padding: 5px 10px;
     background-color: white;
+}
+form{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }

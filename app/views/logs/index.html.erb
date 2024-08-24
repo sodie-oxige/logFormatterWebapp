@@ -1,4 +1,4 @@
-<h1>ログ一覧</h1>
+<h1><%= t '.title' %></h1>
 <% if @logs %>
 <table>
     <tr>
@@ -25,6 +25,12 @@
 <% else %>
     <p>ここにhtmlファイルをドラッグ＆ドロップ</p>
 <% end %>
+<div style="display:none;">
+    <%= form_with url: logs_pre_new_path, id: "dropFileForm" do |form| %>
+        <%= form.file_field(:file) %>
+        <%= form.submit %>
+    <% end %>
+</div>
 
 <% content_for :js do %>
     <%= javascript_import_module_tag "logs/index" %>
