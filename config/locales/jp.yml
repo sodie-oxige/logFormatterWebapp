@@ -27,6 +27,12 @@ jp:
     submit:
       create: 保存
       updata: 更新
+  title: ログ整形ツール
   logs:
     index:
       title: ログ一覧
+  characters:
+    index:
+      title: PC/PL一覧
+    new:
+      title: 新規PC/PL登録

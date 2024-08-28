@@ -19,9 +19,35 @@ nav {
 }
 
 main {
-    margin: 10px auto 0 auto;
-    padding: 10px;
-    max-width: 100vh;
+    display: flex;
+    margin-top: 10px;
+
+    #sidebar {
+        width: 20%;
+        min-width: 20%;
+        min-height: calc(100vh - 10px);
+        border-right: solid thin silver;
+
+        >* {
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            background-color: white;
+            color: gray;
+            font-weight: bold;
+            text-decoration: none;
+
+            &:hover {
+                filter: brightness(90%);
+            }
+        }
+    }
+
+    #main {
+        margin: 0 auto;
+        padding: 10px;
+        max-width: 100vh;
+    }
 }
 
 h1,
@@ -36,26 +62,43 @@ h6 {
 table {
     border-collapse: collapse;
 
-    tr:first-child {
-        border-bottom: solid 2px gray;
-    }
+    tr {
+        padding: 0 30px;
 
-    tr:not(:first-child):hover {
-        filter: brightness(90%);
+        &:first-child {
+            border-bottom: solid 2px gray;
+        }
 
-        tr:not(:last-child) {
+        &:not(:first-child, :last-child) {
             border-bottom: solid thin gray;
+        }
+
+        &:not(:first-child):hover {
+            filter: brightness(90%);
         }
     }
 
+    th,
     td {
-        padding: 5px 20px;
+        padding: 10px 30px;
         background-color: white;
     }
 }
 
 form {
+    margin: 30px;
     display: flex;
     flex-direction: column;
     gap: 10px;
+
+    input,
+    textarea,
+    select {
+        padding: 10px;
+        font-size: 20px;
+    }
+
+    input[type="text"] {}
+
+    select {}
 }

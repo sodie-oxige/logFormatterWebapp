@@ -21,7 +21,12 @@
   <body>
     <%= render "layouts/navbar" %>
     <main>
-      <%= yield %>
+      <div id="sidebar" class="<%= sidebar_open? ? "open" : "close" %>">
+        <%= render "layouts/sidebar" %>
+      </div>
+      <div id="main">
+        <%= yield %>
+      </div>
     </main>
   </body>
 </html>

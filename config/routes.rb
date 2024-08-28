@@ -11,6 +11,11 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   root "logs#index"
+
+  get "logs/new_char"
   resources :logs
   post "logs/pre_new"
+  resources :characters
+  post "characters/create_pc"
+  post "characters/create_pl"
 end
