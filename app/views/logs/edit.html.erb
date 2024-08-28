@@ -1,6 +1,5 @@
 <h1><%= t '.title' %></h1>
-<span><%= @filename %></span>
-<%= form_with model: @log, url: logs_path do |form| %>
+<%= form_with model: @log, url: log_path(@log) do |form| %>
     <%= form.label :name, Log.human_attribute_name(:name) %>
     <%= form.text_field :name %>
     <%= form.label :date, Log.human_attribute_name(:date) %>

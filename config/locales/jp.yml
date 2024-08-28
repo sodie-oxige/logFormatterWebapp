@@ -7,12 +7,13 @@ jp:
       pl: PL
     attributes:
       appear_pc:
-        log_id: ログID
+        log_id: ログインID
         pc: PC
       log:
         name: シナリオ名
         date: 日付
         gm: GM
+        pc: 参加PC
       pc:
         name: 名前
         pl: PL
@@ -31,6 +32,10 @@ jp:
   logs:
     index:
       title: ログ一覧
+    new:
+      title: 新規登録
+    edit:
+      title: 情報編集
   characters:
     index:
       title: PC/PL一覧

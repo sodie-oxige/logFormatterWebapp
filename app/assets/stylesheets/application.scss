@@ -1,8 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&display=swap');
 * {
     position: relative;
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: "Noto Sans JP", sans-serif;
 }
 
 body {
@@ -14,39 +16,55 @@ nav {
     top: 0;
     z-index: 100;
     padding: 5px;
+    height: 60px;
     background-color: white;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    .nav_logo{
+        font-size: 30px;
+        color: black;
+        font-weight: bold;
+        text-decoration: none;
+    }
 }
 
 main {
     display: flex;
-    margin-top: 10px;
 
     #sidebar {
-        width: 20%;
-        min-width: 20%;
-        min-height: calc(100vh - 10px);
+        width: 20vw;
+        min-height: calc(100vh - 60px);
         border-right: solid thin silver;
+        overflow-x: hidden;
+        &.open{
+            max-width: 20vw;
+        }
+        &.close{
+            max-width: 0;
+        }
 
-        >* {
-            display: flex;
-            flex-direction: column;
-            padding: 20px;
-            background-color: white;
-            color: gray;
-            font-weight: bold;
-            text-decoration: none;
+        >#sidebar_container{
+            width: 20vw;
+            >* {
+                display: flex;
+                flex-direction: column;
+                padding: 20px;
+                background-color: white;
+                color: gray;
+                font-weight: bold;
+                text-decoration: none;
 
-            &:hover {
-                filter: brightness(90%);
+                &:hover {
+                    filter: brightness(90%);
+                }
             }
         }
     }
 
     #main {
         margin: 0 auto;
-        padding: 10px;
-        max-width: 100vh;
+        padding: 20px 10px;
+        width: 80vw;
+        max-width: 120vh;
     }
 }
 
@@ -95,10 +113,11 @@ form {
     textarea,
     select {
         padding: 10px;
-        font-size: 20px;
+        font-size: 24px;
     }
 
-    input[type="text"] {}
-
-    select {}
+    label{
+        margin-top: 10px;
+        font-size: 16px;
+    }
 }

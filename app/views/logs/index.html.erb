@@ -6,6 +6,7 @@
         <th><%= Log.human_attribute_name(:date) %></th>
         <th><%= Log.human_attribute_name(:gm) %></th>
         <th colspan=4><%= AppearPc.human_attribute_name(:pc) %></th>
+        <th></th>
     </tr>
     <% @logs.each do |log| %>
     <tr data-url="<%= log_path(log.id) %>">
@@ -19,6 +20,11 @@
         <% (4-appear_pcs.size).times do %>
             <td></td>
         <% end %>
+        <td>
+            <%= link_to edit_log_path(log.id) do %>
+                <i class="bi bi-vector-pen"></i>
+            <% end %>
+        </td>
     </tr>
     <% end %>
 </table>
