@@ -38,6 +38,4 @@
     <% end %>
 </div>
 
-<% content_for :js do %>
-    <%= javascript_import_module_tag "logs/index" %>
-<% end %>
+<%= javascript_include_tag "logs_index", "data-turbo-track": "reload", type: "module" %>

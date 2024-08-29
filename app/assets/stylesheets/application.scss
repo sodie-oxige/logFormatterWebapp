@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&display=swap');
+
 * {
     position: relative;
     margin: 0;
@@ -19,7 +20,8 @@ nav {
     height: 60px;
     background-color: white;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    .nav_logo{
+
+    .nav_logo {
         font-size: 30px;
         color: black;
         font-weight: bold;
@@ -35,15 +37,18 @@ main {
         min-height: calc(100vh - 60px);
         border-right: solid thin silver;
         overflow-x: hidden;
-        &.open{
+
+        &.open {
             max-width: 20vw;
         }
-        &.close{
+
+        &.close {
             max-width: 0;
         }
 
-        >#sidebar_container{
+        >#sidebar_container {
             width: 20vw;
+
             >* {
                 display: flex;
                 flex-direction: column;
@@ -63,8 +68,7 @@ main {
     #main {
         margin: 0 auto;
         padding: 20px 10px;
-        width: 80vw;
-        max-width: 120vh;
+        width: fit-content;
     }
 }
 
@@ -100,6 +104,14 @@ table {
     td {
         padding: 10px 30px;
         background-color: white;
+
+        &:has(>a) {
+            padding: 0;
+
+            >a {
+                padding: 10px 30px;
+            }
+        }
     }
 }
 
@@ -116,7 +128,7 @@ form {
         font-size: 24px;
     }
 
-    label{
+    label {
         margin-top: 10px;
         font-size: 16px;
     }

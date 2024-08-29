@@ -15,6 +15,9 @@ Rails.application.routes.draw do
   get "logs/new_char"
   resources :logs
   post "logs/pre_new"
+  get "logs/:id/preparing" => "logs#preparing", as: "log_preparing"
+  post "logs/:id/make_json" => "logs#make_json", as: "log_makejson"
+
   resources :characters
   post "characters/create_pc"
   post "characters/create_pl"

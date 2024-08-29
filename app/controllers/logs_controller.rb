@@ -1,4 +1,6 @@
 class LogsController < ApplicationController
+  $log_format_version = "0.9.0"
+
   def index
     @logs = Log.all.order(:date)
   end
@@ -50,19 +52,25 @@ class LogsController < ApplicationController
   end
 
   def show
-    json_create(params[:id])
-  end
-
-  def preparing
     @id = params[:id]
+    if !File.exist?("#{Rails.public_path}/logjson/#{@id}.json")
+      # var = (@log_format_version.split(".")+[ 0, 0 ])[0..2]
+      redirect_to(log_preparing_path(@id))
+    end
   end
 
-  def json_create(id)
-    if File.exist?("#{Rails.public_path}/logfile/#{id}.html")
-      File.open("#{Rails.public_path}/logfile/#{id}.html") do |j|
-      end
+  def preparing # get
+    @id = params[:id]
+    @ver = $log_format_version
+    puts @ver
+  end
+
+  def make_json # post
+    @id = params[:id]
+    if File.exist?("#{Rails.public_path}/logfile/#{@id}.html")
+      data=params[:json]
+      File.write("public/logjson/#{@id}.json", data, encoding: Encoding::UTF_8)
+      redirect_to(log_path(@id))
     end
-    data={}
-    File.write("public/logjson/#{id}.json", data, encoding: Encoding::UTF_8)
   end
 end
