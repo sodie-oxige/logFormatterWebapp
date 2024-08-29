@@ -1,0 +1,93 @@
+#screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 99;
+    width: 100vw;
+    height: 100vh;
+
+    #backgrond{
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background-color: gray;
+    }
+
+    #mask{
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 40;
+        width: 100vw;
+        height: 100vh;
+        background-color: black;
+        opacity: 0;
+    }
+
+    #comment {
+        position: absolute;
+        bottom: 10px;
+        left: 50%;
+        z-index: 50;
+        transform: translateX(-50%);
+        display: flex;
+        flex-direction: column;
+        width: 80%;
+        height: 30%;
+        background-image: linear-gradient(10deg, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.7));
+        border: solid 3px black;
+        border-radius: 30px;
+
+        #comment_name {
+            margin: 10px 15px 5px;
+            width: calc(100% - 30px);
+            border-bottom: solid thin;
+            font-size: 20px;
+            color: white;
+        }
+
+        #comment_content {
+            margin: 5px 20px 15px;
+            font-size: 25px;
+            color: white;
+        }
+
+        &::after {
+            content: "";
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            border-style: solid;
+            border-width: 30px 15px 0;
+            border-color: white transparent;
+            animation: flow 3s infinite;
+        }
+
+        @keyframes flow {
+            0% {
+                transform: translateY(0) rotateY(0);
+            }
+            50% {
+                transform: translateY(-20px) rotateY(180deg);
+            }
+        }
+    }
+
+    span {
+        font-size: 30px;
+        font-weight: bold;
+    }
+
+    progress {
+        width: 50%;
+        min-width: 200px;
+    }
+}
+
+#html_container {
+    position: fixed;
+    top: 0;
+    left: 0;
+}

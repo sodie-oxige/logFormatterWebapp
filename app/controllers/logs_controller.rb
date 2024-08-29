@@ -16,7 +16,6 @@ class LogsController < ApplicationController
     @filename = params[:filename]
     @log = Log.new()
   end
-
   def create
     @log = Log.new(params.require(:log).permit(:name, :date, :gm))
     pcs = params.require(:log)[:pcs]
@@ -54,10 +53,17 @@ class LogsController < ApplicationController
   def show
     @id = params[:id]
     if !File.exist?("#{Rails.public_path}/logjson/#{@id}.json")
-      # var = (@log_format_version.split(".")+[ 0, 0 ])[0..2]
       redirect_to(log_preparing_path(@id))
+    else
+      @file = File.open("#{Rails.public_path}/logjson/#{@id}.json").read()
+      logjson = JSON.load(@file)
+      now_ver = ($log_format_version.split(".")+[ 0, 0 ])[0..2]
+      log_ver = logjson["version"].split(".")
+      if now_ver[0] > log_ver[0] || (now_ver[0] = log_ver[0] && now_ver[1] > log_ver[1])
+        redirect_to(log_preparing_path(@id))
+      end
     end
-  end
+end
 
   def preparing # get
     @id = params[:id]

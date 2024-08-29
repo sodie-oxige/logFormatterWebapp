@@ -1,2 +1,46 @@
-<h1>Logs#show</h1>
-<p>Find me in app/views/logs/show.html.erb</p>
+<%= stylesheet_link_tag "show", "data-turbo-track": "reload" %>
+
+<div id="screen">
+    <div id="backgrond"></div>
+    <img src="" id="imageL">
+    <img src="" id="imageR">
+    <div id="mask"></div>
+    <div id="comment">
+        <span id="comment_name"></span>
+        <span id="comment_content"></span>
+    </div>
+</div>
+
+<script>
+    const log_data=<%= raw @file %>.body
+    console.log(log_data);
+    let url = new URL(window.location.href);
+    let page = url.searchParams.get("page") ?? 1;
+    console.log(page);
+    let inter;
+    const load=(p)=>{
+        if(log_data[p].author!="style"){
+            document.getElementById("comment_name").textContent = log_data[p].author;
+            let i=0;
+            document.getElementById("comment_content").textContent = "";
+            clearInterval(inter);
+            inter = setInterval(() => {
+                document.getElementById("comment_content").textContent += log_data[p].content[i];
+                if(++i>=log_data[p].content.length) clearInterval(inter);
+            }, 20);
+            document.getElementById("comment_name").style.borderBottomColor = log_data[p].color;
+            document.getElementById("mask").style.opacity = ["雑談","other"].includes(log_data[p].tab) ? 0.2 : 0;
+        }
+    }
+
+    document.addEventListener("DOMContentLoaded", ()=>{
+        load(page-1);
+        document.getElementById("comment").addEventListener("click", ()=>{
+            load(page++);
+            url.searchParams.set("page",page);
+            console.log(url.href);
+            
+            history.replaceState(null, null, url.href);
+        })
+    })
+</script>
