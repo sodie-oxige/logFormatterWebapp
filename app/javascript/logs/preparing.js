@@ -1,4 +1,3 @@
-//<script>
 window.addEventListener("DOMContentLoaded", () => {
     let data = {};
     data.varsion = window.var;
