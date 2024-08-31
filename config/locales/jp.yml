@@ -19,6 +19,14 @@ jp:
         pl: PL
       pl:
         name: 名前
+      calendar:
+        date: 日付
+      session:
+        name: 名前
+      schedule:
+        session: セッション名
+        date: 日付
+        response: 予定
   helper:
     label:
       name: シナリオ名
@@ -41,3 +49,10 @@ jp:
       title: PC/PL一覧
     new:
       title: 新規PC/PL登録
+  schedules:
+    index:
+      title: スケジュール
+    new:
+      title: 予定登録
+    edit:
+      title: 予定編集

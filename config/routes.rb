@@ -21,4 +21,6 @@ Rails.application.routes.draw do
   resources :characters
   post "characters/create_pc"
   post "characters/create_pl"
+
+  resources :schedules
 end

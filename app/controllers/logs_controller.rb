@@ -63,7 +63,7 @@ class LogsController < ApplicationController
         redirect_to(log_preparing_path(@id))
       end
     end
-end
+  end
 
   def preparing # get
     @id = params[:id]

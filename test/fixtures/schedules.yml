@@ -1,0 +1,11 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  session: one
+  calendar: one
+  response: 1
+
+two:
+  session: two
+  calendar: two
+  response: 1

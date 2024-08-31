@@ -1,0 +1,29 @@
+<%= stylesheet_link_tag "schedule_index", "data-turbo-track": "reload" %>
+
+<h1><%= t '.title' %></h1>
+<%= link_to "＜", schedules_path(year: @month>1?@year:@year-1, month: @month>1?@month-1:@month+11) %>
+<%= link_to t("schedules.new.title"), new_schedule_path(year: @year, month: @month) %>
+<%= link_to "＞", schedules_path(year: @month<12?@year:@year+1, month: @month<12?@month+1:@month-11) %>
+<% if @calendars %>
+    <table>
+        <tr>
+            <th><%= Schedule.human_attribute_name(:calendar) %></th>
+            <% responses = {} %>
+            <% schedules = @schedules.pluck(:name).uniq %>
+            <% schedules.each do |schedule| %>
+                <% responses[schedule]=@schedules.where(name: schedule).order(:date) %>
+                <th><%= link_to schedule, edit_schedule_path(responses[schedule][0][:session_id]) %></th>
+            <% end %>
+        </tr>
+        <% i=0 %>
+        <% @calendars.each do |date| %>
+            <tr data-type="<%= 3 - schedules.reduce(3){ |sum,s| sum & responses[s][i][:response] } %>">
+                <th><%= date.strftime('%Y-%m-%d') %></th>
+                <% schedules.each do |schedule| %>
+                    <td data-type=<%= responses[schedule][i][:response] %>></td>
+                <% end %>
+                <% i+=1 %>
+            </tr>
+        <% end %>
+    </table>
+<% end %>

@@ -1,0 +1,37 @@
+@each $n, $color, $text in ((0, lightblue, "㏠"),
+    (1, lightgreen, "夜"),
+    (2, silver, "昼"),
+    (3, lightcoral, "")) {
+    tr[data-type="#{$n}"] {
+        :is(th, td) {
+            background-color: $color;
+        }
+
+        th::after {
+            content: $text;
+        }
+    }
+
+    td[data-type="#{$n}"]::after {
+        content: $text;
+    }
+}
+
+td,
+th {
+    padding: 10px;
+    $box-shadow: 0 0 30px 5px;
+
+    &::after {
+        display: block;
+        margin: auto;
+        height: 30px;
+        font-size: 20px;
+        font-weight: bold;
+        text-align: center;
+    }
+
+    &:first-child {
+        border-right: solid thin gray;
+    }
+}

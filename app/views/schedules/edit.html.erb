@@ -1,0 +1,39 @@
+<%= stylesheet_link_tag "schedule_new", "data-turbo-track": "reload" %>
+
+<h1><%= t '.title' %></h1>
+<% if @calendars %>
+    <%= form_with model:@session, url: schedule_path(@session) do |form| %>
+        <%= form.month_field :yaerMonth, value: @calendars[0] %>
+        <table>
+            <tr>
+                <th><%= Schedule.human_attribute_name(:calendar) %></th>
+                <th colspan=5><%= form.text_field :session, value: @session[:name] %></th>
+            </tr>
+            <% i=0 %>
+            <% @calendars.each do |date| %>
+                <% schedule = @session.schedules.find{ |s| s.date==date } %>
+                <tr>
+                    <th><%= date.strftime('%Y-%m-%d') %><%= "(#{["日", "月", "火", "水", "木", "金", "土"][date.wday]})" %></th>
+                    <td>
+                        <%= form.label "response" << date.day.to_s << "_0", '㏠' %>
+                        <%= form.radio_button "response" << date.day.to_s, '0', checked: schedule[:response]==0 %>
+                    </td>
+                    <td>
+                        <%= form.label "response" << date.day.to_s << "_1", '夜' %>
+                        <%= form.radio_button "response" << date.day.to_s, '1', checked: schedule[:response]==1 %>
+                    </td>
+                    <td>
+                        <%= form.label "response" << date.day.to_s << "_2", '昼' %>
+                        <%= form.radio_button "response" << date.day.to_s, '2', checked: schedule[:response]==2 %>
+                    </td>
+                    <td>
+                        <%= form.label "response" << date.day.to_s << "_3", '×' %>
+                        <%= form.radio_button "response" << date.day.to_s, '3', checked: schedule[:response]==3 %>
+                    </td>
+                </tr>
+                <% i+=1 %>
+            <% end %>
+        </table>
+        <%= form.submit %>
+    <% end %>
+<% end %>

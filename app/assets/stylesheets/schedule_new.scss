@@ -1,0 +1,38 @@
+td {
+    padding: 10px;
+
+    label:has(+input[type="radio"]) {
+        margin: auto;
+        display: block;
+        width: 40px;
+        height: 40px;
+        border: solid thin gray;
+        border-radius: 10px;
+        font-size: 25px;
+        font-weight: bold;
+        text-align: center;
+        user-select: none;
+
+        &:has(+:checked) {
+            &[for $="0"] {
+                background-color: lightblue;
+            }
+
+            &[for $="1"] {
+                background-color: lightgreen;
+            }
+
+            &[for $="2"] {
+                background-color: silver;
+            }
+
+            &[for $="3"] {
+                background-color: lightcoral;
+            }
+        }
+    }
+
+    input[type="radio"] {
+        display: none;
+    }
+}
