@@ -12,12 +12,11 @@
     <tr data-url="<%= log_path(log.id) %>">
         <td><%= log.name %></td>
         <td><%= log.date %></td>
-        <td><%= Pl.find(log.gm).name %></td>
-        <% appear_pcs = AppearPc.where(log_id: log.id) %>
-        <% appear_pcs.each do |appear_pc| %>
-            <td><%= Pc.find(appear_pc.pc).name %></td>
+        <td><%= log.gm.name %></td>
+        <% log.pcs.each do |pc| %>
+            <td><%= pc.name %></td>
         <% end %>
-        <% (4-appear_pcs.size).times do %>
+        <% (4-log.pcs.size).times do %>
             <td></td>
         <% end %>
         <td>

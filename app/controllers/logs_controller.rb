@@ -14,18 +14,18 @@ class LogsController < ApplicationController
   def new
     if !File.exist?("temp.html") then redirect_to(logs_path) end
     @filename = params[:filename]
-    @log = Log.new()
+    @log = Log.new
   end
   def create
-    @log = Log.new(params.require(:log).permit(:name, :date, :gm))
-    pcs = params.require(:log)[:pcs]
+    gm = Pl.find(params.require(:log)[:gm])
+    log_params = params.require(:log).slice(:name, :date, :pc_ids).permit(:name, :date, pc_ids: [])
+    log_params[:pc_ids].reject!(&:blank?)
+    @log = gm.logs.new(log_params)
     if @log.save
-      pcs.reject(&:blank?).each do |pc|
-        @log.appear_pcs.create(pc: pc)
-      end
       File.rename("temp.html", "public/logfile/#{@log.id}.html")
       redirect_to(logs_path)
     else
+      pp @log.errors.details
       redirect_to(new_log_path)
     end
   end
@@ -55,7 +55,7 @@ class LogsController < ApplicationController
     if !File.exist?("#{Rails.public_path}/logjson/#{@id}.json")
       redirect_to(log_preparing_path(@id))
     else
-      @file = File.open("#{Rails.public_path}/logjson/#{@id}.json").read()
+      @file = File.open("#{Rails.public_path}/logjson/#{@id}.json").read
       logjson = JSON.load(@file)
       now_ver = ($log_format_version.split(".")+[ 0, 0 ])[0..2]
       log_ver = logjson["version"].split(".")
@@ -68,7 +68,6 @@ class LogsController < ApplicationController
   def preparing # get
     @id = params[:id]
     @ver = $log_format_version
-    puts @ver
   end
 
   def make_json # post

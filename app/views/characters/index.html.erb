@@ -1,42 +1,54 @@
 <h1><%= t '.title' %></h1>
 <%= link_to t('characters.new.title'), new_character_path %>
 
-<h2><%= t 'activerecord.models.pc' %></h2>
+<div class="vflex gap">
 
-<table>
-    <tr>
-        <td>
-            <%= t 'activerecord.attributes.pc.name' %>
-        </td>
-        <td>
-            <%= t 'activerecord.attributes.pc.pl' %>
-        </td>
-    </tr>
-    <% @pc.each do |pc| %>
-        <tr>
-            <td>
-                <%= pc.name %>
-            </td>
-            <td>
-                <%= Pl.find(pc.pl).name %>
-            </td>
-        </tr>
-    <% end %>
-</table>
+    <div>
+        <h2><%= t 'activerecord.models.pc' %></h2>
+        <table>
+            <tr>
+                <td>
+                    <%= t 'activerecord.attributes.pc.name' %>
+                </td>
+                <td>
+                    <%= t 'activerecord.attributes.pc.pl' %>
+                </td>
+            </tr>
+            <% @pl.each do |pl| %>
+            <% pp pl %>
+            <% pp pl.pcs %>
+                <% pl.pcs.each do |pc| %>
+                    <tr>
+                        <td>
+                            <%= pc.name %>
+                        </td>
+                        <td>
+                            <% pp pc %>
+                            <% pp pc.pl %>
+                            <%= pc.pl.name %>
+                        </td>
+                    </tr>
+                <% end %>
+            <% end %>
+        </table>
+    </div>
 
-<h2><%= t 'activerecord.models.pl' %></h2>
+    <div>
+        <h2><%= t 'activerecord.models.pl' %></h2>
+        <table>
+            <tr>
+                <td>
+                    <%= t 'activerecord.attributes.pl.name' %>
+                </td>
+            </tr>
+            <% @pl.each do |pl| %>
+                <tr>
+                    <td>
+                        <%= pl.name %>
+                    </td>
+                </tr>
+            <% end %>
+        </table>
+    </div>
 
-<table>
-    <tr>
-        <td>
-            <%= t 'activerecord.attributes.pl.name' %>
-        </td>
-    </tr>
-    <% @pl.each do |pl| %>
-        <tr>
-            <td>
-                <%= pl.name %>
-            </td>
-        </tr>
-    <% end %>
-</table>
+</div>

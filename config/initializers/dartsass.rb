@@ -1,4 +1,5 @@
 Rails.application.config.dartsass.builds = {
+  "application.scss"  => "application.css",
   "preparing.scss"  => "preparing.css",
   "show.scss"  => "show.css",
   "schedule_index.scss"  => "schedule_index.css",

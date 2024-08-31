@@ -12,6 +12,19 @@ body {
     min-height: 100vh;
 }
 
+.hflex,
+.vflex {
+    display: flex;
+
+    &.hflex {
+        flex-direction: column;
+    }
+
+    &.gap {
+        gap: 50px;
+    }
+}
+
 nav {
     position: sticky;
     top: 0;

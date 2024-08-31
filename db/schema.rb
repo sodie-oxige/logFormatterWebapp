@@ -10,27 +10,31 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_08_30_031715) do
+ActiveRecord::Schema[7.2].define(version: 2024_08_31_072733) do
   create_table "appear_pcs", force: :cascade do |t|
-    t.integer "log_id"
-    t.integer "pc"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "pc_id", null: false
+    t.integer "log_id", null: false
+    t.index ["log_id"], name: "index_appear_pcs_on_log_id"
+    t.index ["pc_id"], name: "index_appear_pcs_on_pc_id"
   end
 
   create_table "logs", force: :cascade do |t|
     t.string "name"
     t.date "date"
-    t.integer "gm"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "pl_id", null: false
+    t.index ["pl_id"], name: "index_logs_on_pl_id"
   end
 
   create_table "pcs", force: :cascade do |t|
     t.string "name"
-    t.integer "pl"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "pl_id", null: false
+    t.index ["pl_id"], name: "index_pcs_on_pl_id"
   end
 
   create_table "pls", force: :cascade do |t|
@@ -54,5 +58,9 @@ ActiveRecord::Schema[7.2].define(version: 2024_08_30_031715) do
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "appear_pcs", "logs"
+  add_foreign_key "appear_pcs", "pcs"
+  add_foreign_key "logs", "pls"
+  add_foreign_key "pcs", "pls"
   add_foreign_key "schedules", "sessions"
 end

@@ -39,14 +39,14 @@ jp:
   title: ログ整形ツール
   logs:
     index:
-      title: ログ一覧
+      title: ログ
     new:
       title: 新規登録
     edit:
       title: 情報編集
   characters:
     index:
-      title: PC/PL一覧
+      title: キャラクター
     new:
       title: 新規PC/PL登録
   schedules:

@@ -2,8 +2,8 @@
 <%= form_with model: @pc, url: characters_create_pc_path do |form| %>
     <%= form.label :name, Pc.human_attribute_name(:name) %>
     <%= form.text_field :name %>
-    <%= form.label :pl, Pc.human_attribute_name(:pl) %>
-    <%= form.collection_select :pl, Pl.all.order(:name), :id, :name %>
+    <%= form.label :pl_id, Pc.human_attribute_name(:pl) %>
+    <%= form.collection_select :pl_id, Pl.all.order(:name), :id, :name %>
     <%= form.submit %>
 <% end %>
 

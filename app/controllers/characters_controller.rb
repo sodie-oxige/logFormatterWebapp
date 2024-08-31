@@ -1,10 +1,6 @@
 class CharactersController < ApplicationController
   def index
-    @pc = Pc.all.order(:pl)
     @pl = Pl.all.order(:name)
-  end
-
-  def show
   end
 
   def new
@@ -13,7 +9,9 @@ class CharactersController < ApplicationController
   end
 
   def create_pc
-    @pc = Pc.new(params.require(:pc).permit(:name, :pl))
+    pp params
+    pc = params.require(:pc)
+    @pc = Pl.find(pc[:pl_id]).pcs.new(pc.permit(:name, :pl_id))
     if @pc.save()
       redirect_to new_character_path
     end
@@ -24,14 +22,5 @@ class CharactersController < ApplicationController
     if @pl.save()
       redirect_to new_character_path
     end
-  end
-
-  def edit
-  end
-
-  def update
-  end
-
-  def destroy
   end
 end
