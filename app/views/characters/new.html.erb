@@ -1,14 +1,17 @@
 <h1><%= t '.title' %></h1>
-<%= form_with model: @pc, url: characters_create_pc_path do |form| %>
-    <%= form.label :name, Pc.human_attribute_name(:name) %>
-    <%= form.text_field :name %>
-    <%= form.label :pl_id, Pc.human_attribute_name(:pl) %>
-    <%= form.collection_select :pl_id, Pl.all.order(:name), :id, :name %>
-    <%= form.submit %>
-<% end %>
+<div class="hflex">
+    <%= form_with model: @pc, url: characters_create_pc_path do |form| %>
+        <%= form.label :name, Pc.human_attribute_name(:name) %>
+        <%= form.text_field :name %>
+        <%= form.label :pl_id, Pc.human_attribute_name(:pl) %>
+        <%= form.collection_select :pl_id, Pl.all.order(:name), :id, :name %>
+        <%= form.file_field :file %>
+            <%= form.submit %>
+    <% end %>
 
-<%= form_with model: @pl, url: characters_create_pl_path do |form| %>
-    <%= form.label :name, Pc.human_attribute_name(:name) %>
-    <%= form.text_field :name %>
-    <%= form.submit %>
-<% end %>
+    <%= form_with model: @pl, url: characters_create_pl_path do |form| %>
+        <%= form.label :name, Pc.human_attribute_name(:name) %>
+        <%= form.text_field :name %>
+        <%= form.submit %>
+    <% end %>
+</div>

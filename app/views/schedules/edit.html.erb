@@ -3,7 +3,7 @@
 <h1><%= t '.title' %></h1>
 <% if @calendars %>
     <%= form_with model:@session, url: schedule_path(@session) do |form| %>
-        <%= form.month_field :yaerMonth, value: @calendars[0] %>
+        <%= form.month_field :yearMonth, value: @calendars[0] %>
         <table>
             <tr>
                 <th><%= Schedule.human_attribute_name(:calendar) %></th>

@@ -1,7 +1,7 @@
 <h1><%= t '.title' %></h1>
 <%= link_to t('characters.new.title'), new_character_path %>
 
-<div class="vflex gap">
+<div class="hflex gap">
 
     <div>
         <h2><%= t 'activerecord.models.pc' %></h2>
@@ -13,22 +13,22 @@
                 <td>
                     <%= t 'activerecord.attributes.pc.pl' %>
                 </td>
+                <td></td>
             </tr>
-            <% @pl.each do |pl| %>
-            <% pp pl %>
-            <% pp pl.pcs %>
-                <% pl.pcs.each do |pc| %>
-                    <tr>
-                        <td>
-                            <%= pc.name %>
-                        </td>
-                        <td>
-                            <% pp pc %>
-                            <% pp pc.pl %>
-                            <%= pc.pl.name %>
-                        </td>
-                    </tr>
-                <% end %>
+            <% @pc.each do |pc| %>
+                <tr>
+                    <td>
+                        <%= pc.name %>
+                    </td>
+                    <td>
+                        <%= pc.pl_name %>
+                    </td>
+                    <td>
+                        <%= link_to edit_character_path(pc.id) do %>
+                            <i class="bi bi-vector-pen"></i>
+                        <% end %>
+                    </td>
+                </tr>
             <% end %>
         </table>
     </div>

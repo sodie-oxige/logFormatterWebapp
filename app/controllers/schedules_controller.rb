@@ -29,7 +29,6 @@ class SchedulesController < ApplicationController
   end
 
   def create
-    pp params
     @year = params.fetch(:year, Time.zone.today.year).to_i
     @month = params.fetch(:month, Time.zone.today.month).to_i
     session = params[:session]
@@ -66,8 +65,7 @@ class SchedulesController < ApplicationController
     if @session.update(params.require(:session).slice(:name).permit(:name))
       i=1
       responses.each do |res|
-        target = session[:yearMonth]+"-"+("%02d" % i)
-        @session.schedules.find { |s| s.date.strftime("%Y-%m-%d") == target }.update(params.require(:session).merge(response: res).slice(:response).permit(:response))
+        @session.schedules.find { |s| s.date.strftime("%Y-%m-%d") == session[:yearMonth]+"-"+("%02d" % i) }.update(params.require(:session).merge(response: res).slice(:response).permit(:response))
         i+=1
       end
       redirect_to(schedules_path(year: @year, month: @month))

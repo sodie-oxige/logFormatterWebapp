@@ -1,2 +1,10 @@
-<h1>Characters#edit</h1>
-<p>Find me in app/views/characters/edit.html.erb</p>
+<h1><%= t '.title' %></h1>
+
+<%= form_with model: @pc, url: character_path(@pc) do |form| %>
+    <%= form.label :name, Pc.human_attribute_name(:name) %>
+    <%= form.text_field :name %>
+    <%= form.label :pl_id, Pc.human_attribute_name(:pl) %>
+    <%= form.collection_select :pl_id, Pl.all.order(:name), :id, :name %>
+    <%= form.file_field :file %>
+    <%= form.submit %>
+<% end %>

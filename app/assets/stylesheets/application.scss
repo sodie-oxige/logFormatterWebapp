@@ -16,7 +16,7 @@ body {
 .vflex {
     display: flex;
 
-    &.hflex {
+    &.vflex {
         flex-direction: column;
     }
 
