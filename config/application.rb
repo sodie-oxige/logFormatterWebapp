@@ -27,5 +27,7 @@ module Logformatter
     config.time_zone = "Tokyo"
     config.active_record.default_timezone = :local
     config.i18n.default_locale = :jp
+
+    config.active_storage.replace_on_assign_to_many = false
   end
 end

@@ -1,6 +1,6 @@
 @each $n, $color, $text in ((0, lightblue, "㏠"),
     (1, lightgreen, "夜"),
-    (2, silver, "昼"),
+    (2, gold, "昼"),
     (3, lightcoral, "")) {
     tr[data-type="#{$n}"] {
         :is(th, td) {

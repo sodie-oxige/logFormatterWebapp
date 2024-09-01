@@ -46,8 +46,10 @@ main {
     display: flex;
 
     #sidebar {
+        position: sticky;
+        top: 60px;
         width: 20vw;
-        min-height: calc(100vh - 60px);
+        height: calc(100vh - 60px);
         border-right: solid thin silver;
         overflow-x: hidden;
 

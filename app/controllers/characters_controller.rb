@@ -11,7 +11,7 @@ class CharactersController < ApplicationController
 
   def create_pc
     pc = params.require(:pc)
-    @pc = Pl.find(pc[:pl_id]).pcs.new(pc.permit(:name, :pl_id))
+    @pc = Pl.find(pc[:pl_id]).pcs.new(pc.permit(:name, images: []))
     if @pc.save()
       redirect_to new_character_path
     end
@@ -30,10 +30,17 @@ class CharactersController < ApplicationController
 
   def update
     pc = Pc.find(params[:id])
-    if pc.update(params.require(:pc).permit(:name, :pl_id))
-      redirect_to characters_path
+    if pc.update(params.require(:pc).permit(:name, :pl_id, images: []))
+      redirect_to edit_character_path(params[:id])
     else
       pp pc.errors.details
     end
+  end
+
+  def purge
+    pc = Pc.find(params[:id])
+    image = pc.images.find(params[:image_id])
+    image.purge
+    redirect_to(edit_character_path(params[:id]))
   end
 end

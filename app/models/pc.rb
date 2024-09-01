@@ -3,5 +3,5 @@ class Pc < ApplicationRecord
   has_many :appear_pcs
   has_many :log, through: :appear_pcs
   validates :name, presence: true, uniqueness: true
-  # validates :pl, presence: true
+  has_many_attached :images
 end

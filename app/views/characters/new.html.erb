@@ -5,7 +5,7 @@
         <%= form.text_field :name %>
         <%= form.label :pl_id, Pc.human_attribute_name(:pl) %>
         <%= form.collection_select :pl_id, Pl.all.order(:name), :id, :name %>
-        <%= form.file_field :file %>
+        <%= form.file_field :images, multiple: true %>
             <%= form.submit %>
     <% end %>
 
