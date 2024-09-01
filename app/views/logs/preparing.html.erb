@@ -11,36 +11,42 @@
     </template>
 </div>
 
-<div style="display:none;">
-    <%= form_with url: log_makejson_path(@id), id: "json_form" do |form| %>
-        <%= form.text_area :json %>
-    <% end %>
-</div>
-
 <script>
     window.addEventListener("DOMContentLoaded", () => {
-        let data = {};
-        data.version = "<%= @ver %>";
-        data.body = [];
         const shadowRoot = document.getElementById("html_container").shadowRoot;
         const comments = shadowRoot.querySelectorAll("p");
         let progress = document.querySelector(".mask>progress");
         progress.max = comments.length;
-        for (progress.value = 0; progress.value < progress.max; progress.value++) {
-            console.log(comments[progress.value]);
-            let comment = comments[progress.value];
-            let temp = comment.querySelectorAll("span");
-            let comment_data = {
-                color: comment.style.color,
-                tab: temp[0].textContent.match(/(?<=\[).+(?=\])/)[0],
-                author: temp[1].textContent,
-                content: temp[2].textContent.replace(/^\s+/mg, "").replace(/\n$/, "")
-            }
-            data.body.push(comment_data);
-        }
-        console.log(data)
-        let form = document.getElementById("json_form");
-        form.json.value = JSON.stringify(data);
-        form.submit();
+        logContent_send(0, comments, ()=>{progress.value++});
     })
+
+    const logContent_send = (n, a, func) => {
+        let comment = a[n];
+        let temp = comment.querySelectorAll("span");
+        let form = new FormData();
+        form.set("index", n+1);
+        form.set("color", comment.style.color);
+        form.set("tab", temp[0].textContent.match(/(?<=\[).+(?=\])/)[0]);
+        form.set("author", temp[1].textContent);
+        form.set("content", temp[2].innerText.replace(/^\s+/mg, "").replace(/\n$/, ""));
+        if(n >= a.length-1) form.set("status", "end.");
+        fetch("<%= log_makeLogContent_path(@id) %>", {
+            method: 'POST',
+            headers: { 'X-CSRF-Token': getCsrfToken() },
+            body: form
+        }).then(res=>{
+            func();
+            if(n + 1 < a.length) logContent_send(n+1, a, func);
+        })
+    }
+
+    const getCsrfToken = () => {
+      const metas = document.getElementsByTagName('meta');
+      for (let meta of metas) {
+          if (meta.getAttribute('name') === 'csrf-token') {
+              return meta.getAttribute('content');
+          }
+      }
+      return '';
+    }
 </script>

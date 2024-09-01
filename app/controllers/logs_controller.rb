@@ -1,6 +1,4 @@
 class LogsController < ApplicationController
-  $log_format_version = "0.9.0"
-
   def index
     @logs = Log.all.order(:date)
   end
@@ -52,30 +50,21 @@ class LogsController < ApplicationController
 
   def show
     @id = params[:id]
-    if !File.exist?("#{Rails.public_path}/logjson/#{@id}.json")
+    @page = params[:page] || 1
+    @log_content = Log.find(@id).log_contents.find_by(index: @page)
+    if !@log_content
       redirect_to(log_preparing_path(@id))
-    else
-      @file = File.open("#{Rails.public_path}/logjson/#{@id}.json").read
-      logjson = JSON.load(@file)
-      now_ver = ($log_format_version.split(".")+[ 0, 0 ])[0..2]
-      log_ver = logjson["version"].split(".")
-      if now_ver[0] > log_ver[0] || (now_ver[0] = log_ver[0] && now_ver[1] > log_ver[1])
-        redirect_to(log_preparing_path(@id))
-      end
     end
   end
 
   def preparing # get
     @id = params[:id]
-    @ver = $log_format_version
   end
 
-  def make_json # post
+  def make_log_content # post
     @id = params[:id]
-    if File.exist?("#{Rails.public_path}/logfile/#{@id}.html")
-      data=params[:json]
-      File.write("public/logjson/#{@id}.json", data, encoding: Encoding::UTF_8)
-      redirect_to(log_path(@id))
-    end
+    pp params
+    Log.find(@id).log_contents.create(params.slice(:index, :color, :tab, :author, :content).permit(:index, :color, :tab, :author, :content))
+    if params[:status]=="end." then redirect_to(log_path(@id)) end
   end
 end

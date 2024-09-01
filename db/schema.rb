@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_09_01_021755) do
+ActiveRecord::Schema[7.2].define(version: 2024_09_01_091602) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -46,6 +46,18 @@ ActiveRecord::Schema[7.2].define(version: 2024_09_01_021755) do
     t.integer "log_id", null: false
     t.index ["log_id"], name: "index_appear_pcs_on_log_id"
     t.index ["pc_id"], name: "index_appear_pcs_on_pc_id"
+  end
+
+  create_table "log_contents", force: :cascade do |t|
+    t.integer "log_id", null: false
+    t.integer "index", null: false
+    t.string "author", null: false
+    t.string "color", null: false
+    t.string "tab", null: false
+    t.text "content", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["log_id"], name: "index_log_contents_on_log_id"
   end
 
   create_table "logs", force: :cascade do |t|
@@ -90,6 +102,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_09_01_021755) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "appear_pcs", "logs"
   add_foreign_key "appear_pcs", "pcs"
+  add_foreign_key "log_contents", "logs"
   add_foreign_key "logs", "pls"
   add_foreign_key "pcs", "pls"
   add_foreign_key "schedules", "sessions"

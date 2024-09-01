@@ -24,6 +24,10 @@
         height: 100vh;
         background-color: black;
         opacity: 0;
+
+        &:has([tab="雑談"]){
+            opacity: 0.2;
+        }
     }
 
     #comment {
@@ -43,7 +47,7 @@
         #comment_name {
             margin: 10px 15px 5px;
             width: calc(100% - 30px);
-            border-bottom: solid thin;
+            border-bottom: solid thin var(--color);
             font-size: 20px;
             color: white;
         }

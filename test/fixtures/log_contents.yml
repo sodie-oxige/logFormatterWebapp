@@ -1,0 +1,15 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  log: one
+  autor: MyString
+  color: MyString
+  tab: MyString
+  content: MyText
+
+two:
+  log: two
+  autor: MyString
+  color: MyString
+  tab: MyString
+  content: MyText
