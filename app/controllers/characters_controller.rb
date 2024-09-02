@@ -34,7 +34,7 @@ class CharactersController < ApplicationController
 
   def update
     character = Character.find(params[:id])
-    if character.update(params.require(:pc).permit(:name, :pl_id, images: []))
+    if character.update(params.require(:character).permit(:name, :is_pc, :pl_id, images: [], nicknames_attributes: [ :id, :name, :_destroy ]))
       redirect_to edit_character_path(params[:id])
     else
       pp character.errors.details

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_09_02_080725) do
+ActiveRecord::Schema[7.2].define(version: 2024_09_02_142447) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -78,6 +78,14 @@ ActiveRecord::Schema[7.2].define(version: 2024_09_02_080725) do
     t.index ["pl_id"], name: "index_logs_on_pl_id"
   end
 
+  create_table "nicknames", force: :cascade do |t|
+    t.string "name"
+    t.integer "character_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["character_id"], name: "index_nicknames_on_character_id"
+  end
+
   create_table "pls", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
@@ -106,5 +114,6 @@ ActiveRecord::Schema[7.2].define(version: 2024_09_02_080725) do
   add_foreign_key "characters", "pls"
   add_foreign_key "log_contents", "logs"
   add_foreign_key "logs", "pls"
+  add_foreign_key "nicknames", "characters"
   add_foreign_key "schedules", "sessions"
 end
