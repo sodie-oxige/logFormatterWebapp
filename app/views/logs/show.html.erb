@@ -2,11 +2,28 @@
 
 <div id="screen">
     <div id="backgrond"></div>
-    <img src="" id="imageL">
+    <%= image_tag Pc.find_by("name like '#{@log_content[:author]}%'")?Pc.find_by("name like '#{@log_content[:author]}%'").images[0]:"", id:"imageL" %>
     <img src="" id="imageR">
+
     <div id="mask"></div>
-    <div id="comment" tab="<%= @log_content[:tab] %>" style="--color: <%= @log_content[:color] %>" onclick="(()=>{location.href='<%= log_path(@id,page: @page.to_i+1) %>'})()">
-        <span id="comment_name"><%= @log_content[:author] %></span>
-        <span id="comment_content"><%= raw @log_content[:content].gsub("\n","<br>") %></span>
-    </div>
+    <a id="comment" href="<%= log_path(@id,page: @page.to_i+1) %>" tab="<%= @log_content[:tab] %>" style="--color: <%= @log_content[:color] %>" draggable="false" data-turbo-action="replace">
+        <div id="comment_name">
+            <span><%= @log_content[:author] %></span>
+        </div>
+        <div id="comment_content">
+            <p></p>
+        </div>
+    </a>
+
+    <script>
+        hidden = `<%= raw @log_content[:content].gsub('`','\\\`') %>`
+        inter = setInterval(() => {
+            if(hidden){
+                document.querySelector("#comment_content>p").innerHTML += hidden.slice(0,1)=="\n"?"<br>":hidden.slice(0,1);
+                hidden = hidden.slice(1);
+            }else{
+                clearInterval(inter);
+            }
+        }, 15);
+    </script>
 </div>
