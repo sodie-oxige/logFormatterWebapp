@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_09_01_091602) do
+ActiveRecord::Schema[7.2].define(version: 2024_09_02_080725) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -48,6 +48,15 @@ ActiveRecord::Schema[7.2].define(version: 2024_09_01_091602) do
     t.index ["pc_id"], name: "index_appear_pcs_on_pc_id"
   end
 
+  create_table "characters", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "pl_id", null: false
+    t.boolean "is_pc"
+    t.index ["pl_id"], name: "index_characters_on_pl_id"
+  end
+
   create_table "log_contents", force: :cascade do |t|
     t.integer "log_id", null: false
     t.integer "index", null: false
@@ -67,14 +76,6 @@ ActiveRecord::Schema[7.2].define(version: 2024_09_01_091602) do
     t.datetime "updated_at", null: false
     t.integer "pl_id", null: false
     t.index ["pl_id"], name: "index_logs_on_pl_id"
-  end
-
-  create_table "pcs", force: :cascade do |t|
-    t.string "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.integer "pl_id", null: false
-    t.index ["pl_id"], name: "index_pcs_on_pl_id"
   end
 
   create_table "pls", force: :cascade do |t|
@@ -100,10 +101,10 @@ ActiveRecord::Schema[7.2].define(version: 2024_09_01_091602) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "appear_pcs", "characters", column: "pc_id"
   add_foreign_key "appear_pcs", "logs"
-  add_foreign_key "appear_pcs", "pcs"
+  add_foreign_key "characters", "pls"
   add_foreign_key "log_contents", "logs"
   add_foreign_key "logs", "pls"
-  add_foreign_key "pcs", "pls"
   add_foreign_key "schedules", "sessions"
 end

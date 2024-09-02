@@ -19,7 +19,6 @@ Rails.application.routes.draw do
   post "logs/:id/make_log_content" => "logs#make_log_content", as: "log_makeLogContent"
 
   resources :characters
-  post "characters/create_pc"
   post "characters/create_pl"
   post "characters/:id/purge" => "characters#purge", as: "character_purge"
 

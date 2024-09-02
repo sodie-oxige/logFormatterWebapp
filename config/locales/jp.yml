@@ -49,6 +49,9 @@ jp:
       title: キャラクター
     new:
       title: 新規PC/PL登録
+      pc: PC
+      npc: NPC
+      pl: PL
   schedules:
     index:
       title: スケジュール

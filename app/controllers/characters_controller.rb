@@ -1,19 +1,23 @@
 class CharactersController < ApplicationController
   def index
-    @pc = Pc.joins(:pl).select("pcs.*, pls.name AS pl_name").order(:pl_name)
+    @pc = Character.joins(:pl).where(is_pc: true).select("characters.*, pls.name AS pl_name").order(:pl_name)
+    @npc = Character.joins(:pl).where(is_pc: false).select("characters.*, pls.name AS pl_name").order(:pl_name)
     @pl = Pl.all.order(:name)
   end
 
   def new
-    @pc = Pc.new
+    @pc = Character.new
     @pl = Pl.new
   end
 
-  def create_pc
-    pc = params.require(:pc)
-    @pc = Pl.find(pc[:pl_id]).pcs.new(pc.permit(:name, images: []))
+  def create
+    pc = params.require(:character)
+    @pc = Pl.find(pc[:pl_id]).characters.new(pc.permit(:name, :is_pc, images: []))
+    pp @pc
     if @pc.save()
       redirect_to new_character_path
+    else
+      pp @pc.errors.details
     end
   end
 
@@ -25,21 +29,21 @@ class CharactersController < ApplicationController
   end
 
   def edit
-    @pc = Pc.find(params[:id])
+    @character = Character.find(params[:id])
   end
 
   def update
-    pc = Pc.find(params[:id])
-    if pc.update(params.require(:pc).permit(:name, :pl_id, images: []))
+    character = Character.find(params[:id])
+    if character.update(params.require(:pc).permit(:name, :pl_id, images: []))
       redirect_to edit_character_path(params[:id])
     else
-      pp pc.errors.details
+      pp character.errors.details
     end
   end
 
   def purge
-    pc = Pc.find(params[:id])
-    image = pc.images.find(params[:image_id])
+    character = Character.find(params[:id])
+    image = character.images.find(params[:image_id])
     image.purge
     redirect_to(edit_character_path(params[:id]))
   end

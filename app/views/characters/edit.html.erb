@@ -1,18 +1,18 @@
 <%= stylesheet_link_tag "character", "data-turbo-track": "reload" %>
 <h1><%= t '.title' %></h1>
 
-<%= form_with model: @pc, url: character_path(@pc) do |form| %>
-    <%= form.label :name, Pc.human_attribute_name(:name) %>
+<%= form_with model: @character, url: character_path(@character) do |form| %>
+    <%= form.label :name, Character.human_attribute_name(:name) %>
     <%= form.text_field :name %>
-    <%= form.label :pl_id, Pc.human_attribute_name(:pl) %>
+    <%= form.label :pl_id, Character.human_attribute_name(:pl) %>
     <%= form.collection_select :pl_id, Pl.all.order(:name), :id, :name %>
     <%= form.file_field :images, multiple: true %>
     <%= form.submit %>
 <% end %>
 
-<% @pc.images.each do |image| %>
+<% @character.images.each do |image| %>
     <div class="illust">
-        <%= button_to "", character_purge_path(@pc, image_id: image.id), {method: :post, class:"close"} %>
+        <%= button_to "", character_purge_path(@character, image_id: image.id), {method: :post, class:"close"} %>
         <%= image_tag(image) %>
     </div>
 <% end %>

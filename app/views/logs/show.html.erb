@@ -2,7 +2,8 @@
 
 <div id="screen">
     <div id="backgrond"></div>
-    <%= image_tag Pc.find_by("name like '#{@log_content[:author]}%'")?Pc.find_by("name like '#{@log_content[:author]}%'").images[0]:"", id:"imageL" %>
+    <% pp Character.find_by("name like '#{@log_content[:author]}%'") ? Character.find_by("name like '#{@log_content[:author]}%'").images : "" %>
+    <%= image_tag Character.find_by("name like '#{@log_content[:author]}%'") ? Character.find_by("name like '#{@log_content[:author]}%'").images[0] : "", id:"imageL" %>
     <img src="" id="imageR">
 
     <div id="mask"></div>

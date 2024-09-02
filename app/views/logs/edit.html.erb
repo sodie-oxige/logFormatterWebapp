@@ -7,6 +7,6 @@
     <%= form.label :gm, Log.human_attribute_name(:gm) %>
     <%= form.collection_select :gm, Pl.all, :id, :name, include_blank: true %>
     <%= form.label :pc, Log.human_attribute_name(:pc) %>
-    <%= form.collection_select :pcs, Pc.all, :id, :name, {}, multiple: true %>
+    <%= form.collection_select :pcs, Character.all, :id, :name, {}, multiple: true %>
     <%= form.submit %>
 <% end %>

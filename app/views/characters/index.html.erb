@@ -34,6 +34,36 @@
     </div>
 
     <div>
+        <h2><%= t 'activerecord.models.npc' %></h2>
+        <table>
+            <tr>
+                <td>
+                    <%= t 'activerecord.attributes.npc.name' %>
+                </td>
+                <td>
+                    <%= t 'activerecord.attributes.npc.pl' %>
+                </td>
+                <td></td>
+            </tr>
+            <% @npc.each do |npc| %>
+                <tr>
+                    <td>
+                        <%= npc.name %>
+                    </td>
+                    <td>
+                        <%= npc.pl_name %>
+                    </td>
+                    <td>
+                        <%= link_to edit_character_path(npc.id) do %>
+                            <i class="bi bi-vector-pen"></i>
+                        <% end %>
+                    </td>
+                </tr>
+            <% end %>
+        </table>
+    </div>
+
+    <div>
         <h2><%= t 'activerecord.models.pl' %></h2>
         <table>
             <tr>

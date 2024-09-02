@@ -1,4 +1,4 @@
-class Pc < ApplicationRecord
+class Character < ApplicationRecord
   belongs_to :pl
   has_many :appear_pcs
   has_many :log, through: :appear_pcs
