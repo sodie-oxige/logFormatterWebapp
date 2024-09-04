@@ -2,8 +2,8 @@
 
 <div id="screen">
     <div id="backgrond"></div>
-    <% img = Character.find_by("name like '#{@log_content[:author]}%'") ? Character.find_by("name like '#{@log_content[:author]}%'").images[0] : nil %>
-    <% img ||= Nickname.find_by("name like '#{@log_content[:author]}%'") ? Nickname.find_by("name like '#{@log_content[:author]}%'").character.images[0] : "" %>
+    <% img = Character.find_by("name like ?", @log_content[:author]) ? Character.find_by("name like '#{@log_content[:author]}%'").images[0] : nil %>
+    <% img ||= Nickname.find_by("name like ?", @log_content[:author]) ? Nickname.find_by("name like '#{@log_content[:author]}%'").character.images[0] : "" %>
     <%= image_tag img, id:"imageL" %>
     <img src="" id="imageR">
 
@@ -18,11 +18,20 @@
     </a>
 
     <script>
-        hidden = `<%= raw @log_content[:content].gsub('`','\\\`') %>`
+        hidden = `<%= j @log_content[:content] %>`
+        console.log(hidden);
+        
         inter = setInterval(() => {
             if(hidden){
-                document.querySelector("#comment_content>p").innerHTML += hidden.slice(0,1)=="\n"?"<br>":hidden.slice(0,1);
-                hidden = hidden.slice(1);
+                let char;
+                if(/^&.+?;/.test(hidden)){
+                    char = hidden.match(/^&.+?;/)[0];
+                    hidden = hidden.replace(/^&.+?;/, "");
+                }else{
+                    char = hidden.slice(0,1);
+                    hidden = hidden.slice(1);
+                }
+                document.querySelector("#comment_content>p").innerHTML += char === "\n" ? "<br>" : char;
             }else{
                 clearInterval(inter);
             }

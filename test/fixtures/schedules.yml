@@ -2,10 +2,10 @@
 
 one:
   session: one
-  calendar: one
   response: 1
+  date: 2000-1-1
 
 two:
   session: two
-  calendar: two
   response: 1
+  date: 2000-1-1

@@ -2,6 +2,9 @@
 
 one:
   name: MyString
+  pl: one
+  is_pc: 
 
 two:
   name: MyString
+  pl: two

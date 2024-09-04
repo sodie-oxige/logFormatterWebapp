@@ -2,14 +2,16 @@
 
 one:
   log: one
-  autor: MyString
+  index: 1
+  author: MyString
   color: MyString
   tab: MyString
   content: MyText
 
 two:
   log: two
-  autor: MyString
+  index: 1
+  author: MyString
   color: MyString
   tab: MyString
   content: MyText

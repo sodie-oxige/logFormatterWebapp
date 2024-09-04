@@ -7,7 +7,7 @@
 
 <div id="html_container">
     <template shadowrootmode="open">
-        <%= raw ERB.new(File.open("#{Rails.public_path}/logfile/#{@id}.html").read).result(binding) %>
+        <%= sanitize(ERB.new(File.open("#{Rails.public_path}/logfile/#{@id}.html").read).result(binding), tags: %w(p span), attributes: %w(style)) %>
     </template>
 </div>
 
