@@ -13,21 +13,16 @@ td {
         text-align: center;
         user-select: none;
 
-        &:has(+:checked) {
-            &[for $="0"] {
-                background-color: lightblue;
-            }
-
-            &[for $="1"] {
-                background-color: lightgreen;
-            }
-
-            &[for $="2"] {
-                background-color: gold,
-            }
-
-            &[for $="3"] {
-                background-color: lightcoral;
+        @each $n, $color, $text in (
+            (0, rgb(216, 245, 255), "㏠"),
+            (1, rgb(212, 255, 212), "夜"),
+            (2, rgb(255, 243, 174), "昼"),
+            (3, rgb(255, 195, 195), "")
+        ) {
+            &:has(+:checked) {
+                &[for $= "#{$n}"] {
+                    background-color: $color;
+                }
             }
         }
     }

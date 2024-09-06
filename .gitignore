@@ -38,5 +38,5 @@
 !/app/assets/builds/.keep
 
 /public/logfile/*
-/public/logjson/*
+!/public/logfile/.keep
 /temp.html

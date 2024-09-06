@@ -23,6 +23,12 @@
 
   <body>
     <%= render "layouts/navbar" %>
+    <% if first_visit? %>
+      <div id="startup_mask">
+        <h1>PORT</h1>
+        <span>Primary Operator's Routing Terminal</span>
+      </div>
+    <% end %>
     <main>
       <div id="sidebar" class="<%= side_close.any?{ |cond| params[:controller] == cond[0] && params[:action] == cond[1] } ? "close" : "open" %>">
         <div id="sidebar_container">

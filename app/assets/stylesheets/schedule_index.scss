@@ -1,7 +1,8 @@
-@each $n, $color, $text in ((0, lightblue, "㏠"),
-    (1, lightgreen, "夜"),
-    (2, gold, "昼"),
-    (3, lightcoral, "")) {
+@each $n, $color, $text in (
+    (0, rgb(216, 245, 255), "㏠"),
+    (1, rgb(212, 255, 212), "夜"),
+    (2, rgb(255, 243, 174), "昼"),
+    (3, rgb(255, 195, 195), "")) {
     tr[data-type="#{$n}"] {
         :is(th, td) {
             background-color: $color;

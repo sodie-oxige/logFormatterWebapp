@@ -18,7 +18,7 @@
         <% i=0 %>
         <% @calendars.each do |date| %>
             <tr data-type="<%= 3 - schedules.reduce(3){ |sum,s| sum & responses[s][i][:response] } %>">
-                <th><%= date.strftime('%Y-%m-%d') %></th>
+                <th><%= date.strftime('%m/%d') %><%= "(#{["日", "月", "火", "水", "木", "金", "土"][date.wday]})" %></th>
                 <% schedules.each do |schedule| %>
                     <td data-type=<%= responses[schedule][i][:response] %>></td>
                 <% end %>

@@ -13,7 +13,7 @@
             <% @calendars.each do |date| %>
                 <% schedule = @session.schedules.find{ |s| s.date==date } %>
                 <tr>
-                    <th><%= date.strftime('%Y-%m-%d') %><%= "(#{["日", "月", "火", "水", "木", "金", "土"][date.wday]})" %></th>
+                    <th><%= date.strftime('%m/%d') %><%= "(#{["日", "月", "火", "水", "木", "金", "土"][date.wday]})" %></th>
                     <td>
                         <%= form.label "response" << date.day.to_s << "_0", '㏠' %>
                         <%= form.radio_button "response" << date.day.to_s, '0', checked: schedule[:response]==0 %>
