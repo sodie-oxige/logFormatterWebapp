@@ -7,7 +7,7 @@
 
 <div id="html_container">
     <template shadowrootmode="open">
-        <%= sanitize(ERB.new(File.open("#{Rails.public_path}/logfile/#{@id}.html").read).result(binding), tags: %w(p span), attributes: %w(style)) %>
+        <%= sanitize(ERB.new(File.open("#{Rails.public_path}/logfile/#{@id}.html").read).result(binding), tags: %w(p span br), attributes: %w(style)) %>
     </template>
 </div>
 
@@ -29,14 +29,18 @@
         form.set("tab", temp[0].textContent.match(/(?<=\[).+(?=\])/)[0]);
         form.set("author", temp[1].textContent);
         form.set("content", temp[2].innerText.replace(/^\s+/mg, "").replace(/\n$/, ""));
-        if(n >= a.length-1) form.set("status", "end.");
+        
         fetch("<%= log_makeLogContent_path(@id) %>", {
             method: 'POST',
             headers: { 'X-CSRF-Token': getCsrfToken() },
             body: form
         }).then(res=>{
             func();
-            if(n + 1 < a.length) logContent_send(n+1, a, func);
+            if(n + 1 < a.length){
+                logContent_send(n+1, a, func);
+            }else{
+                location.href = "<%= log_path(@id) %>"
+            }
         })
     }
 

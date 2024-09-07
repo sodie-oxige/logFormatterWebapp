@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_09_02_142447) do
+ActiveRecord::Schema[7.2].define(version: 2024_09_07_170427) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -75,6 +75,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_09_02_142447) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "pl_id", null: false
+    t.integer "bookmark"
     t.index ["pl_id"], name: "index_logs_on_pl_id"
   end
 

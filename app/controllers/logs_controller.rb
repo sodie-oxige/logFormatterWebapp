@@ -49,11 +49,12 @@ class LogsController < ApplicationController
 
   def show
     @id = params[:id]
-    @page = params[:page] || 1
+    @page = params[:page] || Log.find(@id)[:bookmark] || 1
     @log_content = Log.find(@id).log_contents.find_by(index: @page)
     if !@log_content
       redirect_to(log_preparing_path(@id))
     end
+    Log.find(@id).update(bookmark: @page)
   end
 
   def preparing # get
@@ -62,8 +63,11 @@ class LogsController < ApplicationController
 
   def make_log_content # post
     @id = params[:id]
-    pp params
-    Log.find(@id).log_contents.create(params.slice(:index, :color, :tab, :author, :content).permit(:index, :color, :tab, :author, :content))
-    if params[:status]=="end." then redirect_to(log_path(@id)) end
+    if !Log.find(@id).log_contents.exists?(index: params[:index])
+      Log.find(@id).log_contents.create(params.slice(:index, :color, :tab, :author, :content).permit(:index, :color, :tab, :author, :content))
+    else
+      Log.find(@id).log_contents.find_by(index: params[:index]).update(params.slice(:color, :tab, :author, :content).permit(:color, :tab, :author, :content))
+    end
+    head(:created)
   end
 end
