@@ -1,5 +1,19 @@
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&display=swap');
 
+$sp: 480px;
+
+@mixin pc {
+    @media screen and (min-width: ($sp)) {
+        @content;
+    }
+}
+
+@mixin sp {
+    @media screen and (max-width: ($sp)) {
+        @content;
+    }
+}
+
 * {
     position: relative;
     margin: 0;
@@ -9,7 +23,7 @@
 }
 
 body {
-    min-height: 100vh;
+    min-height: 100dvh;
 }
 
 .hflex,
@@ -70,10 +84,46 @@ nav {
     position: sticky;
     top: 0;
     z-index: 100;
+    display: flex;
+    align-items: center;
     padding: 5px;
     height: 60px;
     background-color: white;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+
+    .nav_menubutton {
+        margin-left: 10px;
+        width: 40px;
+        height: 40px;
+
+        @include pc {
+            display: none !important;
+        }
+
+        .nav_menubutton_bar,
+        &::before,
+        &::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            width: 40px;
+            height: 6px;
+            background-color: gray;
+            border-radius: 3px;
+        }
+
+        .nav_menubutton_bar {
+            top: 17px;
+        }
+
+        &::before {
+            top: 6px;
+        }
+
+        &::after {
+            bottom: 6px;
+        }
+    }
 
     .nav_logo {
         margin-left: 1em;
@@ -90,21 +140,42 @@ main {
     #sidebar {
         position: sticky;
         top: 60px;
-        width: 20vw;
-        height: calc(100vh - 60px);
+        z-index: 5;
+        width: 20dvw;
+        height: calc(100dvh - 60px);
         border-right: solid thin silver;
+        background-color: white;
         overflow-x: hidden;
+        transition: max-width .3s;
 
-        &.open {
-            max-width: 20vw;
+        @include sp {
+            width: 50dvw;
         }
-
-        &.close {
+        &.open {
+            max-width: 20dvw;
+            @include sp {
+                max-width: 0;
+            }
+            &.default-hidden {
+                max-width: 0;
+            }
+        }
+        &:not(.open) {
             max-width: 0;
+            @include sp {
+                max-width: 50dvw !important;
+            }
+            &.default-hidden {
+                max-width: 20dvw;
+            }
         }
 
         >#sidebar_container {
-            width: 20vw;
+            width: 20dvw;
+
+            @include sp {
+                width: 50dvw;
+            }
 
             >* {
                 display: flex;
@@ -125,8 +196,21 @@ main {
     #main {
         margin: 0 auto;
         padding: 20px 10px;
-        width: fit-content;
+        height: calc(100dvh - 60px);
+        overflow: auto;
+
+        @include sp {
+            width: 100dvw !important;
+        }
     }
+    #sidebar.open:not(.default-hidden) + #main,
+    #sidebar.default-hidden:not(.open) + #main{
+            width: 80dvw;
+        }
+    #sidebar:not(.open):not(.default-hidden) + #main,
+    #sidebar.open.default-hidden + #main{
+            width: 100dvw;
+        }
 }
 
 h1,
@@ -182,7 +266,24 @@ form {
     textarea,
     select {
         padding: 10px;
+        background-color: white;
+        border: solid thin gray;
+        border-radius: 5px;
         font-size: 24px;
+
+        &[type="file"] {
+            background-color: transparent;
+            border: none;
+        }
+
+        &:focus {
+            filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.1));
+        }
+    }
+
+    input[type="button"],
+    input[type="submit"] {
+        background-color: #eee;
     }
 
     label {

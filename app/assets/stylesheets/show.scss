@@ -1,29 +1,43 @@
+$sp: 480px;
+
+@mixin pc {
+    @media screen and (min-width: ($sp)) {
+        @content;
+    }
+}
+
+@mixin sp {
+    @media screen and (max-width: ($sp)) {
+        @content;
+    }
+}
+
 #screen {
     position: fixed;
     top: 0;
     left: 0;
-    z-index: 99;
-    width: 100vw;
-    height: 100vh;
+    width: 100dvw;
+    height: 100dvh;
 
     #backgrond {
         position: absolute;
         top: 0;
         left: 0;
-        width: 100vw;
-        height: 100vh;
+        width: 100dvw;
+        height: 100dvh;
         background-color: gray;
     }
 
     #imageL,
     #imageR {
-        width: 60vh;
+        width: 60dvh;
         position: absolute;
         top: 10%;
     }
 
     #imageL {
-        left: 40px;
+        left: min(30dvw, 40dvh);
+        transform: translateX(-50%);
     }
 
     #imageR {
@@ -35,8 +49,8 @@
         top: 0;
         left: 0;
         z-index: 40;
-        width: 100vw;
-        height: 100vh;
+        width: 100dvw;
+        height: 100dvh;
         background-color: black;
         opacity: 0;
 
@@ -56,7 +70,7 @@
         display: flex;
         flex-direction: column;
         width: 80%;
-        height: 30vh;
+        height: 30dvh;
         background-image: linear-gradient(10deg, rgba(66, 66, 66, 0.9), rgba(0, 0, 0, 0.9));
         border: solid 5px black;
         border-radius: 30px;
@@ -72,11 +86,15 @@
         }
 
         #comment_content {
-            margin: 5px 50px 15px 30px;
-            height: calc(30vh - 36px);
+            margin: 5px 30px 15px 30px;
+            height: calc(30dvh - 36px);
             font-size: 40px;
             color: white;
             overflow-y: scroll;
+
+            @include sp{
+                font-size: 20px;
+            }
 
             &::-webkit-scrollbar {
                 display: none;

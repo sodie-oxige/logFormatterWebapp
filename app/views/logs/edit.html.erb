@@ -5,8 +5,8 @@
     <%= form.label :date, Log.human_attribute_name(:date) %>
     <%= form.date_field :date %>
     <%= form.label :gm, Log.human_attribute_name(:gm) %>
-    <%= form.collection_select :gm, Pl.all, :id, :name, include_blank: true %>
-    <%= form.label :pc, Log.human_attribute_name(:pc) %>
-    <%= form.collection_select :pcs, Character.all, :id, :name, {}, multiple: true %>
+    <%= form.collection_select :gm, Pl.all, :id, :name, {include_blank: true, selected: @log.gm.id} %>
+    <%= form.label :pc_ids, Log.human_attribute_name(:pc) %>
+    <%= form.collection_select :pc_ids, Character.all, :id, :name, {selected: @log.pcs.map { |pc| pc.id }}, multiple: true %>
     <%= form.submit %>
 <% end %>

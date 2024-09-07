@@ -33,12 +33,11 @@ class LogsController < ApplicationController
   end
 
   def update
+    log_params = params.require(:log).slice(:name, :date, :pc_ids).permit(:name, :date, pc_ids: [])
+    log_params[:pc_ids].reject!(&:blank?)
     @log = Log.find(params[:id])
     @pcs = @log.appear_pcs
-    if @log.update(params.require(:log).permit(:name, :date, :gm))
-      @pcs.each do |pc|
-        pc.update(pc: pc)
-      end
+    if @log.update(log_params)
       redirect_to(logs_path)
     else
       redirect_to(new_log_path)

@@ -10,3 +10,8 @@ document.addEventListener("DOMContentLoaded", () => {
         if (elem) location.href = elem.dataset.url;
     })
 })
+
+document.querySelector(".nav_menubutton").addEventListener("click", (e) => {
+    document.getElementById("sidebar").classList.toggle("open");
+    e.currentTarget.classList.toggle("open");
+})
