@@ -1,18 +1,6 @@
+@use "global" as *;
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&display=swap');
-
-$sp: 480px;
-
-@mixin pc {
-    @media screen and (min-width: ($sp)) {
-        @content;
-    }
-}
-
-@mixin sp {
-    @media screen and (max-width: ($sp)) {
-        @content;
-    }
-}
+@import url('https://fonts.googleapis.com/css2?family=M+PLUS+1p:wght@100;300;400;500;700;800;900&display=swap');
 
 * {
     position: relative;
@@ -20,6 +8,11 @@ $sp: 480px;
     padding: 0;
     box-sizing: border-box;
     font-family: "Noto Sans JP", sans-serif;
+    line-height: 1.2;
+}
+
+:root{
+    font-size: min(20px, 3dvw);
 }
 
 body {
@@ -56,17 +49,17 @@ body {
 
     >h1 {
         margin: 0;
-        font-size: 100px;
+        font-size: 3rem;
         line-height: 1;
 
         span {
-            transform: translateY(-15px);
+            translate: 0 -15px;
             display: inline-block;
         }
     }
 
     >span {
-        font-size: 20px;
+        font-size: .5rem;
     }
 }
 
@@ -110,6 +103,7 @@ nav {
             height: 6px;
             background-color: gray;
             border-radius: 3px;
+            transition: top .3s, rotate .3s, opacity .3s;
         }
 
         .nav_menubutton_bar {
@@ -121,7 +115,21 @@ nav {
         }
 
         &::after {
-            bottom: 6px;
+            top: 28px;
+        }
+
+        &.open{
+            &::before{
+                top: 17px;
+                rotate: 45deg;
+            }
+            &::after{
+                top: 17px;
+                rotate: -45deg;
+            }
+            &>.nav_menubutton_bar{
+                opacity: 0;
+            }
         }
     }
 
@@ -131,6 +139,7 @@ nav {
         color: black;
         font-weight: bold;
         text-decoration: none;
+        user-select: none;
     }
 }
 
@@ -148,9 +157,10 @@ main {
         overflow-x: hidden;
         transition: max-width .3s;
 
-        @include sp {
-            width: 50dvw;
+        @include sp{
+            width: 100dvw;
         }
+
         &.open {
             max-width: 20dvw;
             @include sp {
@@ -243,8 +253,9 @@ table {
 
     th,
     td {
-        padding: 10px 30px;
+        padding: .5em 1em;
         background-color: white;
+        white-space: nowrap;
 
         &:has(>a) {
             padding: 0;
@@ -269,7 +280,7 @@ form {
         background-color: white;
         border: solid thin gray;
         border-radius: 5px;
-        font-size: 24px;
+        font-size: 1rem;
 
         &[type="file"] {
             background-color: transparent;
@@ -288,6 +299,6 @@ form {
 
     label {
         margin-top: 10px;
-        font-size: 16px;
+        font-size: .8rem;
     }
 }

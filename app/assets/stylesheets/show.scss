@@ -1,17 +1,5 @@
 $sp: 480px;
 
-@mixin pc {
-    @media screen and (min-width: ($sp)) {
-        @content;
-    }
-}
-
-@mixin sp {
-    @media screen and (max-width: ($sp)) {
-        @content;
-    }
-}
-
 #screen {
     position: fixed;
     top: 0;
@@ -37,7 +25,7 @@ $sp: 480px;
 
     #imageL {
         left: min(30dvw, 40dvh);
-        transform: translateX(-50%);
+        translate: -50%;
     }
 
     #imageR {
@@ -63,37 +51,39 @@ $sp: 480px;
 
     #comment {
         position: absolute;
-        bottom: 10px;
+        bottom: 0;
         left: 50%;
         z-index: 50;
-        transform: translateX(-50%);
+        translate: -50%;
         display: flex;
         flex-direction: column;
-        width: 80%;
+        width: calc(100% - 2rem);
         height: 30dvh;
         background-image: linear-gradient(10deg, rgba(66, 66, 66, 0.9), rgba(0, 0, 0, 0.9));
-        border: solid 5px black;
-        border-radius: 30px;
+        border: solid black;
+        border-width: 5px 5px 0;
+        border-radius: 30px 30px 0 0;
         text-decoration: none;
 
         #comment_name {
             margin: 10px 15px 5px;
             width: calc(100% - 30px);
-            height: 36px;
+            height: 2.4rem;
+            font-weight: bold;
             border-bottom: solid 4px var(--color);
-            font-size: 30px;
+            font-size: 2rem;
             color: white;
         }
 
         #comment_content {
-            margin: 5px 30px 15px 30px;
+            margin: 5px 30px 15px 2rem;
             height: calc(30dvh - 36px);
-            font-size: 40px;
-            color: white;
             overflow-y: scroll;
 
-            @include sp{
-                font-size: 20px;
+            p {
+                font-size: 1.5rem;
+                font-weight: bold;
+                color: white;
             }
 
             &::-webkit-scrollbar {
@@ -114,18 +104,15 @@ $sp: 480px;
 
         @keyframes flow {
             0% {
-                transform: translateY(0) rotateY(0);
+                translate: 0 0;
+                rotate: y 0;
             }
 
             50% {
-                transform: translateY(-10px) rotateY(180deg);
+                translate: 0 -10px;
+                rotate: y 180deg;
             }
         }
-    }
-
-    span {
-        font-size: 30px;
-        font-weight: bold;
     }
 
     progress {

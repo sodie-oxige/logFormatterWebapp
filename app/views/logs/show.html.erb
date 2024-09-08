@@ -1,3 +1,4 @@
+<% content_for(:title, @log_content.log[:name]) %>
 <%= stylesheet_link_tag "show", "data-turbo-track": "reload" %>
 
 <div id="screen">
@@ -8,18 +9,17 @@
     <img src="" id="imageR">
 
     <div id="mask"></div>
-    <a id="comment" href="<%= log_path(@id,page: @page.to_i+1) %>" tab="<%= @log_content[:tab] %>" style="--color: <%= @log_content[:color] %>" draggable="false" data-turbo-action="replace">
+    <%= link_to log_path(@id,page: @page.to_i+1), {id:"comment", tab:@log_content[:tab], style:"--color: #{@log_content[:color]}", draggable:false, data: { turbo_prefetch: false }} do %>
         <div id="comment_name">
             <span><%= @log_content[:author] %></span>
         </div>
         <div id="comment_content">
             <p></p>
         </div>
-    </a>
+    <% end %>
 
     <script>
         hidden = `<%= j @log_content[:content] %>`
-        console.log(hidden);
         
         inter = setInterval(() => {
             if(hidden){
