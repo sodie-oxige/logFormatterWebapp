@@ -2,16 +2,16 @@
 
 <h1><%= t '.title' %></h1>
 <% if @calendars %>
-    <%= form_with model:@session, url: schedule_path(@session) do |form| %>
+    <%= form_with model:@game, url: schedule_path(@game) do |form| %>
         <%= form.month_field :yearMonth, value: @calendars[0] %>
         <table>
             <tr>
                 <th><%= Schedule.human_attribute_name(:calendar) %></th>
-                <th colspan=5><%= form.text_field :session, value: @session[:name] %></th>
+                <th colspan=5><%= form.text_field :game, value: @game[:name] %></th>
             </tr>
             <% i=0 %>
             <% @calendars.each do |date| %>
-                <% schedule = @session.schedules.find{ |s| s.date==date } %>
+                <% schedule = @game.schedules.find{ |s| s.date==date } %>
                 <tr>
                     <th><%= date.strftime('%m/%d') %><%= "(#{["日", "月", "火", "水", "木", "金", "土"][date.wday]})" %></th>
                     <td>

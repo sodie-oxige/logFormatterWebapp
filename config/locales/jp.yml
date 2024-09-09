@@ -6,37 +6,11 @@ jp:
       pc: PC
       pl: PL
     attributes:
-      appear_pc:
-        log_id: ログインID
-        pc: PC
       log:
         name: シナリオ名
         date: 日付
         gm: GM
         pc: 参加PC
-      pc:
-        name: 名前
-        pl: PL
-      pl:
-        name: 名前
-      calendar:
-        date: 日付
-      session:
-        name: 名前
-      schedule:
-        session: セッション名
-        date: 日付
-        response: 予定
-  helper:
-    label:
-      name: シナリオ名
-      date: 日付
-      gm: GM
-      pc: 参加PC
-    submit:
-      create: 保存
-      updata: 更新
-  title: ログ整形ツール
   logs:
     index:
       title: ログ

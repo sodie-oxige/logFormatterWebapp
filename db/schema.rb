@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_09_07_170427) do
+ActiveRecord::Schema[7.2].define(version: 2024_09_09_145000) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -57,6 +57,12 @@ ActiveRecord::Schema[7.2].define(version: 2024_09_07_170427) do
     t.index ["pl_id"], name: "index_characters_on_pl_id"
   end
 
+  create_table "games", force: :cascade do |t|
+    t.string "name", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "log_contents", force: :cascade do |t|
     t.integer "log_id", null: false
     t.integer "index", null: false
@@ -74,9 +80,9 @@ ActiveRecord::Schema[7.2].define(version: 2024_09_07_170427) do
     t.date "date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "pl_id", null: false
+    t.integer "gm_id", null: false
     t.integer "bookmark"
-    t.index ["pl_id"], name: "index_logs_on_pl_id"
+    t.index ["gm_id"], name: "index_logs_on_gm_id"
   end
 
   create_table "nicknames", force: :cascade do |t|
@@ -87,34 +93,31 @@ ActiveRecord::Schema[7.2].define(version: 2024_09_07_170427) do
     t.index ["character_id"], name: "index_nicknames_on_character_id"
   end
 
-  create_table "pls", force: :cascade do |t|
-    t.string "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "schedules", force: :cascade do |t|
-    t.integer "session_id", null: false
+    t.integer "game_id", null: false
     t.date "date", null: false
     t.integer "response", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["session_id"], name: "index_schedules_on_session_id"
+    t.index ["game_id"], name: "index_schedules_on_game_id"
   end
 
-  create_table "sessions", force: :cascade do |t|
-    t.string "name", null: false
+  create_table "users", force: :cascade do |t|
+    t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "password"
+    t.string "userid"
+    t.string "password_digest"
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "appear_pcs", "characters", column: "pc_id"
   add_foreign_key "appear_pcs", "logs"
-  add_foreign_key "characters", "pls"
+  add_foreign_key "characters", "users", column: "pl_id"
   add_foreign_key "log_contents", "logs"
-  add_foreign_key "logs", "pls"
+  add_foreign_key "logs", "users", column: "gm_id"
   add_foreign_key "nicknames", "characters"
-  add_foreign_key "schedules", "sessions"
+  add_foreign_key "schedules", "games"
 end

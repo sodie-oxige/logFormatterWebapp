@@ -1,5 +1,5 @@
 class Log < ApplicationRecord
-  belongs_to :gm, class_name: "Pl", foreign_key: "pl_id"
+  belongs_to :gm, class_name: "User"
   has_many :log_contents
   has_many :appear_pcs
   has_many :pcs, through: :appear_pcs, source: :character

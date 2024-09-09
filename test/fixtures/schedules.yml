@@ -1,11 +1,11 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  session: one
+  game: one
   response: 1
   date: 2000-1-1
 
 two:
-  session: two
+  game: two
   response: 1
   date: 2000-1-1

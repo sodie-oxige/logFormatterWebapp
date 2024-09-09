@@ -1,5 +1,5 @@
 class Character < ApplicationRecord
-  belongs_to :pl
+  belongs_to :pl, class_name: "User", foreign_key: "pl_id"
   has_many :appear_pcs
   has_many :log, through: :appear_pcs
   has_many :nicknames

@@ -15,7 +15,7 @@ class LogsController < ApplicationController
     @log = Log.new
   end
   def create
-    gm = Pl.find(params.require(:log)[:gm])
+    gm = User.find(params.require(:log)[:gm])
     log_params = params.require(:log).slice(:name, :date, :pc_ids).permit(:name, :date, pc_ids: [])
     log_params[:pc_ids].reject!(&:blank?)
     @log = gm.logs.new(log_params)
