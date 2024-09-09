@@ -12,6 +12,10 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   root "logs#index"
 
+  get    "login"   => "sessions#new"
+  post   "login"   => "sessions#create"
+  delete "logout"  => "sessions#destroy"
+
   get "logs/new_char"
   resources :logs
   post "logs/pre_new"

@@ -1,0 +1,8 @@
+<h1><%= t(".title") %></h1>
+<%= form_with scope: :session, url: login_path do |f| %>
+  <%= f.label :userid %>
+  <%= f.text_field :userid %>
+  <%= f.label :password %>
+  <%= f.password_field :password %>
+  <%= f.submit %>
+<% end %>

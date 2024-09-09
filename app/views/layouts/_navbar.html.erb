@@ -3,4 +3,9 @@
         <div class="nav_menubutton_bar"></div>
     </div>
     <%= link_to "PORT", logs_path, class: "nav_logo" %>
+    <div style="flex:1"></div>
+    <% if logged_in? %>
+        <span>[ <%= current_user.name %> ]</span>
+        <%= button_to "logout", logout_path, method: :delete %>
+    <% end %>
 </nav>
