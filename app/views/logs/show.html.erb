@@ -9,6 +9,7 @@
     <img src="" id="imageR">
 
     <div id="mask"></div>
+    <%= link_to "", log_path(@id,page: @page.to_i-1), {id:"show-button-back", class:"show-button"} %>
     <%= link_to log_path(@id,page: @page.to_i+1), {id:"comment", tab:@log_content[:tab], style:"--color: #{@log_content[:color]}", draggable:false, data: { turbo_prefetch: false }} do %>
         <div id="comment_name">
             <span><%= @log_content[:author] %></span>
