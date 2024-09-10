@@ -5,7 +5,7 @@
         <%= form.label :name, Character.human_attribute_name(:name) %>
         <%= form.text_field :name %>
         <%= form.label :pl_id, Character.human_attribute_name(:pl) %>
-        <%= form.collection_select :pl_id, User.all.order(:name), :id, :name %>
+        <%= form.collection_select :pl_id, User.filtered_all.order(:name), :id, :name %>
         <%= form.file_field :images, multiple: true %>
         <%= form.check_box :is_pc, {checked: true, style: "display:none"} %>
         <%= form.submit %>
@@ -16,7 +16,7 @@
         <%= form.label :name, Character.human_attribute_name(:name) %>
         <%= form.text_field :name %>
         <%= form.label :pl_id, Character.human_attribute_name(:pl) %>
-        <%= form.collection_select :pl_id, User.all.order(:name), :id, :name %>
+        <%= form.collection_select :pl_id, User.filtered_all.order(:name), :id, :name %>
         <%= form.file_field :images, multiple: true %>
         <%= form.check_box :is_pc, {checked: false, style: "display:none"} %>
         <%= form.submit %>

@@ -2,7 +2,7 @@ class CharactersController < ApplicationController
   def index
     @pc = Character.joins(:pl).where(is_pc: true).select("characters.*, users.name AS pl_name").order(:pl_name)
     @npc = Character.joins(:pl).where(is_pc: false).select("characters.*, users.name AS pl_name").order(:pl_name)
-    @pl = User.all.order(:name)
+    @pl = User.filtered_all.order(:name)
   end
 
   def new
@@ -22,7 +22,7 @@ class CharactersController < ApplicationController
   end
 
   def create_pl
-    @pl = User.new(params.require(:pl).permit(:name))
+    @pl = User.new(params.require(:user).permit(:name))
     if @pl.save()
       redirect_to new_character_path
     end

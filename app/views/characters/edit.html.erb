@@ -5,7 +5,7 @@
     <%= form.label :name, Character.human_attribute_name(:name) %>
     <%= form.text_field :name %>
     <%= form.label :pl_id, Character.human_attribute_name(:pl) %>
-    <%= form.collection_select :pl_id, User.all.order(:name), :id, :name %>
+    <%= form.collection_select :pl_id, User.filtered_all.order(:name), :id, :name %>
     <%= form.label :nickname, Character.human_attribute_name(:nickname) %>
 
     <% @character.nicknames.new %>
