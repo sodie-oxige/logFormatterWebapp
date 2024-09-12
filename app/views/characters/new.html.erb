@@ -1,5 +1,5 @@
 <h1><%= t '.title' %></h1>
-<div class="hflex">
+<div class="xflex">
     <%= form_with model: @pc, url: characters_path do |form| %>
         <h2><%= t(".pc") %></h2>
         <%= form.label :name, Character.human_attribute_name(:name) %>

@@ -1,9 +1,11 @@
 <%= stylesheet_link_tag "schedule_index", "data-turbo-track": "reload" %>
 
-<h1><%= t '.title' %></h1>
-<%= link_to "＜", schedules_path(year: @month>1?@year:@year-1, month: @month>1?@month-1:@month+11) %>
-<%= link_to t("schedules.new.title"), new_schedule_path(year: @year, month: @month) %>
-<%= link_to "＞", schedules_path(year: @month<12?@year:@year+1, month: @month<12?@month+1:@month-11) %>
+<h1><%= t '.title' %> <%= @calendars[0].strftime('%y/%m') %></h1>
+<div class="hflex date_controll_button">
+    <%= button_to "＜", schedules_path(), params:{year: @month>1?@year:@year-1, month: @month>1?@month-1:@month+11}, method: :get %>
+    <%= button_to t("schedules.new.title"), new_schedule_path(), params:{year: @year, month: @month}, method: :get, form:{style:"flex:1;"} %>
+    <%= button_to "＞", schedules_path(), params:{year: @month<12?@year:@year+1, month: @month<12?@month+1:@month-11}, method: :get %>
+</div>
 <% if @calendars %>
     <table>
         <tr>

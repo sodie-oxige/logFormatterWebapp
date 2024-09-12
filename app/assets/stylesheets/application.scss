@@ -11,7 +11,7 @@
     line-height: 1.2;
 }
 
-:root{
+:root {
     font-size: min(20px, 3dvw);
 }
 
@@ -19,12 +19,29 @@ body {
     min-height: 100dvh;
 }
 
+.xflex,
 .hflex,
 .vflex {
     display: flex;
 
     &.vflex {
         flex-direction: column;
+    }
+
+    &.xflex {
+        @include sp {
+            flex-direction: column;
+        }
+    }
+
+    &.hflex {
+        flex-direction: row;
+    }
+
+    &.xflex {
+        @include pc {
+            flex-direction: row;
+        }
     }
 
     &.gap {
@@ -87,8 +104,10 @@ nav {
 
     .nav_menubutton {
         margin-left: 10px;
-        width: 40px;
-        height: 40px;
+        $width: 30px;
+        $bar-width: 4px;
+        width: $width;
+        height: $width;
 
         @include pc {
             display: none !important;
@@ -100,35 +119,37 @@ nav {
             content: "";
             position: absolute;
             left: 0;
-            width: 40px;
-            height: 6px;
+            width: $width;
+            height: $bar-width;
             background-color: gray;
-            border-radius: 3px;
+            border-radius: $bar-width/2;
             transition: top .3s, rotate .3s, opacity .3s;
         }
 
         .nav_menubutton_bar {
-            top: 17px;
+            top: ($width - $bar-width)/2;
         }
 
         &::before {
-            top: 6px;
+            top: ($width - $bar-width)/2 - $bar-width*2;
         }
 
         &::after {
-            top: 28px;
+            top: ($width - $bar-width)/2 + $bar-width*2;
         }
 
-        &.open{
-            &::before{
-                top: 17px;
+        &.open {
+            &::before {
+                top: ($width - $bar-width)/2;
                 rotate: 45deg;
             }
-            &::after{
-                top: 17px;
+
+            &::after {
+                top: ($width - $bar-width)/2;
                 rotate: -45deg;
             }
-            &>.nav_menubutton_bar{
+
+            &>.nav_menubutton_bar {
                 opacity: 0;
             }
         }
@@ -141,6 +162,11 @@ nav {
         font-weight: bold;
         text-decoration: none;
         user-select: none;
+    }
+
+    button {
+        margin: 10px;
+        border: none;
     }
 }
 
@@ -159,24 +185,29 @@ main {
         overflow-x: hidden;
         transition: max-width .3s;
 
-        @include sp{
+        @include sp {
             width: 100dvw;
         }
 
         &.open {
             max-width: 20dvw;
+
             @include sp {
                 max-width: 0;
             }
+
             &.default-hidden {
                 max-width: 0;
             }
         }
+
         &:not(.open) {
             max-width: 0;
+
             @include sp {
                 max-width: 50dvw !important;
             }
+
             &.default-hidden {
                 max-width: 20dvw;
             }
@@ -215,14 +246,16 @@ main {
             width: 100dvw !important;
         }
     }
-    #sidebar.open:not(.default-hidden) + #main,
-    #sidebar.default-hidden:not(.open) + #main{
-            width: 80dvw;
-        }
-    #sidebar:not(.open):not(.default-hidden) + #main,
-    #sidebar.open.default-hidden + #main{
-            width: 100dvw;
-        }
+
+    #sidebar.open:not(.default-hidden)+#main,
+    #sidebar.default-hidden:not(.open)+#main {
+        width: 80dvw;
+    }
+
+    #sidebar:not(.open):not(.default-hidden)+#main,
+    #sidebar.open.default-hidden+#main {
+        width: 100dvw;
+    }
 }
 
 h1,
@@ -269,13 +302,14 @@ table {
     }
 }
 
-form {
+form:not(.button_to) {
     margin: 30px;
     display: flex;
     flex-direction: column;
     gap: 10px;
 
     input,
+    button,
     textarea,
     select {
         padding: 10px;
@@ -294,6 +328,7 @@ form {
         }
     }
 
+    button,
     input[type="button"],
     input[type="submit"] {
         background-color: #eee;
@@ -303,4 +338,13 @@ form {
         margin-top: 10px;
         font-size: .8rem;
     }
+}
+
+button,
+input[type="button"],
+input[type="submit"] {
+    color: black; //reset cssで対応できていない「ios chromeでボタンの文字色が白になる問題」の対応
+    padding: 10px;
+    border: solid thin black;
+    border-radius: 5px;
 }

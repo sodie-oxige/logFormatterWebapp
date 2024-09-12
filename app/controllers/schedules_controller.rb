@@ -12,7 +12,7 @@ class SchedulesController < ApplicationController
       @calendars.push(date)
       date = date.next_day
     end
-    @schedules = Game.joins(:schedules).select("games.*, schedules.*").where("date between ? and ?", start_date, end_date)
+    @schedules = Game.joins(:schedules).select("games.*, schedules.*").where("date between ? and ?", start_date, end_date).order(Arel.sql("CASE WHEN games.name = 'リアル' THEN 0 ELSE 1 END"))
   end
 
   def new

@@ -26,13 +26,30 @@ th {
     &::after {
         display: block;
         margin: auto;
-        height: 30px;
-        font-size: 20px;
+        height: 1.2em;
+        font-size: 1.2em;
         font-weight: bold;
         text-align: center;
     }
 
     &:first-child {
         border-right: solid thin gray;
+    }
+}
+
+.date_controll_button {
+    justify-content: center;
+    form{
+        button{
+            width: 100%;
+        }
+        &:not(:last-of-type) button{
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
+        }
+        &:not(:first-of-type) button{
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+        }
     }
 }
