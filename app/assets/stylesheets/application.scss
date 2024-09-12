@@ -1,4 +1,5 @@
 @use "global" as *;
+@use "sass:math";
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=M+PLUS+1p:wght@100;300;400;500;700;800;900&display=swap');
 
@@ -12,7 +13,7 @@
 }
 
 :root {
-    font-size: min(20px, 3dvw);
+    font-size: unquote('min(20px, 3dvw)');
 }
 
 body {
@@ -122,30 +123,30 @@ nav {
             width: $width;
             height: $bar-width;
             background-color: gray;
-            border-radius: $bar-width/2;
+            border-radius: math.div($bar-width,2);
             transition: top .3s, rotate .3s, opacity .3s;
         }
 
         .nav_menubutton_bar {
-            top: ($width - $bar-width)/2;
+            top: math.div(($width - $bar-width), 2);
         }
 
         &::before {
-            top: ($width - $bar-width)/2 - $bar-width*2;
+            top: math.div(($width - $bar-width), 2) - $bar-width*2;
         }
 
         &::after {
-            top: ($width - $bar-width)/2 + $bar-width*2;
+            top: math.div(($width - $bar-width), 2) + $bar-width*2;
         }
 
         &.open {
             &::before {
-                top: ($width - $bar-width)/2;
+                top: math.div(($width - $bar-width), 2);
                 rotate: 45deg;
             }
 
             &::after {
-                top: ($width - $bar-width)/2;
+                top: math.div(($width - $bar-width), 2);
                 rotate: -45deg;
             }
 

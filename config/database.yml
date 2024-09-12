@@ -17,10 +17,11 @@ test:
 
 production:
   <<: *default
-  database: logformatter_production   # 本番環境用のデータベース名。
-  username: sodie_oxige              # 本番環境でのMySQLユーザー名。
-  password: <%= ENV["MYSQL_PROD_PASSWORD"] %>  # 本番環境でのMySQLパスワード。
-  host: <%= ENV["MYSQL_HOST"] %>  # 本番環境のMySQLサーバーホスト。多くの場合、環境変数で指定する。
+  database: <%= ENV["MYSQL_DATABASE"] %>   # 本番環境用のデータベース名
+  username: <%= ENV["MYSQL_PROD_USER"] %>    # 環境変数からMySQLユーザー名を取得
+  password: <%= ENV["MYSQL_PROD_PASSWORD"] %> # 環境変数からMySQLパスワードを取得
+  host: <%= ENV["MYSQL_HOST"] %>    # RDSのエンドポイントを指定
+  port: 3306  # デフォルトのMySQLポート
 
 
 # # SQLite. Versions 3.8.0 and up are supported.

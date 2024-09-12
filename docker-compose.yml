@@ -1,0 +1,26 @@
+version: '3'
+services:
+  web:
+    build: .
+    command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -b '0.0.0.0' -p 3000"
+    environment:
+      RAILS_MASTER_KEY: "${RAILS_MASTER_KEY}"
+      DATABASE_URL: "mysql2://${MYSQL_PROD_USER}:${MYSQL_PROD_PASSWORD}@${MYSQL_HOST}:3306/${MYSQL_DATABASE}"
+    volumes:
+      - ".:/rails"
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+    user: "0:0"
+
+  db:
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: your_database_name
+    volumes:
+      - "db_data:/var/lib/mysql"
+
+volumes:
+  db_data:
