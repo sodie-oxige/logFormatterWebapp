@@ -1,7 +1,7 @@
 class User < ApplicationRecord
   has_many :characters, foreign_key: "pl_id"
-  has_many :logs
-  validates :userid, presence: true, uniqueness: true
+  has_many :logs, foreign_key: "gm_id"
+  validates :userid, presence: true
   validates :userid, format: { with: /\A[\w_]+\z/ }
   validates :password, format: { with: /\A[!-~]+\z/ }
   has_secure_password

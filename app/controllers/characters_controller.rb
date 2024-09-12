@@ -22,9 +22,11 @@ class CharactersController < ApplicationController
   end
 
   def create_pl
-    @pl = User.new(params.require(:user).permit(:name))
+    @pl = User.new(params.require(:user).permit(:name).merge(userid: "default", password: "default"))
     if @pl.save()
       redirect_to new_character_path
+    else
+      pp @pl.errors.details
     end
   end
 
