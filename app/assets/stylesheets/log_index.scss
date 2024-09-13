@@ -1,0 +1,55 @@
+#log_table_visible_controller {
+    display: block;
+    width: 4rem;
+    height: 1.5rem;
+    border: solid thin black;
+    border-radius: 3px;
+
+    i {
+        position: absolute;
+        top: 50%;
+        translate: -50% -50%;
+        color: white;
+    }
+
+    i:first-of-type {
+        left: 25%;
+    }
+
+    i:last-of-type {
+        left: 75%;
+    }
+
+    &::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        width: calc(2rem - 2px);
+        height: calc(1.5rem - 2px);
+        background-color: #333;
+        border-radius: 2px;
+        transition: left .1s;
+    }
+
+    &:has(input[type="checkbox"]:not(:checked))::before {
+        left: 0;
+    }
+
+    &:has(input[type="checkbox"]:checked)::before {
+        left: 2rem;
+    }
+
+    input[type="checkbox"] {
+        display: none;
+    }
+}
+
+#log_table_visible_controller:has(input[type="checkbox"]:checked)+table tr.visible,
+#log_table_visible_controller:has(input[type="checkbox"]:not(:checked))+table tr.hidden {
+    display: none;
+}
+
+tr:nth-last-child(1 of .visible),
+tr:nth-last-child(1 of .hidden) {
+    border-bottom: none;
+}

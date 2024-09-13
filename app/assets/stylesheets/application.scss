@@ -239,7 +239,7 @@ main {
 
     #main {
         margin: 0 auto;
-        padding: 20px 10px;
+        padding: 20px 30px;
         height: calc(100dvh - 60px);
         overflow: auto;
 
@@ -269,6 +269,8 @@ h6 {
 }
 
 table {
+    table-layout: fixed;
+    min-width: 100%;
     border-collapse: collapse;
 
     tr {

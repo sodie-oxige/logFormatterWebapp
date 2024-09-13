@@ -9,5 +9,9 @@
     <%= form.collection_select :gm, User.filtered_all, :id, :name, include_blank: true %>
     <%= form.label :pc_ids, Log.human_attribute_name(:pc) %>
     <%= form.collection_select :pc_ids, Character.joins(:pl).where(is_pc: true).select("characters.*, users.name AS pl_name").order(:pl_name), :id, :name, {}, multiple: true %>
+    <div>
+        <%= form.label :hidden %>
+        <%= form.check_box :hidden %>
+    </div>
     <%= form.submit %>
 <% end %>

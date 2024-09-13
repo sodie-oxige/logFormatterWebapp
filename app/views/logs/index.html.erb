@@ -1,5 +1,12 @@
+<%= stylesheet_link_tag "log_index", "data-turbo-track": "reload" %>
+
 <h1><%= t '.title' %></h1>
 <% if @logs %>
+<label id="log_table_visible_controller">
+<i class="bi bi-eye-fill"></i>
+    <input type="checkbox">
+<i class="bi bi-eye-slash"></i>
+</label>
 <table>
     <tr>
         <th><%= Log.human_attribute_name(:name) %></th>
@@ -9,7 +16,7 @@
         <th></th>
     </tr>
     <% @logs.each do |log| %>
-    <tr data-url="<%= log_path(log.id) %>">
+    <tr data-url="<%= log_path(log.id) %>" class="<%= log.hidden ? "hidden" : "visible" %>">
         <td><%= log.name %></td>
         <td><%= log.date %></td>
         <td><%= log.gm.name %></td>
