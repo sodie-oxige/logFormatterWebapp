@@ -24,6 +24,7 @@ class CharactersController < ApplicationController
   def create_pl
     @pl = User.new(params.require(:user).permit(:name).merge(userid: "default", password: "default"))
     if @pl.save()
+      @pl.update(userid: "default#{@pl.id}", password: "default#{@pl.id}")
       redirect_to new_character_path
     else
       pp @pl.errors.details
