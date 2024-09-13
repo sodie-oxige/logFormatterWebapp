@@ -25,7 +25,7 @@
 
   <body>
     <%= render "layouts/navbar" %>
-    <% if first_visit? %>
+    <% if request.headers['X-Turbo-Navigation'] != '1' %>
       <div id="startup_mask">
         <h1>PORT</h1>
         <span>Primary Operator's Routing Terminal</span>
@@ -41,5 +41,10 @@
         <%= yield %>
       </div></div>
     </main>
+    <script>
+      document.addEventListener('turbo:before-fetch-request', function(event) {
+        event.detail.fetchOptions.headers['X-Turbo-Navigation'] = '1';
+      });
+    </script>
   </body>
 </html>
