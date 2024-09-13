@@ -21,6 +21,7 @@
 
     <script>
         hidden = `<%= j @log_content[:content] %>`
+        document.querySelector("#comment_content>p").innerHTML="";
         
         inter = setInterval(() => {
             if(hidden){

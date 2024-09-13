@@ -13,7 +13,10 @@ $sp: 480px;
         left: 0;
         width: 100dvw;
         height: 100dvh;
-        background-color: gray;
+        background-color: #333;
+        background-image: linear-gradient(90deg, #ffffff80 1px, transparent 1px), linear-gradient(#ffffff80 1px, transparent 1px);
+        background-size: 48px 48px;
+        background-repeat: repeat;
     }
 
     #imageL,
@@ -51,7 +54,8 @@ $sp: 480px;
         position: absolute;
         z-index: 50;
         display: block;
-        width: 4em;
+        $button-radius : 2em;
+        width: $button-radius * 2;
         aspect-ratio: 1;
         background-image: linear-gradient(10deg, rgba(61, 61, 61, 0.9), rgba(44, 44, 44, 0.9));
         border: solid 5px black;
@@ -60,6 +64,15 @@ $sp: 480px;
         &#show-button-back {
             bottom: calc(30dvh + 5px);
             left: 2em;
+            $line-angle: 40deg;
+
+            &::before {
+                rotate: $line-angle;
+            }
+
+            &::after {
+                rotate: -$line-angle;
+            }
 
             &::before,
             &::after {
@@ -67,20 +80,14 @@ $sp: 480px;
                 position: absolute;
                 top: 50%;
                 left: 50%;
-                --height: 3.5em;
-                translate: -66% -50%;
-                aspect-ratio: tan(60deg)/2;
-                clip-path: polygon(0 50%, 100% 100%, 100% 0);
-            }
-
-            &::before {
-                height: var(--height);
-                background-color: black;
-            }
-
-            &::after {
-                height: calc(var(--height) - 15px);
-                background-color: white;
+                $width: 1.8em;
+                $height: 6px;
+                width: $width;
+                height: $height;
+                background-color: #ddd;
+                border-radius: $height/2;
+                transform: translateX(calc(50% - $height/2));
+                translate: calc(-#{$width}*cos(#{$line-angle}) - 5px) -50%;
             }
         }
     }
