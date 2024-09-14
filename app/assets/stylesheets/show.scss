@@ -1,4 +1,5 @@
-$sp: 480px;
+@use "sass:math";
+@use "global" as *;
 
 #screen {
     position: fixed;
@@ -86,7 +87,7 @@ $sp: 480px;
                 height: $height;
                 background-color: #ddd;
                 border-radius: $height/2;
-                transform: translateX(calc(50% - $height/2));
+                transform: translateX(calc(50% - math.div($height,2)));
                 translate: calc(-#{$width}*cos(#{$line-angle}) - 5px) -50%;
             }
         }
