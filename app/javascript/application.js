@@ -4,7 +4,7 @@ import "controllers"
 
 document.addEventListener("DOMContentLoaded", () => {
     document.addEventListener("click", e => {
-        if (!!e.target.closest("[data-url]")) location.href = e.target.closest("[data-url]").dataset.url;
+        if (!!e.target.closest("[data-url]")) Turbo.visit(e.target.closest("[data-url]").dataset.url);
         if (e.target.classList.contains("nav_menubutton")){
             document.getElementById("sidebar").classList.toggle("open");
             e.target.classList.toggle("open");
