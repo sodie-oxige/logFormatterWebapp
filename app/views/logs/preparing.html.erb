@@ -6,15 +6,13 @@
 </div>
 
 <div id="html_container">
-    <template shadowrootmode="open">
-        <%= sanitize(ERB.new(File.open("#{Rails.public_path}/logfile/#{@id}.html").read).result(binding), tags: %w(p span br), attributes: %w(style)) %>
-    </template>
+    <%= sanitize(ERB.new(File.open("#{Rails.public_path}/logfile/#{@id}.html").read).result(binding), tags: %w(p span br), attributes: %w(style)) %>
 </div>
 
 <script>
     window.addEventListener("turbo:load", () => {
-        const shadowRoot = document.getElementById("html_container").shadowRoot;
-        const comments = shadowRoot.querySelectorAll("p");
+        console.log(document.getElementById("html_container"))
+        const comments = document.getElementById("html_container").querySelectorAll("p");
         let progress = document.querySelector(".mask>progress");
         progress.max = comments.length;
         logContent_send(0, comments, ()=>{progress.value++});
