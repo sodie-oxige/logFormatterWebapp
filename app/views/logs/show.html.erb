@@ -4,8 +4,8 @@
 <div id="screen">
     <%= turbo_frame_tag "comment_container", style:"position:static" do %>
         <div id="backgrond"></div>
-        <% img = Character.find_by("name like ?", @log_content[:author]) ? Character.find_by("name like '#{@log_content[:author]}%'").images[0] : nil %>
-        <% img ||= Nickname.find_by("name like ?", @log_content[:author]) ? Nickname.find_by("name like '#{@log_content[:author]}%'").character.images[0] : "" %>
+        <% img = Character.find_by("REPLACE(name, ' ', '') = ?", @log_content[:author]) ? Character.find_by("REPLACE(name, ' ', '') = ?", @log_content[:author]).images[0] : nil %>
+        <% img ||= Nickname.find_by("REPLACE(name, ' ', '') = ?", @log_content[:author]) ? Nickname.find_by("REPLACE(name, ' ', '') = ?", @log_content[:author]).character.images[0] : "" %>
         <%= image_tag img, id:"imageL" %>
         <img src="" id="imageR">
 
