@@ -4,14 +4,18 @@
 <div id="screen">
     <%= turbo_frame_tag "comment_container", style:"position:static" do %>
         <div id="backgrond"></div>
-        <% img = Character.find_by("REPLACE(name, ' ', '') = ?", @log_content[:author]) ? Character.find_by("REPLACE(name, ' ', '') = ?", @log_content[:author]).images[0] : nil %>
-        <% img ||= Nickname.find_by("REPLACE(name, ' ', '') = ?", @log_content[:author]) ? Nickname.find_by("REPLACE(name, ' ', '') = ?", @log_content[:author]).character.images[0] : "" %>
-        <%= image_tag img, id:"imageL" %>
+        <% img = Character.where("REPLACE(name, ' ', '') = ?", @log_content[:author].gsub(/\s+/, '')).exists? ? Character.find_by("REPLACE(name, ' ', '') = ?", @log_content[:author].gsub(/\s+/, '')).images[0] : nil %>
+        <% img ||= Nickname.where("REPLACE(name, ' ', '') = ?", @log_content[:author].gsub(/\s+/, '')).exists? ? Nickname.find_by("REPLACE(name, ' ', '') = ?", @log_content[:author].gsub(/\s+/, '')).character.images[0] : nil %>
+        <%= image_tag img||"", id:"imageL" %>
         <img src="" id="imageR">
 
         <div id="mask"></div>
-        <%= link_to "", log_path(@id,page: @page.to_i-1), {id:"show-button-back", class:"show-button"} %>
-        <%= link_to log_path(@id,page: @page.to_i+1), {id:"comment", tab:@log_content[:tab], style:"--color: #{@log_content[:color]}", draggable:false, data: { turbo_prefetch: false }} do %>
+        <% if Log.find(@id).log_contents.exists?(index: @page.to_i-1) %>
+            <%= link_to "", log_path(@id,page: @page.to_i-1), {id:"show-button-back", class:"show-button" } %>
+        <% else %>
+            <%= link_to "", nil, {id:"show-button-back", class:"show-button", style:"pointer-events:none;" } %>
+        <% end %>
+        <%= link_to (Log.find(@id).log_contents.exists?(index: @page.to_i+1) ? log_path(@id,page: @page.to_i+1) : logs_path), {id:"comment", tab:@log_content[:tab], style:"--color: #{@log_content[:color]}", draggable:false, data: { turbo_prefetch: false }} do %>
             <div id="comment_name">
                 <span><%= @log_content[:author] %></span>
             </div>
