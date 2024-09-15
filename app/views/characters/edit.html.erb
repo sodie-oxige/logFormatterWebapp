@@ -12,13 +12,10 @@
     <%= form.fields_for :nicknames do |nickname_form| %>
         <div class="nickname-fields">
             <%= nickname_form.hidden_field :id %>
-            <%= nickname_form.label :name, "Nickname" %>
             <%= nickname_form.text_field :name %>
-            <%= nickname_form.check_box :_destroy %>
-            <%= nickname_form.label :_destroy, "Remove this nickname" %>
         </div>
-    <%= form.check_box :is_pc, {checked: true, style: "display:none"} %>
     <% end %>
+    <%= form.check_box :is_pc, {style: "display:none"} %>
     
     <%= form.submit %>
 <% end %>
