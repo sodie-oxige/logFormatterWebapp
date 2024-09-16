@@ -15,33 +15,31 @@
         <% else %>
             <%= link_to "", nil, {id:"show-button-back", class:"show-button", style:"pointer-events:none;" } %>
         <% end %>
-        <%= link_to (Log.find(@id).log_contents.exists?(index: @page.to_i+1) ? log_path(@id,page: @page.to_i+1) : logs_path), {id:"comment", tab:@log_content[:tab], style:"--color: #{@log_content[:color]}", draggable:false, data: { turbo_prefetch: false }} do %>
+        <div data-url="<%= (Log.find(@id).log_contents.exists?(index: @page.to_i+1) ? log_path(@id,page: @page.to_i+1) : logs_path) %>" id="comment" tab="<%= @log_content[:tab] %>" style="--color: <%= @log_content[:color] %>">
             <div id="comment_name">
                 <span><%= @log_content[:author] %></span>
             </div>
             <div id="comment_content">
                 <p></p>
             </div>
-        <% end %>
+        </div>
 
         <script>
-            document.addEventListener("turbo:frame-load", function(e) {
-                textfeed(`<%= j @log_content[:content] %>`);
-            });
             document.addEventListener("turbo:load", function(e) {
                 textfeed(`<%= j @log_content[:content] %>`);
-            });
+            }, {once: true});
         </script>
     <% end %>
 </div>
 
 <script>
-    const textfeed = (text) =>{
-        hidden = text;
+    window.textfeed = (text) =>{
+        let hidden = text;
         document.querySelector("#comment_content>p").innerHTML="";
         
-        inter = setInterval(() => {
-            if(hidden){
+        let inter = setInterval(() => {
+            
+            if(!!hidden){
                 let char;
                 if(/^&.+?;/.test(hidden)){
                     char = hidden.match(/^&.+?;/)[0];
@@ -55,5 +53,8 @@
                 clearInterval(inter);
             }
         }, 15);
+        window.addEventListener("turbo:before-visit", ()=>{
+            clearInterval(inter);
+        }, {once: true})
     }
 </script>

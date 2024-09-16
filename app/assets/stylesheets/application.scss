@@ -62,7 +62,7 @@ body {
     width: 100%;
     height: 100%;
     background-color: white;
-    animation: fadeout 3s 1s forwards;
+    animation: fadeout 1s .5s forwards;
     pointer-events: none;
 
     >h1 {
@@ -84,10 +84,12 @@ body {
 @keyframes fadeout {
     0% {
         opacity: 1;
+        scale: 1;
     }
 
     100% {
         opacity: 0;
+        scale: 1.2;
     }
 }
 
@@ -123,7 +125,7 @@ nav {
             width: $width;
             height: $bar-width;
             background-color: gray;
-            border-radius: math.div($bar-width,2);
+            border-radius: math.div($bar-width, 2);
             transition: top .3s, rotate .3s, opacity .3s;
         }
 
@@ -239,9 +241,36 @@ main {
 
     #main {
         margin: 0 auto;
-        padding: 20px 30px;
+        padding: 30px 50px;
         height: calc(100dvh - 60px);
         overflow: auto;
+
+        >* {
+            overflow-x: auto;
+            overflow-y: clip;
+            scrollbar-width: thin;
+            scrollbar-color: transparent transparent;
+            transition: scrollbar-color .2s;
+
+            &:hover {
+                scrollbar-color: #333 transparent;
+            }
+
+            @supports not (scrollbar-width: thin) {
+                &:hover::-webkit-scrollbar {
+                    width: 0;
+                }
+                &::-webkit-scrollbar {
+                    width: 6px;
+                    background-color: transparent;
+                }
+                &::-webkit-scrollbar-thumb {
+                    background: #333;
+                    width: 6px;
+                    border-radius: 5px;
+                }
+            }
+        }
 
         @include sp {
             width: 100dvw !important;
@@ -269,9 +298,13 @@ h6 {
 }
 
 table {
-    table-layout: fixed;
+    display: block;
     min-width: 100%;
     border-collapse: collapse;
+
+    tbody {
+        display: table;
+    }
 
     tr {
         padding: 0 30px;
