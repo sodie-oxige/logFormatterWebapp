@@ -2,6 +2,7 @@
 <%= stylesheet_link_tag "show", "data-turbo-track": "reload" %>
 
 <div id="screen">
+    <%= j @log_content[:content] %>
     <%= turbo_frame_tag "comment_container", style:"position:static" do %>
         <div id="backgrond"></div>
         <% img = Character.where("REPLACE(name, ' ', '') = ?", @log_content[:author].gsub(/\s+/, '')).exists? ? Character.find_by("REPLACE(name, ' ', '') = ?", @log_content[:author].gsub(/\s+/, '')).images[0] : nil %>
@@ -10,11 +11,7 @@
         <img src="" id="imageR">
 
         <div id="mask"></div>
-        <% if Log.find(@id).log_contents.exists?(index: @page.to_i-1) %>
-            <%= link_to "", log_path(@id,page: @page.to_i-1), {id:"show-button-back", class:"show-button" } %>
-        <% else %>
-            <%= link_to "", nil, {id:"show-button-back", class:"show-button", style:"pointer-events:none;" } %>
-        <% end %>
+        <div id="show-button-back" class="show-button" <%= Log.find(@id).log_contents.exists?(index: @page.to_i-1) ? "data-url=#{log_path(@id,page: @page.to_i-1)}" : "" %>></div>
         <div data-url="<%= (Log.find(@id).log_contents.exists?(index: @page.to_i+1) ? log_path(@id,page: @page.to_i+1) : logs_path) %>" id="comment" tab="<%= @log_content[:tab] %>" style="--color: <%= @log_content[:color] %>">
             <div id="comment_name">
                 <span><%= @log_content[:author] %></span>
@@ -25,36 +22,41 @@
         </div>
 
         <script>
-            document.addEventListener("turbo:load", function(e) {
-                textfeed(`<%= j @log_content[:content] %>`);
-            }, {once: true});
+            feed_text = `<%= j @log_content[:content] %>`;
         </script>
     <% end %>
 </div>
 
+
 <script>
-    window.textfeed = (text) =>{
-        let hidden = text;
-        document.querySelector("#comment_content>p").innerHTML="";
+    document.addEventListener("turbo:load",()=>{
+        console.log(event.detail);
         
-        let inter = setInterval(() => {
+        const textfeed = () =>{
+            console.log(feed_text);
             
-            if(!!hidden){
-                let char;
-                if(/^&.+?;/.test(hidden)){
-                    char = hidden.match(/^&.+?;/)[0];
-                    hidden = hidden.replace(/^&.+?;/, "");
+            document.querySelector("#comment_content>p").innerHTML="";        
+            let inter = setInterval(() => {
+                
+                if(!!feed_text){
+                    let char;
+                    if(/^&.+?;/.test(feed_text)){
+                        char = feed_text.match(/^&.+?;/)[0];
+                        feed_text = feed_text.replace(/^&.+?;/, "");
+                    }else{
+                        char = feed_text.slice(0,1);
+                        feed_text = feed_text.slice(1);
+                    }
+                    document.querySelector("#comment_content>p").innerHTML += char === "\n" ? "<br>" : char;
                 }else{
-                    char = hidden.slice(0,1);
-                    hidden = hidden.slice(1);
+                    clearInterval(inter);
                 }
-                document.querySelector("#comment_content>p").innerHTML += char === "\n" ? "<br>" : char;
-            }else{
+            }, 15);
+            window.addEventListener("turbo:before-visit", ()=>{
+                document.querySelector("#comment_content>p").innerHTML="";        
                 clearInterval(inter);
-            }
-        }, 15);
-        window.addEventListener("turbo:before-visit", ()=>{
-            clearInterval(inter);
-        }, {once: true})
-    }
+            }, {once: true})
+        }
+        document.addEventListener("turbo:load", textfeed);
+    });
 </script>
