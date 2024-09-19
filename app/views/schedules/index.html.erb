@@ -14,7 +14,7 @@
             <% schedules = @schedules.pluck(:name).uniq %>
             <% schedules.each do |schedule| %>
                 <% responses[schedule]=@schedules.where(name: schedule).order(:date) %>
-                <th><%= link_to schedule, edit_schedule_path(responses[schedule][0][:game_id]) %></th>
+                <th><%= link_to schedule, edit_schedule_path(responses[schedule][0][:game_id], year:@year, month:@month) %></th>
             <% end %>
         </tr>
         <% i=0 %>

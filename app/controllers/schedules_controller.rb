@@ -2,8 +2,6 @@ class SchedulesController < ApplicationController
   def index
     @year = params.fetch(:year, Time.zone.today.year).to_i
     @month = params.fetch(:month, Time.zone.today.month).to_i
-    pp @year
-    pp @month
     start_date = Date.new(@year, @month, 1)
     end_date = start_date.end_of_month
     @calendars = []
@@ -43,16 +41,16 @@ class SchedulesController < ApplicationController
   end
 
   def edit
-    @year = params.fetch(:year, Time.zone.today.year).to_i
-    @month = params.fetch(:month, Time.zone.today.month).to_i
-    start_date = Date.new(@year, @month, 1)
-    end_date = start_date.end_of_month
-    @calendars = []
-    date = start_date
-    until date > end_date do
-      @calendars.push(date)
-      date = date.next_day
-    end
+      @year = params.fetch(:year, Time.zone.today.year).to_i
+      @month = params.fetch(:month, Time.zone.today.month).to_i
+      start_date = Date.new(@year, @month, 1)
+      end_date = start_date.end_of_month
+      @calendars = []
+      date = start_date
+      until date > end_date do
+        @calendars.push(date)
+        date = date.next_day
+      end
     @game = Game.find(params[:id])
   end
 

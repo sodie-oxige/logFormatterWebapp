@@ -29,34 +29,33 @@
 
 
 <script>
-    document.addEventListener("turbo:load",()=>{
-        console.log(event.detail);
-        
-        const textfeed = () =>{
-            console.log(feed_text);
+    window.textfeed = () =>{
+        console.log(feed_text);
+        document.querySelector("#comment_content>p").innerHTML="";        
+        let inter = setInterval(() => {
             
-            document.querySelector("#comment_content>p").innerHTML="";        
-            let inter = setInterval(() => {
-                
-                if(!!feed_text){
-                    let char;
-                    if(/^&.+?;/.test(feed_text)){
-                        char = feed_text.match(/^&.+?;/)[0];
-                        feed_text = feed_text.replace(/^&.+?;/, "");
-                    }else{
-                        char = feed_text.slice(0,1);
-                        feed_text = feed_text.slice(1);
-                    }
-                    document.querySelector("#comment_content>p").innerHTML += char === "\n" ? "<br>" : char;
+            if(!!feed_text){
+                let char;
+                if(/^&.+?;/.test(feed_text)){
+                    char = feed_text.match(/^&.+?;/)[0];
+                    feed_text = feed_text.replace(/^&.+?;/, "");
                 }else{
-                    clearInterval(inter);
+                    char = feed_text.slice(0,1);
+                    feed_text = feed_text.slice(1);
                 }
-            }, 15);
-            window.addEventListener("turbo:before-visit", ()=>{
-                document.querySelector("#comment_content>p").innerHTML="";        
+                document.querySelector("#comment_content>p").innerHTML += char === "\n" ? "<br>" : char;
+            }else{
                 clearInterval(inter);
-            }, {once: true})
-        }
-        document.addEventListener("turbo:load", textfeed);
-    });
+            }
+        }, 15);
+        document.addEventListener("turbo:before-visit", ()=>{
+            document.querySelector("#comment_content>p").innerHTML="";        
+            clearInterval(inter);
+        }, {once: true})
+    }
+    textfeed();
+    if(!window.feedsetting){
+        window.feedsetting=true;
+        document.addEventListener("turbo:frame-load", textfeed);
+    }
 </script>
