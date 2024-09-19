@@ -1,13 +1,11 @@
-$sp: 480px;
-
 @mixin pc {
-    @media screen and (min-width: ($sp)) {
+    @media screen and (min-aspect-ratio: 1) {
         @content;
     }
 }
 
 @mixin sp {
-    @media screen and (max-width: ($sp)) {
+    @media screen and (max-aspect-ratio: 1) {
         @content;
     }
 }
