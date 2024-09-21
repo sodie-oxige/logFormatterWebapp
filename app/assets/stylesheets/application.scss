@@ -10,6 +10,7 @@
     box-sizing: border-box;
     font-family: "Noto Sans JP", sans-serif;
     line-height: 1.2;
+    accent-color: #333;
 }
 
 :root {
@@ -251,11 +252,13 @@ main {
         width: 100%;
         background-color: black;
     }
+
     #sidebar.open+#main::before {
         z-index: -1;
         opacity: 0;
         transition: opacity 0.2s, z-index 0s 0.2s;
     }
+
     #sidebar:not(.open)+#main::before {
         z-index: 10;
         opacity: 0.5;
@@ -408,4 +411,8 @@ input[type="submit"] {
     padding: 10px;
     border: solid thin black;
     border-radius: 5px;
+}
+
+i {
+    line-height: 1;
 }

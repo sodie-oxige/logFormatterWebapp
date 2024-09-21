@@ -1,31 +1,23 @@
 <h1><%= t '.title' %></h1>
 <div class="xflex">
-    <%= form_with model: @pc, url: characters_path do |form| %>
+    <div>
         <h2><%= t(".pc") %></h2>
-        <%= form.label :name, Character.human_attribute_name(:name) %>
-        <%= form.text_field :name %>
-        <%= form.label :pl_id, Character.human_attribute_name(:pl) %>
-        <%= form.collection_select :pl_id, User.filtered_all.order(:name), :id, :name %>
-        <%= form.file_field :images, multiple: true %>
-        <%= form.check_box :is_pc, {checked: true, style: "display:none"} %>
-        <%= form.submit %>
-    <% end %>
+        <%= render "form", {character: Character.new(is_pc: true)} %>
+    </div>
     
-    <%= form_with model: @pc, url: characters_path do |form| %>
+    <div>
         <h2><%= t(".npc") %></h2>
-        <%= form.label :name, Character.human_attribute_name(:name) %>
-        <%= form.text_field :name %>
-        <%= form.label :pl_id, Character.human_attribute_name(:pl) %>
-        <%= form.collection_select :pl_id, User.filtered_all.order(:name), :id, :name %>
-        <%= form.file_field :images, multiple: true %>
-        <%= form.check_box :is_pc, {checked: false, style: "display:none"} %>
-        <%= form.submit %>
-    <% end %>
+        <%= render "form", {character: Character.new(is_pc: false)} %>
+    </div>
 
-    <%= form_with model: @pl, url: characters_create_pl_path do |form| %>
+    <% if false %>
+    <div>
         <h2><%= t(".pl") %></h2>
-        <%= form.label :name, Character.human_attribute_name(:name) %>
-        <%= form.text_field :name %>
-        <%= form.submit %>
+        <%= form_with model: @pl, url: characters_create_pl_path do |form| %>
+            <%= form.label :name, Character.human_attribute_name(:name) %>
+            <%= form.text_field :name %>
+            <%= form.submit %>
+        <% end %>
+    </div>
     <% end %>
 </div>

@@ -189,7 +189,7 @@
             .backlog_jump_button {
                 width: 2em;
                 max-width: 5px;
-                background-color: var(--color);
+                background-color: color-mix(in srgb, var(--color), black 30%);
                 transition: max-width 0.1s;
 
                 i {

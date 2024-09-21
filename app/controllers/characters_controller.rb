@@ -11,13 +11,15 @@ class CharactersController < ApplicationController
   end
 
   def create
-    pc = params.require(:character)
-    @pc = User.find(pc[:pl_id]).characters.new(pc.permit(:name, :is_pc, images: []))
-    pp @pc
-    if @pc.save()
-      redirect_to new_character_path
+    character_params = params.require(:character).permit(:name, :is_pc, :pl_id, images: [], nicknames_attributes: [ :id, :name, :_destroy ])
+    character_params[:nicknames_attributes].each_key { |n| if character_params[:nicknames_attributes][n][:name]=="" then character_params[:nicknames_attributes][n][:_destroy]=true end }
+    @character = User.find(character_params[:pl_id]).characters.new(character_params)
+
+    pp @character
+    if @character.save()
+      redirect_to edit_character_path(@character[:id])
     else
-      pp @pc.errors.details
+      pp @character.errors.details
     end
   end
 

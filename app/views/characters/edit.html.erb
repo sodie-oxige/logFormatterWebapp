@@ -1,28 +1,4 @@
 <%= stylesheet_link_tag "character", "data-turbo-track": "reload" %>
 <h1><%= t '.title' %></h1>
 
-<%= form_with model: @character, url: character_path(@character) do |form| %>
-    <%= form.label :name, Character.human_attribute_name(:name) %>
-    <%= form.text_field :name %>
-    <%= form.label :pl_id, Character.human_attribute_name(:pl) %>
-    <%= form.collection_select :pl_id, User.filtered_all.order(:name), :id, :name %>
-    <%= form.label :nickname, Character.human_attribute_name(:nickname) %>
-
-    <% @character.nicknames.new %>
-    <%= form.fields_for :nicknames do |nickname_form| %>
-        <div class="nickname-fields">
-            <%= nickname_form.hidden_field :id %>
-            <%= nickname_form.text_field :name %>
-        </div>
-    <% end %>
-    <%= form.check_box :is_pc, {style: "display:none"} %>
-    
-    <%= form.submit %>
-<% end %>
-
-<% @character.images.each do |image| %>
-    <div class="illust">
-        <%= button_to "", character_purge_path(@character, image_id: image.id), {method: :post, class:"close"} %>
-        <%= image_tag(image) %>
-    </div>
-<% end %>
+<%= render "form", {character: @character} %>

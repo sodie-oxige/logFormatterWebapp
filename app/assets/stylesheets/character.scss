@@ -1,44 +1,41 @@
-.illust {
-    padding: 10px;
-    width: 300px;
-    border: solid thin gray;
+.nickname-fields {
+    display: flex;
+    flex-direction: column;
+}
 
-    form:has(>.close) {
-        position: absolute;
-        margin: 0;
-        top: 0;
-        right: 0;
-        translate: 50% -50%;
+.illust_container {
+    .illust {
+        margin: 15px;
+        float: left;
+        padding: 10px;
+        width: 300px;
+        border: solid thin gray;
 
-        >button.close {
-            width: 30px;
-            aspect-ratio: 1;
-            background-color: white;
-            border: solid thin black;
-            border-radius: 50%;
+        form:has(>.close) {
+            position: absolute;
+            margin: 0;
+            top: 0;
+            right: 0;
+            translate: 50% -50%;
 
-            &::after, &::before{
-                content: "";
-                position: absolute;
-                top: 50%;
-                left: 50%;
-                width: 16px;
-                height: 2px;
-                background-color: gray;
-            }
+            >button.close {
+                width: 30px;
+                aspect-ratio: 1;
+                background-color: white;
+                border: solid thin black;
+                border-radius: 50%;
 
-            &::before{
-                translate: -50% -50%;
-                rotate: 45deg;
-            }
-            &::after{
-                translate: -50% -50%;
-                rotate: -45deg;
+                i {
+                    position: absolute;
+                    top: 50%;
+                    left: 50%;
+                    translate: -50% -50%;
+                }
             }
         }
-    }
 
-    img{
-        width: 100%;
+        img {
+            width: 100%;
+        }
     }
 }
