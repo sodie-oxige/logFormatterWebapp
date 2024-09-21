@@ -2,8 +2,34 @@
 <%= stylesheet_link_tag "show", "data-turbo-track": "reload" %>
 
 <div id="screen">
-    <%= j @log_content[:content] %>
     <%= turbo_frame_tag "comment_container", style:"position:static" do %>
+        <% if @after_backlog %>
+
+            <div id="backlog">
+                <div id="backlog_close" data-url="<%= log_path(@id, page: @page) %>">
+                    <i class="bi bi-x-lg"></i>
+                </div>
+                <%= turbo_frame_tag "backlogs_page_#{@backlog_page-21}", loading: :lazy do %>
+                    <% if @backlog_page.to_i>2 %>
+                        <%= turbo_frame_tag "backlogs_page_#{@backlog_page-42}", src: log_path(@id, page: @page, backlog: @backlog_page-21), loading: :lazy %>
+                    <% end %>
+                    <% @before_backlog.each do |backlog| %>
+                        <%= render "backlog_content", {backlog: backlog} %>
+                    <% end %>
+                <% end %>
+
+                <%= turbo_frame_tag "backlogs_page_#{@backlog_page}", loading: :lazy do %>
+                
+                    <% @after_backlog.each do |backlog| %>
+                        <%= render "backlog_content", {backlog: backlog} %>
+                    <% end %>
+                    <% if @log.log_contents.exists?(index: @backlog_page+21) %>
+                        <%= turbo_frame_tag "backlogs_page_#{@backlog_page+21}", src: log_path(@id, page: @page, backlog: @backlog_page+21), loading: :lazy %>
+                    <% end %>
+                <% end %>
+            </div>
+            
+        <% end %>
         <div id="backgrond"></div>
         <% img = Character.where("REPLACE(name, ' ', '') = ?", @log_content[:author].gsub(/\s+/, '')).exists? ? Character.find_by("REPLACE(name, ' ', '') = ?", @log_content[:author].gsub(/\s+/, '')).images[0] : nil %>
         <% img ||= Nickname.where("REPLACE(name, ' ', '') = ?", @log_content[:author].gsub(/\s+/, '')).exists? ? Nickname.find_by("REPLACE(name, ' ', '') = ?", @log_content[:author].gsub(/\s+/, '')).character.images[0] : nil %>
@@ -11,7 +37,14 @@
         <img src="" id="imageR">
 
         <div id="mask"></div>
-        <div id="show-button-back" class="show-button" <%= Log.find(@id).log_contents.exists?(index: @page.to_i-1) ? "data-url=#{log_path(@id,page: @page.to_i-1)}" : "" %>></div>
+        <div class="comment-buttons">
+            <div class="comment-button" <%= Log.find(@id).log_contents.exists?(index: @page.to_i-1) ? "data-url=#{log_path(@id,page: @page.to_i-1)}" : "" %>>
+                <i class="bi bi-chevron-double-left"></i>
+            </div>
+            <div class="comment-button" data-url="<%= log_path(@id, page: @page, backlog: @page)%>">
+                <i class="bi bi-chat-dots"></i>
+            </div>
+        </div>
         <div data-url="<%= (Log.find(@id).log_contents.exists?(index: @page.to_i+1) ? log_path(@id,page: @page.to_i+1) : logs_path) %>" id="comment" tab="<%= @log_content[:tab] %>" style="--color: <%= @log_content[:color] %>">
             <div id="comment_name">
                 <span><%= @log_content[:author] %></span>

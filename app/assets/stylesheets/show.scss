@@ -51,44 +51,33 @@
         opacity: 0.6;
     }
 
-    .show-button {
-        position: absolute;
-        z-index: 50;
-        display: block;
+    .comment-buttons {
         $button-radius : 2em;
-        width: $button-radius * 2;
-        aspect-ratio: 1;
-        background-image: linear-gradient(10deg, rgba(61, 61, 61, 0.9), rgba(44, 44, 44, 0.9));
-        border: solid 5px black;
-        border-radius: 50%;
+        position: absolute;
+        bottom: calc(30dvh + 5px);
+        left: 2em;
+        z-index: 50;
+        display: flex;
+        gap: $button-radius * 0.2;
 
-        &#show-button-back {
-            bottom: calc(30dvh + 5px);
-            left: 2em;
-            $line-angle: 40deg;
+        .comment-button {
+            display: block;
+            width: $button-radius * 2;
+            aspect-ratio: 1;
+            background-image: linear-gradient(10deg, rgba(61, 61, 61, 0.9), rgba(44, 44, 44, 0.9));
+            border: solid 5px black;
+            border-radius: 50%;
 
-            &::before {
-                rotate: $line-angle;
-            }
-
-            &::after {
-                rotate: -$line-angle;
-            }
-
-            &::before,
-            &::after {
-                content: "";
+            i {
                 position: absolute;
                 top: 50%;
                 left: 50%;
-                $width: 1.8em;
-                $height: 6px;
-                width: $width;
-                height: $height;
-                background-color: #ddd;
-                border-radius: math.div($height,2);
-                transform: translateX(calc(50% - math.div($height,2)));
-                translate: calc(-#{$width}*cos(#{$line-angle}) - 5px) -50%;
+                translate: -50% -50%;
+                display: flex;
+                align-items: center;
+                color: #eee;
+                font-size: $button-radius * 1.2;
+                line-height: 1;
             }
         }
     }
@@ -166,6 +155,70 @@
             100% {
                 rotate: y 180deg;
             }
+        }
+    }
+
+    #backlog {
+        position: fixed;
+        top: 60px;
+        left: 0;
+        z-index: 60;
+        padding: 20px;
+        width: 100dvw;
+        height: calc(100dvh - 60px);
+        background-color: rgba(0, 0, 0, 0.7);
+        overflow-y: auto;
+
+        #backlog_close {
+            position: fixed;
+            top: 70px;
+            right: 10px;
+            z-index: 10;
+
+            i {
+                color: #eee;
+                font-size: 2rem;
+            }
+        }
+
+        .backlog_item {
+            margin: 1em;
+            display: flex;
+            color: white;
+
+            .backlog_jump_button {
+                width: 2em;
+                max-width: 5px;
+                background-color: var(--color);
+                transition: max-width 0.1s;
+
+                i {
+                    position: absolute;
+                    top: 50%;
+                    left: 50%;
+                    translate: -50% -50%;
+                    opacity: 0;
+                    transition: opacity 0.1s;
+            }
+            }
+            &:hover .backlog_jump_button {
+                max-width: 2em;
+
+                i {
+                    opacity: 1;
+                }
+            }
+
+            .backlog_content {
+                display: flex;
+                flex-direction: column;
+                padding: 0.5em;
+                flex: 1;
+            }
+        }
+
+        hr {
+            opacity: 0.5;
         }
     }
 

@@ -49,12 +49,20 @@ class LogsController < ApplicationController
 
   def show
     @id = params[:id]
-    @page = params[:page] || Log.find(@id)[:bookmark] || 1
-    @log_content = Log.find(@id).log_contents.find_by(index: @page)
+    @log = Log.find(@id)
+    @page = (params[:page] || @log[:bookmark] || 1).to_i
+    @log_content = @log.log_contents.find_by(index: @page)
+    @backlog_page = params[:backlog].to_i
+    if @backlog_page>0
+      @before_backlog = @log.log_contents.where(index: @backlog_page-21..@backlog_page-1)
+      @after_backlog = @log.log_contents.where(index: @backlog_page..@backlog_page+20)
+    else
+      @backlogs = false
+    end
     if !@log_content
       redirect_to(log_preparing_path(@id))
     end
-    Log.find(@id).update(bookmark: @page)
+    @log.update(bookmark: @page)
   end
 
   def preparing # get

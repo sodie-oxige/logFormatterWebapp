@@ -1,0 +1,14 @@
+<div class="backlog_item" style="--color:<%= backlog[:color] %>;">
+    <div class="backlog_jump_button" onclick="turboNavigate('<%= log_path(@id, page: backlog[:index]) %>', { frame: 'comment_container' })">
+        <i class="bi bi-arrow-return-left"></i>
+    </div>
+    <div class="backlog_content">
+        <div class="backlog_content_name">
+            <%= backlog[:author] %> [<%= backlog[:tab] %>]
+        </div>
+        <div class="backlog_content_text">
+            <%= simple_format(backlog[:content]) %>
+        </div>
+    </div>
+</div>
+<hr>

@@ -2,22 +2,7 @@
 import "@hotwired/turbo-rails"
 import "controllers"
 
-document.addEventListener("DOMContentLoaded", () => {
-    document.addEventListener("click", e => {
-        if (!!e.target.closest("[data-url]")) {
-            if (!!e.target.closest("turbo-frame")) {
-                turboNavigate(e.target.closest("[data-url]").dataset.url, { frame: e.target.closest("turbo-frame").id });
-            } else {
-                turboNavigate(e.target.closest("[data-url]").dataset.url);
-            }
-        }
-        if (!!e.target.closest(".nav_menubutton")) {
-            document.getElementById("sidebar").classList.toggle("open");
-            e.target.closest(".nav_menubutton").classList.toggle("open");
-        }
-    })
-})
-function turboNavigate(url, options = {}) {
+window.turboNavigate = (url, options = {}) => {
     // フレームIDが指定されているかどうかを判定
     if (options.frame) {
         const frame = document.getElementById(options.frame);
@@ -33,3 +18,19 @@ function turboNavigate(url, options = {}) {
         Turbo.visit(url);
     }
 }
+
+document.addEventListener("DOMContentLoaded", () => {
+    document.addEventListener("click", e => {
+        if (!!e.target.closest("[data-url]")) {
+            if (!!e.target.closest("turbo-frame")) {
+                turboNavigate(e.target.closest("[data-url]").dataset.url, { frame: e.target.closest("turbo-frame").id });
+            } else {
+                turboNavigate(e.target.closest("[data-url]").dataset.url);
+            }
+        }
+        if (!!e.target.closest(".nav_menubutton")) {
+            document.getElementById("sidebar").classList.toggle("open");
+            e.target.closest(".nav_menubutton").classList.toggle("open");
+        }
+    })
+})
