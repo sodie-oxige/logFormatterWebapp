@@ -1,0 +1,80 @@
+@use "global" as *;
+
+#images {
+    display: flex;
+    height: 80dvh;
+
+    @include pc {
+        float: right;
+        width: 40%;
+    }
+
+    @include sp {
+        width: auto;
+    }
+
+    .left_arrow,
+    .right_arrow {
+        position: absolute;
+        top: 0;
+        z-index: 10;
+        width: 20%;
+        height: 100%;
+        opacity: 0;
+        transition: opacity .2s;
+
+        &:hover {
+            opacity: 1;
+        }
+
+        &::before {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            translate: -50% -50%;
+            width: 80%;
+            aspect-ratio: 1;
+            background-color: white;
+        }
+    }
+
+    .left_arrow {
+        left: 0;
+        background-image: linear-gradient(to right, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.3), transparent);
+
+        &::before {
+            clip-path: polygon(100% 0, 100% 100%, 100%*(1 - sin(60deg)) 50%);
+        }
+    }
+
+    .right_arrow {
+        right: 0;
+        background-image: linear-gradient(to left, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.3), transparent);
+
+        &::before {
+            clip-path: polygon(0 0, 0 100%, 100%*sin(60deg) 50%);
+        }
+    }
+
+    img {
+        margin: auto;
+        height: 100%;
+        object-fit: cover;
+        $ts: .5s;
+        transition: max-width $ts, margin $ts, order $ts, object-position $ts;
+
+        &.img_l{
+            max-width: 0;
+            object-position: right center;
+        }
+        &.img_c{
+            max-width: 100%;
+            object-position: center center;
+        }
+        &.img_r{
+            max-width: 0;
+            object-position: left center;
+        }
+    }
+}

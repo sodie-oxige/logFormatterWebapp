@@ -1,2 +1,34 @@
-<h1>Characters#show</h1>
-<p>Find me in app/views/characters/show.html.erb</p>
+<%= stylesheet_link_tag "character_show", "data-turbo-track": "reload" %>
+
+<h1><%= @character.name %></h1>
+<span class="gray">PL: <%= @character.pl.name %></span>
+
+<div id="images">
+    <div class="left_arrow" onclick="send_page(0, event)"></div>
+    <div class="right_arrow" onclick="send_page(1, event)"></div>
+    <% i = 0 %>
+    <% images = @character.images %>
+    <% if images.length<=1 then images.concat(images,images) end %>
+    <% if images.length<=2 then images.concat(images) end %>
+    <% images.each do |image| %>
+        <%= image_tag image, {class: i>0 ? "img_r" : i<0 ? "img_l" : "img_c" ,style: "order: #{i}"} %>
+        <% i+=1 %>
+        <% if i>images.length/2 then i-=images.length end %>
+    <% end %>
+</div>
+
+<script>
+    const send_page = (next, e)=>{
+        const d = next ? 1 : -1;
+        const imgs = e.currentTarget.parentElement.querySelectorAll("img");
+        for(img of imgs){
+            console.log(Number(img.style.order) + d);
+            
+            img.style.order = Number(img.style.order) + d;
+            if(img.style.order>imgs.length/2) img.style.order = Number(img.style.order) - imgs.length;
+            if(img.style.order<=-imgs.length/2) img.style.order = Number(img.style.order) + imgs.length;
+            img.classList.remove("img_l", "img_c", "img_r");
+            img.classList.add(img.style.order<0 ? "img_l" : img.style.order==0 ? "img_c" : "img_r");
+        }
+    }
+</script>

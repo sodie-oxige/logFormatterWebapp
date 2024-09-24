@@ -9,6 +9,7 @@
         float: left;
         padding: 10px;
         width: 300px;
+        max-width: calc(100% - 30px);
         border: solid thin gray;
 
         form:has(>.close) {

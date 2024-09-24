@@ -14,6 +14,7 @@ WORKDIR /rails
 # Install base packages
 RUN apt-get update -qq && \
     apt-get install --no-install-recommends -y curl libjemalloc2 libvips libmariadb-dev libmariadb-dev-compat && \
+    apt-get install -y build-essential libssl-dev libcrypto++-dev libyaml-dev zlib1g-dev && \
     rm -rf /var/lib/apt/lists /var/cache/apt/archives
 
 # Set production environment

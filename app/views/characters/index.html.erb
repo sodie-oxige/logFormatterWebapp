@@ -16,7 +16,7 @@
                 <td></td>
             </tr>
             <% @pc.each do |pc| %>
-                <tr>
+                <tr data-url="<%= character_path(pc.id) %>">
                     <td>
                         <%= pc.name %>
                     </td>
@@ -46,7 +46,7 @@
                 <td></td>
             </tr>
             <% @npc.each do |npc| %>
-                <tr>
+                <tr data-url="<%= character_path(npc.id) %>">
                     <td>
                         <%= npc.name %>
                     </td>

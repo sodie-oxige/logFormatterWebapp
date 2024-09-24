@@ -381,6 +381,7 @@ form:not(.button_to) {
         border: solid thin gray;
         border-radius: 5px;
         font-size: 1rem;
+        color: black;
 
         &[type="file"] {
             background-color: transparent;
