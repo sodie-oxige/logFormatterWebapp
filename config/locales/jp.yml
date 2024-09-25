@@ -11,6 +11,21 @@ jp:
         date: 日付
         gm: GM
         pc: 参加PC
+      character:
+        name: 名前
+        pl: PL
+        nickname: 別名
+      user:
+        userid: ユーザーID
+        password: パスワード
+  helpers:
+    submit:
+      create: 作成
+      update: 更新
+      submit: 送信
+  sessions:
+    new:
+      title: ログイン
   logs:
     index:
       title: ログ
@@ -26,6 +41,10 @@ jp:
       pc: PC
       npc: NPC
       pl: PL
+    show:
+      title: キャラクター詳細
+    edit:
+      title: キャラクター編集
   schedules:
     index:
       title: スケジュール

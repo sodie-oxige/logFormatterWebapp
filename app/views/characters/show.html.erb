@@ -18,17 +18,24 @@
 </div>
 
 <script>
+    let send_page_flag = true;
     const send_page = (next, e)=>{
-        const d = next ? 1 : -1;
-        const imgs = e.currentTarget.parentElement.querySelectorAll("img");
-        for(img of imgs){
-            console.log(Number(img.style.order) + d);
-            
-            img.style.order = Number(img.style.order) + d;
-            if(img.style.order>imgs.length/2) img.style.order = Number(img.style.order) - imgs.length;
-            if(img.style.order<=-imgs.length/2) img.style.order = Number(img.style.order) + imgs.length;
-            img.classList.remove("img_l", "img_c", "img_r");
-            img.classList.add(img.style.order<0 ? "img_l" : img.style.order==0 ? "img_c" : "img_r");
+        if(send_page_flag){
+            send_page_flag = false;
+            const d = next ? 1 : -1;
+            const imgs = e.currentTarget.parentElement.querySelectorAll("img");
+            for(img of imgs){
+                console.log(Number(img.style.order) - d);
+                
+                img.style.order = Number(img.style.order) - d;
+                if(img.style.order>imgs.length/2) img.style.order = Number(img.style.order) - imgs.length;
+                if(img.style.order<=-imgs.length/2) img.style.order = Number(img.style.order) + imgs.length;
+                img.classList.remove("img_l", "img_c", "img_r");
+                img.classList.add(img.style.order<0 ? "img_l" : img.style.order==0 ? "img_c" : "img_r");
+            }
+            setTimeout(() => {
+                send_page_flag = true;
+            }, 500);
         }
     }
 </script>

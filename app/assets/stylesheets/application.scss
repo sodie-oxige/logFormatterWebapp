@@ -393,6 +393,12 @@ form:not(.button_to) {
         }
     }
 
+    input,
+    textarea,
+    select{
+        width: 100%;
+    }
+
     button,
     input[type="button"],
     input[type="submit"] {
@@ -408,6 +414,7 @@ form:not(.button_to) {
 button,
 input[type="button"],
 input[type="submit"] {
+    margin-bottom: 10px;
     color: black; //reset cssで対応できていない「ios chromeでボタンの文字色が白になる問題」の対応
     padding: 10px;
     border: solid thin black;

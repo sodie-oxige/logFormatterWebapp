@@ -1,5 +1,6 @@
 <h1><%= t '.title' %></h1>
-<%= link_to t('characters.new.title'), new_character_path %>
+
+<%= button_to t('characters.new.title'), new_character_path, method: :get %>
 
 <div class="xflex gap">
 
