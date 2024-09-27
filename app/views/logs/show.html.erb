@@ -1,51 +1,30 @@
-<% content_for(:title, @log_content.log[:name]) %>
+<% content_for :title, @log_content.log[:name] %>
+
 <%= stylesheet_link_tag "log_show", "data-turbo-track": "reload" %>
 
 <div id="screen">
-    <%= turbo_frame_tag "comment_container", style:"position:static" do %>
-        <% if @after_backlog %>
 
-            <div id="backlog">
-                <div id="backlog_close" data-url="<%= log_path(@id, page: @page) %>">
-                    <i class="bi bi-x-lg"></i>
-                </div>
-                <%= turbo_frame_tag "backlogs_page_#{@backlog_page-21}", loading: :lazy do %>
-                    <% if @backlog_page.to_i>2 %>
-                        <%= turbo_frame_tag "backlogs_page_#{@backlog_page-42}", src: log_path(@id, page: @page, backlog: @backlog_page-21), loading: :lazy %>
-                    <% end %>
-                    <% @before_backlog.each do |backlog| %>
-                        <%= render "backlog_content", {backlog: backlog} %>
-                    <% end %>
-                <% end %>
-
-                <%= turbo_frame_tag "backlogs_page_#{@backlog_page}", loading: :lazy do %>
-                
-                    <% @after_backlog.each do |backlog| %>
-                        <%= render "backlog_content", {backlog: backlog} %>
-                    <% end %>
-                    <% if @log.log_contents.exists?(index: @backlog_page+21) %>
-                        <%= turbo_frame_tag "backlogs_page_#{@backlog_page+21}", src: log_path(@id, page: @page, backlog: @backlog_page+21), loading: :lazy %>
-                    <% end %>
-                <% end %>
+        <div id="backlog" class="close">
+            <div id="backlog_close">
+                <i class="bi bi-x-lg"></i>
             </div>
-            
-        <% end %>
+            <div id="backlog_container"></div>
+        </div>
+
         <div id="backgrond"></div>
-        <% img = Character.where("REPLACE(name, ' ', '') = ?", @log_content[:author].gsub(/\s+/, '')).exists? ? Character.find_by("REPLACE(name, ' ', '') = ?", @log_content[:author].gsub(/\s+/, '')).images[0] : nil %>
-        <% img ||= Nickname.where("REPLACE(name, ' ', '') = ?", @log_content[:author].gsub(/\s+/, '')).exists? ? Nickname.find_by("REPLACE(name, ' ', '') = ?", @log_content[:author].gsub(/\s+/, '')).character.images[0] : nil %>
-        <%= image_tag img||"", id:"imageL" %>
+        <img src="" id="imageL">
         <img src="" id="imageR">
 
         <div id="mask"></div>
         <div class="comment-buttons">
-            <div class="comment-button" <%= Log.find(@id).log_contents.exists?(index: @page.to_i-1) ? "data-url=#{log_path(@id,page: @page.to_i-1)}" : "" %>>
+            <div class="comment-button" id="comment_button_back">
                 <i class="bi bi-chevron-double-left"></i>
             </div>
-            <div class="comment-button" data-url="<%= log_path(@id, page: @page, backlog: @page)%>">
+            <div class="comment-button" id="comment_button_backlog">
                 <i class="bi bi-chat-dots"></i>
             </div>
         </div>
-        <div data-url="<%= (Log.find(@id).log_contents.exists?(index: @page.to_i+1) ? log_path(@id,page: @page.to_i+1) : logs_path) %>" id="comment" tab="<%= @log_content[:tab] %>" style="--color: <%= @log_content[:color] %>">
+        <div id="comment" style="--color: <%= @log_content[:color] %>">
             <div id="comment_name">
                 <span><%= @log_content[:author] %></span>
             </div>
@@ -53,20 +32,28 @@
                 <p></p>
             </div>
         </div>
-
-        <script>
-            feed_text = `<%= j @log_content[:content] %>`;
-        </script>
-    <% end %>
 </div>
 
 
 <script>
-    window.textfeed = () =>{
-        console.log(feed_text);
-        document.querySelector("#comment_content>p").innerHTML="";        
+    //メイン台詞枠
+    const comment_elem = document.getElementById("comment");
+    let page = <%= @page %>;
+    const getLogContent = async (gpage) => {
+        page = gpage;
+        const res = await fetch(`/logs/<%= @id %>/logcontent?page=${gpage}`);
+        const json = await res.json();
+
+        backlog_elem.classList.remove("open");
+        backlog_elem.classList.add("close");
+
+        comment_elem.querySelector("#comment_name>span").innerText = json.author;
+        comment_elem.style = `--color: ${json.color};`;
+        comment_elem.setAttribute("tab", json.tab);
+        
+        comment_elem.querySelector("#comment_content>p").innerHTML="";
+        let feed_text = json.content;
         let inter = setInterval(() => {
-            
             if(!!feed_text){
                 let char;
                 if(/^&.+?;/.test(feed_text)){
@@ -76,19 +63,72 @@
                     char = feed_text.slice(0,1);
                     feed_text = feed_text.slice(1);
                 }
-                document.querySelector("#comment_content>p").innerHTML += char === "\n" ? "<br>" : char;
+                comment_elem.querySelector("#comment_content>p").innerHTML += char === "\n" ? "<br>" : char;
             }else{
                 clearInterval(inter);
             }
         }, 15);
-        document.addEventListener("turbo:before-visit", ()=>{
-            document.querySelector("#comment_content>p").innerHTML="";        
+        comment_elem.addEventListener("click", ()=>{
+            document.querySelector("#comment_content>p").innerHTML="";
             clearInterval(inter);
         }, {once: true})
+        
+        if(json.char) document.getElementById(json.char.is_pc ? "imageL" : "imageR").src = json.images[0] ?? "";        
     }
-    textfeed();
-    if(!window.feedsetting){
-        window.feedsetting=true;
-        document.addEventListener("turbo:frame-load", textfeed);
+    window.addEventListener("DOMContentLoaded", ()=>{getLogContent(page)});
+    comment_elem.addEventListener("click", ()=>{getLogContent(++page)});
+
+    document.getElementById("comment_button_back").addEventListener("click", ()=>{getLogContent(--page)});
+
+    //バックログ
+    const scrollrange = 200;
+    const backlog_elem = document.getElementById("backlog");
+    const backlog_container_elem = document.getElementById("backlog_container");
+    let scrolltop_flag = true;
+    let scrollbottom_flag = true;
+
+    const getBackLog = async (page) => {
+        let res = await fetch(`/logs/<%= @id %>/backlog?page=${page}`);
+        let text = await res.text();
+        return text;
     }
+
+    document.getElementById("comment_button_backlog").addEventListener("click", ()=>{
+        scrolltop_flag = true;
+        scrollbottom_flag = true;
+        getBackLog(page).then(res=>{
+            backlog_container_elem.innerHTML = res;
+            backlog_elem.classList.add("open");
+            backlog_elem.classList.remove("close");
+            console.log(`[data-page="${page}"]+hr`);
+            console.log(backlog_container_elem.querySelector(`[data-page="${page}"]+hr`));
+            
+            backlog_container_elem.querySelector(`[data-page="${page}"]+hr`).scrollIntoView({ block: "end" });
+        });
+    })
+    document.getElementById("backlog_close").addEventListener("click", ()=>{
+        backlog_elem.classList.remove("open");
+        backlog_elem.classList.add("close");
+    })
+
+    backlog_elem.addEventListener("scroll", ()=>{
+        if(backlog_elem.scrollTop < scrollrange && scrolltop_flag){
+            scrolltop_flag = false;
+            getBackLog(backlog_container.querySelector(".backlog_item:first-of-type").dataset.page-21).then(res=>{
+                const oldTop = document.documentElement.scrollTop;
+                const oldHeight = backlog_elem.scrollHeight;
+                backlog_container_elem.insertAdjacentHTML('afterbegin', res);
+                const diffHeight = backlog_elem.scrollHeight - oldHeight;
+                backlog_container_elem.scrollTop = oldTop - diffHeight;
+                if(backlog_container.querySelector(".backlog_item:first-of-type").dataset.page!=1) scrolltop_flag = true;
+            })
+        }
+        if((backlog_elem.scrollHeight - backlog_elem.scrollTop - backlog_elem.clientHeight) < scrollrange && scrollbottom_flag){
+            scrollbottom_flag = false;
+            getBackLog(Number(backlog_container.querySelector(".backlog_item:last-of-type").dataset.page)+20).then(res=>{
+                backlog_container_elem.insertAdjacentHTML('beforeend', res);
+                if(res != "") scrollbottom_flag = true;
+            })
+        }
+    })
 </script>

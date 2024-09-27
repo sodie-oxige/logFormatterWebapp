@@ -52,17 +52,46 @@ class LogsController < ApplicationController
     @log = Log.find(@id)
     @page = (params[:page] || @log[:bookmark] || 1).to_i
     @log_content = @log.log_contents.find_by(index: @page)
-    @backlog_page = params[:backlog].to_i
-    if @backlog_page>0
-      @before_backlog = @log.log_contents.where(index: @backlog_page-21..@backlog_page-1)
-      @after_backlog = @log.log_contents.where(index: @backlog_page..@backlog_page+20)
-    else
-      @backlogs = false
-    end
     if !@log_content
       redirect_to(log_preparing_path(@id))
     end
     @log.update(bookmark: @page)
+  end
+
+  def log_content
+    @id = params[:id]
+    @page = params[:page].to_i
+    log = Log.find(@id)
+    @log_content = log.log_contents.find_by(index: @page)
+    char = Character.where("REPLACE(name, ' ', '') = ?", @log_content[:author].gsub(/\s+/, "")).exists? ? Character.find_by("REGEXP_REPLACE(name, '\s+', '') = ?", @log_content[:author].gsub(/\s+/, "")) : nil
+    char ||= Nickname.where("REPLACE(name, ' ', '') = ?", @log_content[:author].gsub(/\s+/, "")).exists? ? Nickname.find_by("REGEXP_REPLACE(name, '\s+', '') = ?", @log_content[:author].gsub(/\s+/, "")).character : nil
+    if @log_content.present?
+      log.update(bookmark: @page)
+      pp char&.images
+      render json: {
+        author: @log_content[:author],
+        color: @log_content[:color],
+        tab: @log_content[:tab],
+        content: @log_content[:content],
+        images: char ? char.images&.map { |image| url_for(image) } : "",
+        char: char
+      }
+    else
+      redirect_to(log_preparing_path(@id))
+    end
+  end
+
+  $backlog_size = 40
+
+  def backlog_content
+    @id = params[:id]
+    backlog_page = params[:page].to_i
+    @backlogs = Log.find(@id).log_contents.where(index: backlog_page-($backlog_size-1)/2 .. backlog_page+$backlog_size/2)
+    if @backlogs.length != 0
+      render partial: "backlog_content"
+    else
+      render plain: ""
+    end
   end
 
   def preparing # get

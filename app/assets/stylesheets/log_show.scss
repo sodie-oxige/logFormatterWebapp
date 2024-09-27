@@ -169,6 +169,14 @@
         background-color: rgba(0, 0, 0, 0.7);
         overflow-y: auto;
 
+        &.close {
+            display: none;
+        }
+
+        &.open {
+            display: block;
+        }
+
         #backlog_close {
             position: fixed;
             top: 70px;
@@ -199,8 +207,9 @@
                     translate: -50% -50%;
                     opacity: 0;
                     transition: opacity 0.1s;
+                }
             }
-            }
+
             &:hover .backlog_jump_button {
                 max-width: 2em;
 

@@ -22,7 +22,10 @@ window.turboNavigate = (url, options = {}) => {
 document.addEventListener("DOMContentLoaded", () => {
     document.addEventListener("click", e => {
         if (!!e.target.closest("[data-url]")) {
-            if (!!e.target.closest("turbo-frame")) {
+            if (e.target.closest("[data-url]").dataset.turbo == "false"){
+                location.href = e.target.closest("[data-url]").dataset.url;
+            }
+            else if (!!e.target.closest("turbo-frame")) {
                 turboNavigate(e.target.closest("[data-url]").dataset.url, { frame: e.target.closest("turbo-frame").id });
             } else {
                 turboNavigate(e.target.closest("[data-url]").dataset.url);
