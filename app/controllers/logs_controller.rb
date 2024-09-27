@@ -63,8 +63,8 @@ class LogsController < ApplicationController
     @page = params[:page].to_i
     log = Log.find(@id)
     @log_content = log.log_contents.find_by(index: @page)
-    char = Character.where("REPLACE(name, ' ', '') = ?", @log_content[:author].gsub(/\s+/, "")).exists? ? Character.find_by("REGEXP_REPLACE(name, '\s+', '') = ?", @log_content[:author].gsub(/\s+/, "")) : nil
-    char ||= Nickname.where("REPLACE(name, ' ', '') = ?", @log_content[:author].gsub(/\s+/, "")).exists? ? Nickname.find_by("REGEXP_REPLACE(name, '\s+', '') = ?", @log_content[:author].gsub(/\s+/, "")).character : nil
+    char = Character.where("REGEXP_REPLACE(name, '\s+', '') = ?", @log_content[:author].gsub(/[[:space:]]/, "")).exists? ? Character.find_by("REGEXP_REPLACE(name, '\s+', '') = ?", @log_content[:author].gsub(/[[:space:]]/, "")) : nil
+    char ||= Nickname.where("REGEXP_REPLACE(name, '\s+', '') = ?", @log_content[:author].gsub(/[[:space:]]/, "")).exists? ? Nickname.find_by("REGEXP_REPLACE(name, '\s+', '') = ?", @log_content[:author].gsub(/[[:space:]]/, "")).character : nil
     if @log_content.present?
       log.update(bookmark: @page)
       pp char&.images
