@@ -25,15 +25,26 @@
         width: 60dvh;
         position: absolute;
         top: 10%;
+        transition: filter .1s, translate .1s;
+        &.silent{
+            filter: brightness(50%);
+        }
     }
 
     #imageL {
         left: min(30dvw, 40dvh);
         translate: -50%;
+        &.silent{
+            translate: -55%;
+        }
     }
 
     #imageR {
-        right: 40px;
+        right: min(30dvw, 40dvh);
+        translate: 50%;
+        &.silent{
+            translate: 55%;
+        }
     }
 
     #mask {

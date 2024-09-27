@@ -73,7 +73,21 @@
             clearInterval(inter);
         }, {once: true})
         
-        if(json.char) document.getElementById(json.char.is_pc ? "imageL" : "imageR").src = json.images[0] ?? "";        
+        if(json.char){
+            if(json.char.is_pc){
+                document.getElementById("imageL").src = json.images[0] ?? "";
+                document.getElementById("imageL").style.zIndex = 1;
+                document.getElementById("imageL").classList.remove("silent");
+                document.getElementById("imageR").style.zIndex = 0;
+                document.getElementById("imageR").classList.add("silent");
+            }else{
+                document.getElementById("imageR").src = json.images[0] ?? "";
+                document.getElementById("imageR").style.zIndex = 1;
+                document.getElementById("imageR").classList.remove("silent");
+                document.getElementById("imageL").style.zIndex = 0;
+                document.getElementById("imageL").classList.add("silent");
+            }
+        }
     }
     window.addEventListener("DOMContentLoaded", ()=>{getLogContent(page)});
     comment_elem.addEventListener("click", ()=>{getLogContent(++page)});
