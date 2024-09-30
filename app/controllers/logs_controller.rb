@@ -66,13 +66,9 @@ class LogsController < ApplicationController
     log = Log.find(@id)
     @log_content = log.log_contents.find_by(index: @page)
     char = nil
-    Character.where("REGEXP_REPLACE(name, '\s+', '') = ?", @log_content[:author].gsub(/[[:space:]]/, "")).find_each do |item|
-      if item[:pl_id] != log[:gm_id]
-        char = item
-        break
-      end
-    end
-    char ||= Nickname.find_by("REGEXP_REPLACE(name, '\s+', '') = ?", @log_content[:author].gsub(/[[:space:]]/, ""))&.character
+    author = @log_content[:author].gsub(/[[:space:]]/, "")
+    char = Character.find_by("REGEXP_REPLACE(name, '\s+', '') = ? and ((is_pc = true and pl_id <> ?) or (is_pc = false and pl_id = ?))", author, log[:gm_id], log[:gm_id])
+    char ||= Nickname.find_by("REGEXP_REPLACE(name, '\s+', '') = ?", author)&.character
     if @log_content.present?
       log.update(bookmark: @page)
       render json: {
