@@ -42,5 +42,21 @@
         <%= yield %>
       </div>
     </main>
+    
+  <script>
+    {
+      const wrapContainer = () => {
+        const elements = document.querySelectorAll('#main > *:not(.container)');
+        elements.forEach(element => {
+          const container = document.createElement('div');
+          container.classList.add('container');
+          element.parentNode.insertBefore(container, element);
+          container.appendChild(element);
+        });
+      }
+      document.addEventListener("DOMContentLoaded", wrapContainer);
+      document.addEventListener("turbo:load", wrapContainer);
+    }
+  </script>
   </body>
 </html>

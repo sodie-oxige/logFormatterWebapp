@@ -43,9 +43,8 @@
         display: none;
     }
 }
-
-#log_table_visible_controller:has(input[type="checkbox"]:checked)+table tr.visible,
-#log_table_visible_controller:has(input[type="checkbox"]:not(:checked))+table tr.hidden {
+.container:has(#log_table_visible_controller input[type="checkbox"]:checked) + .container table tr.visible,
+.container:has(#log_table_visible_controller input[type="checkbox"]:not(:checked)) + .container table tr.hidden {
     display: none;
 }
 

@@ -267,11 +267,12 @@ main {
 
     #main {
         margin: 0 auto;
-        padding: 30px 50px;
+        padding: 30px 0;
         height: calc(100dvh - 60px);
         overflow: auto;
 
-        >* {
+        >.container {
+            padding: 0 50px;
             overflow-x: auto;
             overflow-y: clip;
             scrollbar-width: thin;
@@ -327,6 +328,7 @@ h6 {
 
 table {
     display: block;
+    width: fit-content;
     min-width: 100%;
     border-collapse: collapse;
 
@@ -395,7 +397,7 @@ form:not(.button_to) {
 
     input,
     textarea,
-    select{
+    select {
         width: 100%;
     }
 
