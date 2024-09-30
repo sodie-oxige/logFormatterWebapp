@@ -25,16 +25,22 @@
         width: 60dvh;
         position: absolute;
         top: 10%;
-        transition: filter .1s, translate .1s;
-        &.silent{
+
+        &:not(.silent) {
+            transition: filter .1s, translate .1s;
+        }
+
+        &.silent {
             filter: brightness(50%);
+            transition: filter .2s, translate .2s;
         }
     }
 
     #imageL {
         left: min(30dvw, 40dvh);
         translate: -50%;
-        &.silent{
+
+        &.silent {
             translate: -55%;
         }
     }
@@ -42,7 +48,8 @@
     #imageR {
         right: min(30dvw, 40dvh);
         translate: 50%;
-        &.silent{
+
+        &.silent {
             translate: 55%;
         }
     }
@@ -56,6 +63,7 @@
         height: 100dvh;
         background-color: black;
         opacity: 0;
+        transition: opacity 0.1s;
     }
 
     &:has(:is([tab="雑談"], [tab="other"], [tab^="見学"])) #mask {

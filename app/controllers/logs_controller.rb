@@ -33,14 +33,16 @@ class LogsController < ApplicationController
   end
 
   def update
-    log_params = params.require(:log).slice(:name, :date, :pc_ids).permit(:name, :date, pc_ids: [])
+    log_params = params.require(:log).slice(:name, :date, :gm, :pc_ids).permit(:name, :date, :gm, pc_ids: [])
+    log_params[:gm] = User.find(params.require(:log)[:gm])
     log_params[:pc_ids].reject!(&:blank?)
     @log = Log.find(params[:id])
     @pcs = @log.appear_pcs
     if @log.update(log_params)
       redirect_to(logs_path)
     else
-      redirect_to(new_log_path)
+      pp @log.errors.details
+      redirect_to(edit_log_path(params[:id]))
     end
   end
 
@@ -63,11 +65,16 @@ class LogsController < ApplicationController
     @page = params[:page].to_i
     log = Log.find(@id)
     @log_content = log.log_contents.find_by(index: @page)
-    char = Character.where("REGEXP_REPLACE(name, '\s+', '') = ?", @log_content[:author].gsub(/[[:space:]]/, "")).exists? ? Character.find_by("REGEXP_REPLACE(name, '\s+', '') = ?", @log_content[:author].gsub(/[[:space:]]/, "")) : nil
-    char ||= Nickname.where("REGEXP_REPLACE(name, '\s+', '') = ?", @log_content[:author].gsub(/[[:space:]]/, "")).exists? ? Nickname.find_by("REGEXP_REPLACE(name, '\s+', '') = ?", @log_content[:author].gsub(/[[:space:]]/, "")).character : nil
+    char = nil
+    Character.where("REGEXP_REPLACE(name, '\s+', '') = ?", @log_content[:author].gsub(/[[:space:]]/, "")).find_each do |item|
+      if item[:pl_id] != log[:gm_id]
+        char = item
+        break
+      end
+    end
+    char ||= Nickname.find_by("REGEXP_REPLACE(name, '\s+', '') = ?", @log_content[:author].gsub(/[[:space:]]/, ""))&.character
     if @log_content.present?
       log.update(bookmark: @page)
-      pp char&.images
       render json: {
         author: @log_content[:author],
         color: @log_content[:color],

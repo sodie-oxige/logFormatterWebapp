@@ -40,6 +40,8 @@
     const comment_elem = document.getElementById("comment");
     let page = <%= @page %>;
     const getLogContent = async (gpage) => {
+        const imageL = document.getElementById("imageL");
+        const imageR = document.getElementById("imageR");
         page = gpage;
         const res = await fetch(`/logs/<%= @id %>/logcontent?page=${gpage}`);
         const json = await res.json();
@@ -75,18 +77,35 @@
         
         if(json.char){
             if(json.char.is_pc){
-                document.getElementById("imageL").src = json.images[0] ?? "";
-                document.getElementById("imageL").style.zIndex = 1;
-                document.getElementById("imageL").classList.remove("silent");
-                document.getElementById("imageR").style.zIndex = 0;
-                document.getElementById("imageR").classList.add("silent");
+                if(imageL.src == json.images[0]){
+                    imageL.classList.remove("silent");
+                }else{
+                    const imageL2 = imageL.cloneNode();
+                    imageL2.classList.add("silent");
+                    imageL2.src = json.images[0] ?? "";
+                    imageL2.style.zIndex = 1;
+                    imageR.style.zIndex = 0;
+                    imageR.classList.add("silent");
+                    imageL.replaceWith(imageL2);
+                    setTimeout(() => { imageL2.classList.remove("silent"); }, 10);
+                }
             }else{
-                document.getElementById("imageR").src = json.images[0] ?? "";
-                document.getElementById("imageR").style.zIndex = 1;
-                document.getElementById("imageR").classList.remove("silent");
-                document.getElementById("imageL").style.zIndex = 0;
-                document.getElementById("imageL").classList.add("silent");
+                if(imageR.src == json.images[0]){
+                    imageR.classList.remove("silent");
+                }else{
+                    const imageR2 = imageR.cloneNode();
+                    imageR2.classList.add("silent");
+                    imageR2.src = json.images[0] ?? "";
+                    imageR2.style.zIndex = 1;
+                    imageL.style.zIndex = 0;
+                    imageL.classList.add("silent");
+                    imageR.replaceWith(imageR2);
+                    setTimeout(() => { imageR2.classList.remove("silent"); }, 10);
+                }
             }
+        }else{
+            imageL.classList.add("silent");
+            imageR.classList.add("silent");
         }
     }
     window.addEventListener("DOMContentLoaded", ()=>{getLogContent(page)});
@@ -114,9 +133,6 @@
             backlog_container_elem.innerHTML = res;
             backlog_elem.classList.add("open");
             backlog_elem.classList.remove("close");
-            console.log(`[data-page="${page}"]+hr`);
-            console.log(backlog_container_elem.querySelector(`[data-page="${page}"]+hr`));
-            
             backlog_container_elem.querySelector(`[data-page="${page}"]+hr`).scrollIntoView({ block: "end" });
         });
     })
@@ -135,6 +151,9 @@
                 const diffHeight = backlog_elem.scrollHeight - oldHeight;
                 backlog_container_elem.scrollTop = oldTop - diffHeight;
                 if(backlog_container.querySelector(".backlog_item:first-of-type").dataset.page!=1) scrolltop_flag = true;
+            }).catch(err => {
+                scrolltop_flag = true;
+                console.Error(err);
             })
         }
         if((backlog_elem.scrollHeight - backlog_elem.scrollTop - backlog_elem.clientHeight) < scrollrange && scrollbottom_flag){
@@ -142,6 +161,9 @@
             getBackLog(Number(backlog_container.querySelector(".backlog_item:last-of-type").dataset.page)+20).then(res=>{
                 backlog_container_elem.insertAdjacentHTML('beforeend', res);
                 if(res != "") scrollbottom_flag = true;
+            }).catch(err => {
+                scrolltop_flag = true;
+                console.Error(err);
             })
         }
     })
