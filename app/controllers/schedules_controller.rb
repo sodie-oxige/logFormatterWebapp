@@ -20,24 +20,28 @@ class SchedulesController < ApplicationController
     end_date = start_date.end_of_month
     @calendars = []
     date = start_date
+    @game = Game.new()
     until date > end_date do
       @calendars.push(date)
+      @game.schedules.new(date: date)
       date = date.next_day
     end
   end
 
   def create
-    @year = params.fetch(:year, Time.zone.today.year).to_i
-    @month = params.fetch(:month, Time.zone.today.month).to_i
-    game = params[:game]
-    responses = params.select { |k, v| k.start_with?("response") }.values
-    @game = Game.create(name: game)
+    # @year = params.fetch(:year, Time.zone.today.year).to_i
+    # @month = params.fetch(:month, Time.zone.today.month).to_i
+    game = params.require(:game)
+    responses = game.select { |k, v| k.start_with?("response") }.values
+    @game = Game.new(name: game[:game])
     i=1
     responses.each do |res|
-      @game.schedules.create(date: params[:yearMonth]+"-"+i.to_s, response: res)
+      @game.schedules.new(date: game[:yearMonth]+"-"+i.to_s, response: res)
       i+=1
     end
+    if @game.save()
       redirect_to(schedules_path(year: @year, month: @month))
+    end
   end
 
   def edit

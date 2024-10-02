@@ -1,3 +1,5 @@
+@use "global" as *;
+
 td {
     padding: 10px;
 
@@ -13,12 +15,7 @@ td {
         text-align: center;
         user-select: none;
 
-        @each $n, $color, $text in (
-            (0, rgb(216, 245, 255), "㏠"),
-            (1, rgb(212, 255, 212), "夜"),
-            (2, rgb(255, 243, 174), "昼"),
-            (3, rgb(255, 195, 195), "")
-        ) {
+        @each $n, $color, $text in $table_colorlist {
             &:has(+:checked) {
                 &[for $= "#{$n}"] {
                     background-color: $color;

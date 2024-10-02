@@ -1,36 +1,4 @@
 <%= stylesheet_link_tag "schedule_new", "data-turbo-track": "reload" %>
 
 <h1><%= t '.title' %></h1>
-<% if @calendars %>
-    <%= form_with url: schedules_path(year: @year, month: @month) do |form| %>
-        <%= form.month_field :yearMonth, {value: @calendars[0], readonly: true} %>
-        <table>
-            <tr>
-                <th><%= Schedule.human_attribute_name(:calendar) %></th>
-                <th colspan=5><%= form.text_field :game %></th>
-            </tr>
-            <% @calendars.each do |date| %>
-                <tr>
-                    <th><%= date.strftime('%m/%d') %><%= "(#{["日", "月", "火", "水", "木", "金", "土"][date.wday]})" %></th>
-                    <td>
-                        <%= form.label "response" << date.day.to_s << "_0", '㏠' %>
-                        <%= form.radio_button "response" << date.day.to_s, '0' %>
-                    </td>
-                    <td>
-                        <%= form.label "response" << date.day.to_s << "_1", '夜' %>
-                        <%= form.radio_button "response" << date.day.to_s, '1' %>
-                    </td>
-                    <td>
-                        <%= form.label "response" << date.day.to_s << "_2", '昼' %>
-                        <%= form.radio_button "response" << date.day.to_s, '2' %>
-                    </td>
-                    <td>
-                        <%= form.label "response" << date.day.to_s << "_3", '×' %>
-                        <%= form.radio_button "response" << date.day.to_s, '3', checked: true %>
-                    </td>
-                </tr>
-            <% end %>
-        </table>
-        <%= form.submit %>
-    <% end %>
-<% end %>
+<%= render "form", {game: @game} %>
