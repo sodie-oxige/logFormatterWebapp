@@ -200,6 +200,7 @@ main {
             max-width: 20dvw;
 
             @include sp {
+                border-right: none;
                 max-width: 0;
             }
 
