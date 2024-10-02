@@ -3,7 +3,7 @@
   <head>
     <title><%= content_for(:title) || "Logformatter" %></title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
@@ -44,24 +44,5 @@
         <%= yield %>
       </div>
     </main>
-    
-  <script>
-    {
-      const wrapContainer = () => {
-        const elements = document.querySelectorAll('#main > *:not(.container)');
-        elements.forEach(element => {
-          const container = document.createElement('div');
-          container.classList.add('container');
-          element.parentNode.insertBefore(container, element);
-          container.appendChild(element);
-        });
-      }
-      document.addEventListener("DOMContentLoaded", wrapContainer);
-      document.addEventListener("turbo:load", wrapContainer);
-    }
-    window.addEventListener("load", ()=>{
-      document.getElementById("startup_mask")?.classList.add("hidden");
-    })
-  </script>
   </body>
 </html>
