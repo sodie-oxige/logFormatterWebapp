@@ -84,6 +84,7 @@
             if(json.char.is_pc){
                 if(imageL.src == json.images[0]){
                     imageL.classList.remove("silent");
+                    imageR.classList.add("silent");
                 }else{
                     const imageL2 = imageL.cloneNode();
                     imageL2.classList.add("silent");
@@ -99,6 +100,7 @@
             }else{
                 if(imageR.src == json.images[0]){
                     imageR.classList.remove("silent");
+                    imageL.classList.add("silent");
                 }else{
                     const imageR2 = imageR.cloneNode();
                     imageR2.classList.add("silent");
