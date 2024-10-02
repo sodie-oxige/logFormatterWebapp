@@ -43,8 +43,13 @@
         const imageL = document.getElementById("imageL");
         const imageR = document.getElementById("imageR");
         page = gpage;
+        const timeout = setTimeout(() => {
+            document.getElementById("loading_mask").classList.remove("hidden");
+        }, 1000);
         const res = await fetch(`/logs/<%= @id %>/logcontent?page=${gpage}`);
         const json = await res.json();
+        clearTimeout(timeout)
+        document.getElementById("loading_mask").classList.add("hidden");
 
         backlog_elem.classList.remove("open");
         backlog_elem.classList.add("close");
@@ -87,7 +92,9 @@
                     imageR.style.zIndex = 0;
                     imageR.classList.add("silent");
                     imageL.replaceWith(imageL2);
-                    setTimeout(() => { imageL2.classList.remove("silent"); }, 10);
+                    imageL2.onload=()=>{
+                        setTimeout(() => { imageL2.classList.remove("silent"); }, 10);
+                    }
                 }
             }else{
                 if(imageR.src == json.images[0]){
@@ -114,7 +121,7 @@
     document.getElementById("comment_button_back").addEventListener("click", ()=>{getLogContent(--page)});
 
     //バックログ
-    const scrollrange = 200;
+    const SCROLLRANGE = 200;
     const backlog_elem = document.getElementById("backlog");
     const backlog_container_elem = document.getElementById("backlog_container");
     let scrolltop_flag = true;
@@ -142,7 +149,7 @@
     })
 
     backlog_elem.addEventListener("scroll", ()=>{
-        if(backlog_elem.scrollTop < scrollrange && scrolltop_flag){
+        if(backlog_elem.scrollTop < SCROLLRANGE && scrolltop_flag){
             scrolltop_flag = false;
             getBackLog(backlog_container.querySelector(".backlog_item:first-of-type").dataset.page-21).then(res=>{
                 const oldTop = document.documentElement.scrollTop;
@@ -156,7 +163,7 @@
                 console.Error(err);
             })
         }
-        if((backlog_elem.scrollHeight - backlog_elem.scrollTop - backlog_elem.clientHeight) < scrollrange && scrollbottom_flag){
+        if((backlog_elem.scrollHeight - backlog_elem.scrollTop - backlog_elem.clientHeight) < SCROLLRANGE && scrollbottom_flag){
             scrollbottom_flag = false;
             getBackLog(Number(backlog_container.querySelector(".backlog_item:last-of-type").dataset.page)+20).then(res=>{
                 backlog_container_elem.insertAdjacentHTML('beforeend', res);

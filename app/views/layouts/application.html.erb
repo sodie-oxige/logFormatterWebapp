@@ -31,6 +31,9 @@
         <span>Primary Operator's Routing Terminal</span>
       </div>
     <% end %>
+    <div id="loading_mask" class="hidden">
+      <div id="loader"></div>
+    </div>
     <main>
       <div id="sidebar" class="open<%= if side_close.any?{ |cond| params[:controller] == cond[0] && params[:action] == cond[1] } then " default-hidden" end %>">
         <div id="sidebar_container">
@@ -56,6 +59,9 @@
       document.addEventListener("DOMContentLoaded", wrapContainer);
       document.addEventListener("turbo:load", wrapContainer);
     }
+    window.addEventListener("load", ()=>{
+      document.getElementById("startup_mask")?.classList.add("hidden");
+    })
   </script>
   </body>
 </html>
