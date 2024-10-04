@@ -1,5 +1,10 @@
+const EXTENSIONS = [
+  "jpg",
+  "png",
+  "ttf"
+]
 self.addEventListener('fetch', function (e) {
-  if(!/.(jpg|png)$/.test(e.request.url)) return;
+  if (!EXTENSIONS.includes(e.request.url.split(".").pop().toLowerCase())) return;
   e.respondWith(
     caches.open("images").then(function (cache) {
       return cache.match(e.request).then(function (response) {

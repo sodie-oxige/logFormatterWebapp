@@ -1,10 +1,13 @@
 @use "global" as *;
 @use "sass:math";
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=M+PLUS+1p:wght@100;300;400;500;700;800;900&display=swap');
 
 @view-transition {
     navigation: auto;
+}
+
+@font-face {
+    font-family: "Noto Sans JP";
+    src: url("/font/NotoSansJP-VariableFont_wght.ttf");
 }
 
 * {
