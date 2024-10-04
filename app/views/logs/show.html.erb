@@ -40,6 +40,7 @@
     const comment_elem = document.getElementById("comment");
     let page = <%= @page %>;
     const getLogContent = async (gpage) => {
+        await navigator.serviceWorker.ready;
         const imageL = document.getElementById("imageL");
         const imageR = document.getElementById("imageR");
         page = gpage;
