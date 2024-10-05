@@ -3,7 +3,7 @@
 
 #screen {
     position: fixed;
-    top: 60px;
+    top: calc(env(safe-area-inset-top) + 60px);
     bottom: 0;
     left: 0;
     width: 100dvw;
@@ -179,12 +179,12 @@
 
     #backlog {
         position: fixed;
-        top: 60px;
+        top: calc(env(safe-area-inset-top) + 60px);
         left: 0;
         z-index: 60;
         padding: 20px;
         width: 100dvw;
-        height: calc(100dvh - 60px);
+        height: calc(100dvh - env(safe-area-inset-top) - 60px);
         background-color: rgba(0, 0, 0, 0.7);
         overflow-y: auto;
 

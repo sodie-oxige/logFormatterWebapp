@@ -37,7 +37,6 @@
     }
 
     body {
-        padding-top: env(safe-area-inset-top);
         min-height: 100dvh;
     }
 
@@ -340,9 +339,9 @@ nav {
     z-index: 100;
     display: flex;
     align-items: center;
-    padding: 5px;
+    padding: calc(env(safe-area-inset-top) + 5px) 5px 5px;
     width: 100%;
-    height: 60px;
+    height: calc(env(safe-area-inset-top) + 60px);
     background-color: $hight-base-color;
     box-shadow: 0 0 10px rgba(128, 128, 128, 0.2);
 
@@ -420,14 +419,14 @@ main {
     bottom: 0;
     z-index: 0;
     display: flex;
-    padding-top: 60px;
+    padding-top: calc(env(safe-area-inset-top) + 60px);
 
     #sidebar {
         position: sticky;
-        top: 60px;
+        top: calc(env(safe-area-inset-top) + 60px);
         z-index: 5;
         width: 20dvw;
-        height: calc(100dvh - 60px);
+        height: calc(100dvh - env(safe-area-inset-top) - 60px);
         border-right: solid thin rgba(128, 128, 128, 0.5);
         background-color: $hight-base-color;
         overflow-x: hidden;
@@ -509,7 +508,7 @@ main {
     #main {
         margin: 0 auto;
         padding: 30px 0;
-        height: calc(100dvh - 60px);
+        height: calc(100dvh - env(safe-area-inset-top) - 60px);
         overflow: auto;
 
         >.container {
