@@ -56,3 +56,8 @@
 </table>
 <%= form.submit %>
 <% end %>
+
+<script>
+    console.log(JSON.parse("<%= j @user.to_json %>".replace(/&quot;/g, '"')))
+    console.log("<%= @user.appearanceMode %>")
+</script>
