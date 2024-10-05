@@ -1,17 +1,10 @@
 .user_table {
     tbody {
-        width: 100%;
-        table-layout: fixed;
-
         tr {
             border-bottom: none;
 
             &:hover {
                 background-color: transparent;
-            }
-
-            td:first-child {
-                max-width: 0;
             }
         }
     }

@@ -1,42 +1,41 @@
 <%= stylesheet_link_tag "user_index", "data-turbo-track": "reload" %>
 
-<div class="hflex">
-    <h1>アカウント情報</h1>
-</div>
-<table class="user_table">
-    <tr>
-        <td>
-            ユーザー名
-        </td>
-        <td>
-            <%= @user.name %>
-        </td>
-    </tr>
-    <tr>
-        <td>
-            ユーザーid
-        </td>
-        <td>
-            <%= @user.userid %>
-        </td>
-    </tr>
-    <tr>
-        <td>
-            パスワード
-        </td>
-        <td>
-            *****
-        </td>
-    </tr>
-</table>
-
-<h1>設定</h1>
-
-<%= form_with model: @user, url: user_path do |form| %>
+<form>
+    <h1><%= t ".account_info" %></h1>
     <table class="user_table">
         <tr>
             <td>
-                <%= form.label :appearanceMode %>
+                <%= User.human_attribute_name(:username) %>
+            </td>
+            <td>
+                <%= @user.name %>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <%= User.human_attribute_name(:userid) %>
+            </td>
+            <td>
+                <%= @user.userid %>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <%= User.human_attribute_name(:password) %>
+            </td>
+            <td>
+                *****
+            </td>
+        </tr>
+    </table>
+</form>
+
+<%= form_with model: @user, url: user_path do |form| %>
+    <h1><%= t ".setting" %></h1>
+    <table class="user_table">
+        <tr>
+            <td>
+                <%= User.human_attribute_name(:appearanceMode) %>
             </td>
             <td>
                 <div class="selectButton">

@@ -1,4 +1,14 @@
 <%= form_with model: character, url: character[:id]?character_path(character):characters_path do |form| %>
+
+    <div class="selectButton" id="select_ispc">
+        <div class="selectButton_item <%= "selected" if character&.is_pc %>" data-value=true>
+            <span>PC</span>
+        </div>
+        <div class="selectButton_item <%= "selected" if !character&.is_pc %>" data-value=false>
+            <span>NPC</span>
+        </div>
+        <%= form.hidden_field :is_pc %>
+    </div>
     <%= form.label :name, Character.human_attribute_name(:name) %>
     <%= form.text_field :name %>
     <%= form.label :pl_id, Character.human_attribute_name(:pl) %>
@@ -12,7 +22,6 @@
             <%= nickname_form.text_field :name %>
         </div>
     <% end %>
-    <%= form.hidden_field :is_pc %>
     <%= form.file_field :images, multiple: true %>
     <% character.images.each do |image| %>
         <%= form.hidden_field :images, multiple: true, value: image.signed_id %>

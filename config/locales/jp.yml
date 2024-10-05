@@ -16,6 +16,7 @@ jp:
         pl: PL
         nickname: 別名
       user:
+        username: ユーザー名
         userid: ユーザーID
         password: パスワード
         appearanceMode: 外観モード
@@ -53,3 +54,8 @@ jp:
       title: 予定登録
     edit:
       title: 予定編集
+  users:
+    index:
+      title: アカウント
+      account_info: アカウント情報
+      setting: 設定

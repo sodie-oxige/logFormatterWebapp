@@ -86,6 +86,8 @@
                 if(imageL.src == json.images[0]){
                     imageL.classList.remove("silent");
                     imageR.classList.add("silent");
+                    imageL.style.zIndex = 1;
+                    imageR.style.zIndex = 0;
                 }else{
                     const imageL2 = imageL.cloneNode();
                     imageL2.classList.add("silent");
@@ -102,6 +104,8 @@
                 if(imageR.src == json.images[0]){
                     imageR.classList.remove("silent");
                     imageL.classList.add("silent");
+                    imageR.style.zIndex = 1;
+                    imageL.style.zIndex = 0;
                 }else{
                     const imageR2 = imageR.cloneNode();
                     imageR2.classList.add("silent");

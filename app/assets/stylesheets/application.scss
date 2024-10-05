@@ -442,11 +442,12 @@ main {
         transition: max-width .3s;
 
         &.default-hidden {
+            padding-left: 0;
             max-width: 0;
         }
 
         @include sp {
-            width: 100dvw;
+            width: 50dvw;
 
             &.open {
                 border-right: none;

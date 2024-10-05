@@ -8,13 +8,13 @@
         <h2><%= t 'activerecord.models.pc' %></h2>
         <table>
             <tr>
-                <td>
+                <th>
                     <%= t 'activerecord.attributes.pc.name' %>
-                </td>
-                <td>
+                </th>
+                <th>
                     <%= t 'activerecord.attributes.pc.pl' %>
-                </td>
-                <td></td>
+                </th>
+                <th></th>
             </tr>
             <% @pc.each do |pc| %>
                 <tr data-url="<%= character_path(pc.id) %>">
