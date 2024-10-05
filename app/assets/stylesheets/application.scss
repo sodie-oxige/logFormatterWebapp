@@ -1,5 +1,6 @@
 @use "global" as *;
 @use "sass:math";
+@import "https://unpkg.com/ress/dist/ress.min.css" layer(reset);
 
 @view-transition {
     navigation: auto;
@@ -10,58 +11,212 @@
     src: url("/font/NotoSansJP-VariableFont_wght.ttf");
 }
 
-* {
-    position: relative;
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: "Noto Sans JP", sans-serif;
-    line-height: 1.2;
-    accent-color: #333;
-}
-
-:root {
-    color: light-dark(black, #eee);
-    font-size: unquote('min(20px, 3dvw, 3dvh)');
-    color-scheme: light dark;
-}
-
-::view-transition-old(*),
-::view-transition-new(*) {
-    height: 100%;
-}
-
-body {
-    min-height: 100dvh;
-}
-
-.xflex,
-.hflex,
-.vflex {
-    display: flex;
-
-    &.vflex {
-        flex-direction: column;
+@layer base {
+    * {
+        position: relative;
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Noto Sans JP", sans-serif;
+        line-height: 1.2;
+        accent-color: #ffe600;
     }
 
-    &.xflex {
-        @include sp {
+    :root {
+        color: light-dark(black, #eee);
+        font-size: unquote('min(20px, 3dvw, 3dvh)');
+        
+        &[colorschemetype="0"]{color-scheme: light dark;}
+        &[colorschemetype="1"]{color-scheme: light;}
+        &[colorschemetype="2"]{color-scheme: dark;}
+    }
+
+    ::view-transition-old(*),
+    ::view-transition-new(*) {
+        height: 100%;
+    }
+
+    body {
+        padding-top: env(safe-area-inset-top);
+        min-height: 100dvh;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        margin-top: 1em;
+        margin-bottom: 0.75em;
+    }
+
+    table {
+        display: block;
+        width: fit-content;
+        min-width: 100%;
+        border-collapse: collapse;
+
+        tbody {
+            display: table;
+        }
+
+        tr {
+            padding: 0 30px;
+
+            &:first-child {
+                border-bottom: solid 2px gray;
+            }
+
+            &:not(:first-child, :last-child) {
+                border-bottom: solid 1px gray;
+            }
+
+            &:has(td):hover {
+                background-color: rgba(128, 128, 128, 0.2);
+            }
+        }
+
+        th,
+        td {
+            padding: .5em 1em;
+            white-space: nowrap;
+
+            &:has(>a) {
+                padding: 0;
+
+                >a {
+                    padding: 10px 30px;
+                }
+            }
+        }
+    }
+
+    form:not(.button_to) {
+        margin: 30px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+
+        input,
+        button,
+        textarea,
+        select {
+            padding: 10px;
+            background-color: $hight-base-color;
+            border: solid thin gray;
+            border-radius: 5px;
+            font-size: 1rem;
+            color: light-dark(black, white);
+
+            &[type="file"] {
+                background-color: transparent;
+                border: none;
+            }
+
+            &:focus-visible {
+                filter: drop-shadow(0 0 20px rgba(128, 128, 128, 0.5));
+            }
+        }
+
+        input,
+        textarea,
+        select {
+            width: 100%;
+        }
+
+        button,
+        input[type="button"],
+        input[type="submit"] {
+            background-color: $base-color;
+        }
+
+        label {
+            margin-top: 10px;
+            font-size: .8rem;
+        }
+    }
+
+    button,
+    input[type="button"],
+    input[type="submit"] {
+        margin-bottom: 10px;
+        color: $assort-color;
+        padding: 10px;
+        border: solid thin gray;
+        border-radius: 5px;
+    }
+
+    i {
+        line-height: 1;
+    }
+
+    .container:nth-child(1 of .container:has(:is(h1, h2, h3, h4, h5, h6))) :is(h1, h2, h3, h4, h5, h6):first-child {
+        margin-top: 0;
+    }
+
+    .xflex,
+    .hflex,
+    .vflex {
+        display: flex;
+
+        &.vflex {
             flex-direction: column;
         }
-    }
 
-    &.hflex {
-        flex-direction: row;
-    }
+        &.xflex {
+            @include sp {
+                flex-direction: column;
+            }
+        }
 
-    &.xflex {
-        @include pc {
+        &.hflex {
             flex-direction: row;
+        }
+
+        &.xflex {
+            @include pc {
+                flex-direction: row;
+            }
+        }
+
+        &.gap {
+            gap: 50px;
         }
     }
 
-    &.gap {
-        gap: 50px;
+    .selectButton {
+        display: flex;
+        width: fit-content;
+        border: solid thin $assort-color;
+        border-radius: 1em;
+        overflow: hidden;
+
+        >* {
+            padding: 0.5em 0.75em;
+
+            &.selected {
+                background-color: $assort-color;
+                color: $base-color;
+            }
+
+            &:nth-child(1 of .selectButton_item) {
+                padding-left: 1em;
+            }
+
+            &:nth-last-child(1 of .selectButton_item) {
+                padding-right: 1em;
+            }
+
+            &:not(:nth-last-child(1 of .selectButton_item)) {
+                border-right: solid thin $assort-color;
+            }
+
+            i {
+                display: block;
+                aspect-ratio: 1;
+            }
+        }
     }
 }
 
@@ -77,7 +232,7 @@ body {
     width: 100%;
     height: 100%;
     scale: 1;
-    background-color: light-dark(white, black);
+    background-color: $hight-base-color;
     opacity: 1;
     transition:
         opacity .5s,
@@ -124,7 +279,7 @@ body {
         width: 50px;
         aspect-ratio: 1;
         border-radius: 50%;
-        border: 8px solid light-dark(#eee, #333);
+        border: 8px solid $base-color;
         animation:
             l20-1 0.8s infinite linear alternate,
             l20-2 1.6s infinite linear;
@@ -188,7 +343,7 @@ nav {
     padding: 5px;
     width: 100%;
     height: 60px;
-    background-color: light-dark(white, black);
+    background-color: $hight-base-color;
     box-shadow: 0 0 10px rgba(128, 128, 128, 0.2);
 
     .nav_menubutton {
@@ -274,7 +429,7 @@ main {
         width: 20dvw;
         height: calc(100dvh - 60px);
         border-right: solid thin rgba(128, 128, 128, 0.5);
-        background-color: light-dark(white, black);
+        background-color: $hight-base-color;
         overflow-x: hidden;
         transition: max-width .3s;
 
@@ -401,113 +556,4 @@ main {
     #sidebar.open.default-hidden+#main {
         width: 100dvw;
     }
-}
-
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-    margin-bottom: 0.6em;
-}
-
-table {
-    display: block;
-    width: fit-content;
-    min-width: 100%;
-    border-collapse: collapse;
-
-    tbody {
-        display: table;
-    }
-
-    tr {
-        padding: 0 30px;
-
-        &:first-child {
-            border-bottom: solid 2px gray;
-        }
-
-        &:not(:first-child, :last-child) {
-            border-bottom: solid 1px gray;
-        }
-
-        &:not(:first-child):hover {
-            background-color: rgba(128, 128, 128, 0.2);
-        }
-    }
-
-    th,
-    td {
-        padding: .5em 1em;
-        white-space: nowrap;
-
-        &:has(>a) {
-            padding: 0;
-
-            >a {
-                padding: 10px 30px;
-            }
-        }
-    }
-}
-
-form:not(.button_to) {
-    margin: 30px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-
-    input,
-    button,
-    textarea,
-    select {
-        padding: 10px;
-        background-color: light-dark(white, black);
-        border: solid thin gray;
-        border-radius: 5px;
-        font-size: 1rem;
-        color: light-dark(black, white);
-
-        &[type="file"] {
-            background-color: transparent;
-            border: none;
-        }
-
-        &:focus-visible {
-            filter: drop-shadow(0 0 20px rgba(128, 128, 128, 0.5));
-        }
-    }
-
-    input,
-    textarea,
-    select {
-        width: 100%;
-    }
-
-    button,
-    input[type="button"],
-    input[type="submit"] {
-        background-color: light-dark(#eee, #333);
-    }
-
-    label {
-        margin-top: 10px;
-        font-size: .8rem;
-    }
-}
-
-button,
-input[type="button"],
-input[type="submit"] {
-    margin-bottom: 10px;
-    color: light-dark(black, white);
-    padding: 10px;
-    border: solid thin gray;
-    border-radius: 5px;
-}
-
-i {
-    line-height: 1;
 }

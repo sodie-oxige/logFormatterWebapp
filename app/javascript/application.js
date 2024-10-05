@@ -31,6 +31,14 @@ document.addEventListener("DOMContentLoaded", () => {
                 turboNavigate(e.target.closest("[data-url]").dataset.url);
             }
         }
+        if (!!e.target.closest(".selectButton")) {
+            const container = e.target.closest(".selectButton");
+            const value = e.target.closest("[data-value]").dataset.value;
+            console.log(value);
+            container.querySelector(".selected").classList.remove("selected");
+            e.target.closest(".selectButton>*").classList.add("selected");
+            container.querySelector("input[type='hidden']").value = value;
+        }
         if (!!e.target.closest(".nav_menubutton")) {
             document.getElementById("sidebar").classList.toggle("open");
             e.target.closest(".nav_menubutton").classList.toggle("open");

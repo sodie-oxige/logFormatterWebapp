@@ -6,5 +6,6 @@ Rails.application.config.dartsass.builds = {
   "character.scss"  => "character.css",
   "character_show.scss"  => "character_show.css",
   "schedule_index.scss"  => "schedule_index.css",
-  "schedule_new.scss"  => "schedule_new.css"
+  "schedule_new.scss"  => "schedule_new.css",
+  "user_index.scss"  => "user_index.css"
 }
