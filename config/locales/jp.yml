@@ -18,6 +18,7 @@ jp:
       user:
         userid: ユーザーID
         password: パスワード
+        appearanceMode: 外観モード
   helpers:
     submit:
       create: 作成

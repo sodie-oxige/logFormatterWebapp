@@ -34,8 +34,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (!!e.target.closest(".selectButton")) {
             const container = e.target.closest(".selectButton");
             const value = e.target.closest("[data-value]").dataset.value;
-            console.log(value);
-            container.querySelector(".selected").classList.remove("selected");
+            container.querySelector(".selected")?.classList.remove("selected");
             e.target.closest(".selectButton>*").classList.add("selected");
             container.querySelector("input[type='hidden']").value = value;
         }

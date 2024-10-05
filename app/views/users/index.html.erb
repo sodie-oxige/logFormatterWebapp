@@ -33,31 +33,26 @@
 <h1>設定</h1>
 
 <%= form_with model: @user, url: user_path do |form| %>
-<table class="user_table">
-    <tr>
-        <td>
-            <%= form.label :appearanceMode, Character.human_attribute_name(:appearanceMode) %>
-        </td>
-        <td>
-            <div class="selectButton">
-                <div data-value=0 class="selectButton_item <%= 'selected' if @user.appearanceMode==0 %>">
-                    <i class="bi bi-arrow-repeat"></i>
+    <table class="user_table">
+        <tr>
+            <td>
+                <%= form.label :appearanceMode %>
+            </td>
+            <td>
+                <div class="selectButton">
+                    <div data-value=0 class="selectButton_item <%= 'selected' if @user.appearanceMode==0 || !@user.appearanceMode %>">
+                        <i class="bi bi-arrow-repeat"></i>
+                    </div>
+                    <div data-value=1 class="selectButton_item <%= 'selected' if @user.appearanceMode==1 %>">
+                        <i class="bi bi-brightness-high"></i>
+                    </div>
+                    <div data-value=2 class="selectButton_item <%= 'selected' if @user.appearanceMode==2 %>">
+                        <i class="bi bi-brightness-low-fill"></i>
+                    </div>
+                    <%= form.hidden_field :appearanceMode, value:@user.appearanceMode %>
                 </div>
-                <div data-value=1 class="selectButton_item <%= 'selected' if @user.appearanceMode==1 %>">
-                    <i class="bi bi-brightness-high"></i>
-                </div>
-                <div data-value=2 class="selectButton_item <%= 'selected' if @user.appearanceMode==2 %>">
-                    <i class="bi bi-brightness-low-fill"></i>
-                </div>
-                <%= form.hidden_field :appearanceMode, value:@user.appearanceMode %>
-            </div>
-        </td>
-    </tr>
-</table>
-<%= form.submit %>
+            </td>
+        </tr>
+    </table>
+    <%= form.submit %>
 <% end %>
-
-<script>
-    console.log(JSON.parse("<%= j @user.to_json %>".replace(/&quot;/g, '"')))
-    console.log("<%= @user.appearanceMode %>")
-</script>
