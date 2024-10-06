@@ -82,7 +82,7 @@
         }, {once: true})
         
         if(json.char){
-            if(json.char.is_pc){
+            if(json.char.is_pc && json.char.pl_id!=<%=@log.gm.id%>){
                 if(imageL.src == json.images[0]){
                     imageL.classList.remove("silent");
                     imageR.classList.add("silent");
