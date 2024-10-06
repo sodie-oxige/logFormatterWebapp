@@ -18,7 +18,7 @@
         <th><%= Log.human_attribute_name(:name) %></th>
         <th><%= Log.human_attribute_name(:date) %></th>
         <th><%= Log.human_attribute_name(:gm) %></th>
-        <th colspan=4><%= AppearPc.human_attribute_name(:pc) %></th>
+        <th colspan=4><%= Log.human_attribute_name(:pc) %></th>
         <th></th>
     </tr>
     <% @logs.each do |log| %>
@@ -41,7 +41,7 @@
     <% end %>
 </table>
 <% else %>
-    <p>ここにhtmlファイルをドラッグ＆ドロップ</p>
+    <p><%= t(".message") %></p>
 <% end %>
 <div style="display:none;">
     <%= form_with url: logs_pre_new_path, id: "dropFileForm" do |form| %>

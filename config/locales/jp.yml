@@ -31,6 +31,7 @@ jp:
   logs:
     index:
       title: ログ
+      message: ここにhtmlファイルをドラッグ＆ドロップ
     new:
       title: 新規登録
     edit:
@@ -40,9 +41,6 @@ jp:
       title: キャラクター
     new:
       title: 新規PC/PL登録
-      pc: PC
-      npc: NPC
-      pl: PL
     show:
       title: キャラクター詳細
     edit:
@@ -59,3 +57,7 @@ jp:
       title: アカウント
       account_info: アカウント情報
       setting: 設定
+  default:
+    pc: PC
+    npc: NPC
+    pl: PL

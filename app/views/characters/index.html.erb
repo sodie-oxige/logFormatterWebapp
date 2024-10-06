@@ -5,14 +5,14 @@
 <div class="xflex gap">
 
     <div>
-        <h2><%= t 'activerecord.models.pc' %></h2>
+        <h2><%= t('default.pc') %></h2>
         <table>
             <tr>
                 <th>
-                    <%= t 'activerecord.attributes.pc.name' %>
+                    <%= Character.human_attribute_name(:name) %>
                 </th>
                 <th>
-                    <%= t 'activerecord.attributes.pc.pl' %>
+                    <%= Character.human_attribute_name(:pl) %>
                 </th>
                 <th></th>
             </tr>
@@ -35,14 +35,14 @@
     </div>
 
     <div>
-        <h2><%= t 'activerecord.models.npc' %></h2>
+        <h2><%= t('default.npc') %></h2>
         <table>
             <tr>
                 <th>
-                    <%= t 'activerecord.attributes.npc.name' %>
+                    <%= Character.human_attribute_name(:name) %>
                 </th>
                 <th>
-                    <%= t 'activerecord.attributes.npc.pl' %>
+                    <%= Character.human_attribute_name(:pl) %>
                 </th>
                 <th></th>
             </tr>
@@ -65,11 +65,11 @@
     </div>
 
     <div>
-        <h2><%= t 'activerecord.models.pl' %></h2>
+        <h2><%= t('default.pl') %></h2>
         <table>
             <tr>
                 <th>
-                    <%= t 'activerecord.attributes.pl.name' %>
+                    <%= User.human_attribute_name(:username) %>
                 </th>
             </tr>
             <% @pl.each do |pl| %>
