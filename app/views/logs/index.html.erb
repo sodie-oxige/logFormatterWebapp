@@ -2,11 +2,17 @@
 
 <h1><%= t '.title' %></h1>
 <% if @logs %>
-<label id="log_table_visible_controller">
-<i class="bi bi-eye-fill"></i>
-    <input type="checkbox">
-<i class="bi bi-eye-slash"></i>
-</label>
+
+<div class="selectButton" id="select_logvisible">
+    <div class="selectButton_item selected" data-value=true>
+        <i class="bi bi-eye-fill"></i>
+    </div>
+    <div class="selectButton_item" data-value=false>
+        <i class="bi bi-eye-slash"></i>
+    </div>
+    <input type="hidden" value=true>
+</div>
+
 <table>
     <tr>
         <th><%= Log.human_attribute_name(:name) %></th>

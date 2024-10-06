@@ -18,8 +18,8 @@
 </div>
 
 <script>
-    let send_page_flag = true;
-    const send_page = (next, e)=>{
+    window.send_page_flag = true;
+    function send_page(next, e){
         if(send_page_flag){
             send_page_flag = false;
             const d = next ? 1 : -1;

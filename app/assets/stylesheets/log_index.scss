@@ -46,8 +46,8 @@
     }
 }
 
-.container:has(#log_table_visible_controller input[type="checkbox"]:checked)+.container table tr.visible,
-.container:has(#log_table_visible_controller input[type="checkbox"]:not(:checked))+.container table tr.hidden {
+.container:has(#select_logvisible input[type="hidden"][value=false])+.container table tr.visible,
+.container:has(#select_logvisible input[type="hidden"][value=true])+.container table tr.hidden {
     display: none;
 }
 

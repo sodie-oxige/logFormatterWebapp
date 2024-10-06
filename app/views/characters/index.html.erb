@@ -38,13 +38,13 @@
         <h2><%= t 'activerecord.models.npc' %></h2>
         <table>
             <tr>
-                <td>
+                <th>
                     <%= t 'activerecord.attributes.npc.name' %>
-                </td>
-                <td>
+                </th>
+                <th>
                     <%= t 'activerecord.attributes.npc.pl' %>
-                </td>
-                <td></td>
+                </th>
+                <th></th>
             </tr>
             <% @npc.each do |npc| %>
                 <tr data-url="<%= character_path(npc.id) %>">
@@ -68,9 +68,9 @@
         <h2><%= t 'activerecord.models.pl' %></h2>
         <table>
             <tr>
-                <td>
+                <th>
                     <%= t 'activerecord.attributes.pl.name' %>
-                </td>
+                </th>
             </tr>
             <% @pl.each do |pl| %>
                 <tr>
