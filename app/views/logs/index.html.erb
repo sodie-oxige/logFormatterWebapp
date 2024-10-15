@@ -22,7 +22,7 @@
         <th></th>
     </tr>
     <% @logs.each do |log| %>
-    <tr data-url="<%= log_path(log.id) %>" class="<%= log.hidden ? "hidden" : "visible" %>" data-turbo="false" style="view-transition-name:log_<%=log.id%>">
+    <tr data-url="<%= log_path(log.id) %>" class="<%= log.hidden ? "hidden" : "visible" %>" style="view-transition-name:log_<%=log.id%>">
         <td><%= log.name %></td>
         <td><%= log.date %></td>
         <td><%= log.gm.name %></td>

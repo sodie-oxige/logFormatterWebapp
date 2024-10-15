@@ -37,148 +37,150 @@
 
 <script>
     //メイン台詞枠
-    const comment_elem = document.getElementById("comment");
-    let page = <%= @page %>;
-    const getLogContent = async (gpage) => {
-        await navigator.serviceWorker.ready;
-        const imageL = document.getElementById("imageL");
-        const imageR = document.getElementById("imageR");
-        page = gpage;
-        const timeout = setTimeout(() => {
-            document.getElementById("loading_mask").classList.remove("hidden");
-        }, 1000);
-        const res = await fetch(`/logs/<%= @id %>/logcontent?page=${gpage}`);
-        const json = await res.json();
-        clearTimeout(timeout)
-        document.getElementById("loading_mask").classList.add("hidden");
+    {
+        const comment_elem = document.getElementById("comment");
+        let page = <%= @page %>;
+        const getLogContent = async (gpage) => {
+            await navigator.serviceWorker.ready;
+            const imageL = document.getElementById("imageL");
+            const imageR = document.getElementById("imageR");
+            page = gpage;
+            const timeout = setTimeout(() => {
+                document.getElementById("loading_mask").classList.remove("hidden");
+            }, 1000);
+            const res = await fetch(`/logs/<%= @id %>/logcontent?page=${gpage}`);
+            const json = await res.json();
+            clearTimeout(timeout)
+            document.getElementById("loading_mask").classList.add("hidden");
 
-        backlog_elem.classList.remove("open");
-        backlog_elem.classList.add("close");
+            backlog_elem.classList.remove("open");
+            backlog_elem.classList.add("close");
 
-        comment_elem.querySelector("#comment_name>span").innerText = json.author;
-        comment_elem.style = `--color: ${json.color};`;
-        comment_elem.setAttribute("tab", json.tab);
-        
-        comment_elem.querySelector("#comment_content>p").innerHTML="";
-        let feed_text = json.content;
-        let inter = setInterval(() => {
-            if(!!feed_text){
-                let char;
-                if(/^&.+?;/.test(feed_text)){
-                    char = feed_text.match(/^&.+?;/)[0];
-                    feed_text = feed_text.replace(/^&.+?;/, "");
+            comment_elem.querySelector("#comment_name>span").innerText = json.author;
+            comment_elem.style = `--color: ${json.color};`;
+            comment_elem.setAttribute("tab", json.tab);
+            
+            comment_elem.querySelector("#comment_content>p").innerHTML="";
+            let feed_text = json.content;
+            let inter = setInterval(() => {
+                if(!!feed_text){
+                    let char;
+                    if(/^&.+?;/.test(feed_text)){
+                        char = feed_text.match(/^&.+?;/)[0];
+                        feed_text = feed_text.replace(/^&.+?;/, "");
+                    }else{
+                        char = feed_text.slice(0,1);
+                        feed_text = feed_text.slice(1);
+                    }
+                    comment_elem.querySelector("#comment_content>p").innerHTML += char === "\n" ? "<br>" : char;
                 }else{
-                    char = feed_text.slice(0,1);
-                    feed_text = feed_text.slice(1);
+                    clearInterval(inter);
                 }
-                comment_elem.querySelector("#comment_content>p").innerHTML += char === "\n" ? "<br>" : char;
-            }else{
+            }, 15);
+            comment_elem.addEventListener("click", ()=>{
+                document.querySelector("#comment_content>p").innerHTML="";
                 clearInterval(inter);
-            }
-        }, 15);
-        comment_elem.addEventListener("click", ()=>{
-            document.querySelector("#comment_content>p").innerHTML="";
-            clearInterval(inter);
-        }, {once: true})
-        
-        if(json.char){
-            if(json.char.is_pc && json.char.pl_id!=<%=@log.gm.id%>){
-                if(imageL.src == json.images[0]){
-                    imageL.classList.remove("silent");
-                    imageR.classList.add("silent");
-                    imageL.style.zIndex = 1;
-                    imageR.style.zIndex = 0;
+            }, {once: true})
+            
+            if(json.char){
+                if(json.char.is_pc && json.char.pl_id!=<%=@log.gm.id%>){
+                    if(imageL.src == json.images[0]){
+                        imageL.classList.remove("silent");
+                        imageR.classList.add("silent");
+                        imageL.style.zIndex = 1;
+                        imageR.style.zIndex = 0;
+                    }else{
+                        const imageL2 = imageL.cloneNode();
+                        imageL2.classList.add("silent");
+                        imageL2.src = json.images[0] ?? "";
+                        imageL2.style.zIndex = 1;
+                        imageR.style.zIndex = 0;
+                        imageR.classList.add("silent");
+                        imageL.replaceWith(imageL2);
+                        imageL2.onload=()=>{
+                            setTimeout(() => { imageL2.classList.remove("silent"); }, 10);
+                        }
+                    }
                 }else{
-                    const imageL2 = imageL.cloneNode();
-                    imageL2.classList.add("silent");
-                    imageL2.src = json.images[0] ?? "";
-                    imageL2.style.zIndex = 1;
-                    imageR.style.zIndex = 0;
-                    imageR.classList.add("silent");
-                    imageL.replaceWith(imageL2);
-                    imageL2.onload=()=>{
-                        setTimeout(() => { imageL2.classList.remove("silent"); }, 10);
+                    if(imageR.src == json.images[0]){
+                        imageR.classList.remove("silent");
+                        imageL.classList.add("silent");
+                        imageR.style.zIndex = 1;
+                        imageL.style.zIndex = 0;
+                    }else{
+                        const imageR2 = imageR.cloneNode();
+                        imageR2.classList.add("silent");
+                        imageR2.src = json.images[0] ?? "";
+                        imageR2.style.zIndex = 1;
+                        imageL.style.zIndex = 0;
+                        imageL.classList.add("silent");
+                        imageR.replaceWith(imageR2);
+                        setTimeout(() => { imageR2.classList.remove("silent"); }, 10);
                     }
                 }
             }else{
-                if(imageR.src == json.images[0]){
-                    imageR.classList.remove("silent");
-                    imageL.classList.add("silent");
-                    imageR.style.zIndex = 1;
-                    imageL.style.zIndex = 0;
-                }else{
-                    const imageR2 = imageR.cloneNode();
-                    imageR2.classList.add("silent");
-                    imageR2.src = json.images[0] ?? "";
-                    imageR2.style.zIndex = 1;
-                    imageL.style.zIndex = 0;
-                    imageL.classList.add("silent");
-                    imageR.replaceWith(imageR2);
-                    setTimeout(() => { imageR2.classList.remove("silent"); }, 10);
-                }
+                imageL.classList.add("silent");
+                imageR.classList.add("silent");
             }
-        }else{
-            imageL.classList.add("silent");
-            imageR.classList.add("silent");
         }
+        getLogContent(page);
+        comment_elem.addEventListener("click", ()=>{getLogContent(++page)});
+
+        document.getElementById("comment_button_back").addEventListener("click", ()=>{getLogContent(--page)});
+
+        //バックログ
+        const SCROLLRANGE = 200;
+        const backlog_elem = document.getElementById("backlog");
+        const backlog_container_elem = document.getElementById("backlog_container");
+        let scrolltop_flag = true;
+        let scrollbottom_flag = true;
+
+        const getBackLog = async (page) => {
+            let res = await fetch(`/logs/<%= @id %>/backlog?page=${page}`);
+            let text = await res.text();
+            return text;
+        }
+
+        document.getElementById("comment_button_backlog").addEventListener("click", ()=>{
+            scrolltop_flag = true;
+            scrollbottom_flag = true;
+            getBackLog(page).then(res=>{
+                backlog_container_elem.innerHTML = res;
+                backlog_elem.classList.add("open");
+                backlog_elem.classList.remove("close");
+                backlog_container_elem.querySelector(`[data-page="${page}"]+hr`).scrollIntoView({ block: "end" });
+            });
+        })
+        document.getElementById("backlog_close").addEventListener("click", ()=>{
+            backlog_elem.classList.remove("open");
+            backlog_elem.classList.add("close");
+        })
+
+        backlog_elem.addEventListener("scroll", ()=>{
+            if(backlog_elem.scrollTop < SCROLLRANGE && scrolltop_flag){
+                scrolltop_flag = false;
+                getBackLog(backlog_container.querySelector(".backlog_item:first-of-type").dataset.page-21).then(res=>{
+                    const oldTop = document.documentElement.scrollTop;
+                    const oldHeight = backlog_elem.scrollHeight;
+                    backlog_container_elem.insertAdjacentHTML('afterbegin', res);
+                    const diffHeight = backlog_elem.scrollHeight - oldHeight;
+                    backlog_container_elem.scrollTop = oldTop - diffHeight;
+                    if(backlog_container.querySelector(".backlog_item:first-of-type").dataset.page!=1) scrolltop_flag = true;
+                }).catch(err => {
+                    scrolltop_flag = true;
+                    console.Error(err);
+                })
+            }
+            if((backlog_elem.scrollHeight - backlog_elem.scrollTop - backlog_elem.clientHeight) < SCROLLRANGE && scrollbottom_flag){
+                scrollbottom_flag = false;
+                getBackLog(Number(backlog_container.querySelector(".backlog_item:last-of-type").dataset.page)+20).then(res=>{
+                    backlog_container_elem.insertAdjacentHTML('beforeend', res);
+                    if(res != "") scrollbottom_flag = true;
+                }).catch(err => {
+                    scrolltop_flag = true;
+                    console.Error(err);
+                })
+            }
+        })
     }
-    window.addEventListener("DOMContentLoaded", ()=>{getLogContent(page)});
-    comment_elem.addEventListener("click", ()=>{getLogContent(++page)});
-
-    document.getElementById("comment_button_back").addEventListener("click", ()=>{getLogContent(--page)});
-
-    //バックログ
-    const SCROLLRANGE = 200;
-    const backlog_elem = document.getElementById("backlog");
-    const backlog_container_elem = document.getElementById("backlog_container");
-    let scrolltop_flag = true;
-    let scrollbottom_flag = true;
-
-    const getBackLog = async (page) => {
-        let res = await fetch(`/logs/<%= @id %>/backlog?page=${page}`);
-        let text = await res.text();
-        return text;
-    }
-
-    document.getElementById("comment_button_backlog").addEventListener("click", ()=>{
-        scrolltop_flag = true;
-        scrollbottom_flag = true;
-        getBackLog(page).then(res=>{
-            backlog_container_elem.innerHTML = res;
-            backlog_elem.classList.add("open");
-            backlog_elem.classList.remove("close");
-            backlog_container_elem.querySelector(`[data-page="${page}"]+hr`).scrollIntoView({ block: "end" });
-        });
-    })
-    document.getElementById("backlog_close").addEventListener("click", ()=>{
-        backlog_elem.classList.remove("open");
-        backlog_elem.classList.add("close");
-    })
-
-    backlog_elem.addEventListener("scroll", ()=>{
-        if(backlog_elem.scrollTop < SCROLLRANGE && scrolltop_flag){
-            scrolltop_flag = false;
-            getBackLog(backlog_container.querySelector(".backlog_item:first-of-type").dataset.page-21).then(res=>{
-                const oldTop = document.documentElement.scrollTop;
-                const oldHeight = backlog_elem.scrollHeight;
-                backlog_container_elem.insertAdjacentHTML('afterbegin', res);
-                const diffHeight = backlog_elem.scrollHeight - oldHeight;
-                backlog_container_elem.scrollTop = oldTop - diffHeight;
-                if(backlog_container.querySelector(".backlog_item:first-of-type").dataset.page!=1) scrolltop_flag = true;
-            }).catch(err => {
-                scrolltop_flag = true;
-                console.Error(err);
-            })
-        }
-        if((backlog_elem.scrollHeight - backlog_elem.scrollTop - backlog_elem.clientHeight) < SCROLLRANGE && scrollbottom_flag){
-            scrollbottom_flag = false;
-            getBackLog(Number(backlog_container.querySelector(".backlog_item:last-of-type").dataset.page)+20).then(res=>{
-                backlog_container_elem.insertAdjacentHTML('beforeend', res);
-                if(res != "") scrollbottom_flag = true;
-            }).catch(err => {
-                scrolltop_flag = true;
-                console.Error(err);
-            })
-        }
-    })
 </script>

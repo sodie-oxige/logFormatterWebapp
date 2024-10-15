@@ -242,8 +242,8 @@
     background-color: $hight-base-color;
     opacity: 1;
     transition:
-        opacity .5s,
-        scale .5s;
+        opacity 1s .5s,
+        scale 1s .5s;
     pointer-events: none;
 
     &.hidden {

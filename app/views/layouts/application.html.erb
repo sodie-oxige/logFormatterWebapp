@@ -2,7 +2,7 @@
 <html colorSchemeType=<%= current_user&.appearanceMode || 0 %>>
   <head>
     <title><%= content_for(:title) || "Logformatter" %></title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0,viewport-fit=cover , user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0,viewport-fit=cover,user-scalable=no">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="theme-color" content="white" media="(prefers-color-scheme: light)">
@@ -24,7 +24,7 @@
     <%= yield(:js) %>
   </head>
 
-<% side_close=[["logs","show"],["logs","preparing"],["sessions","new"]] %>
+  <% side_close=[["logs","show"],["logs","preparing"],["sessions","new"]] %>
 
   <body>
     <%= render "layouts/navbar" %>

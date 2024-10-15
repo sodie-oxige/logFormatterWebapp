@@ -45,6 +45,13 @@ document.addEventListener("DOMContentLoaded", () => {
     })
 })
 
+// スワイプでの戻る進むを禁止
+document.addEventListener('touchmove', e => {
+    e.preventDefault();
+},
+    { passive: false }
+);
+
 // #main直下要素を.containerで囲う
 {
     const wrapContainer = () => {
@@ -56,7 +63,6 @@ document.addEventListener("DOMContentLoaded", () => {
             container.appendChild(element);
         });
     }
-    document.addEventListener("DOMContentLoaded", wrapContainer);
     document.addEventListener("turbo:load", wrapContainer);
 }
 // startup_maskを画面読み込み終了時に消去
