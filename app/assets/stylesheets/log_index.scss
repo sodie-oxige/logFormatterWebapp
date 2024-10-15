@@ -1,57 +1,54 @@
 @use "global" as *;
 
-#log_table_visible_controller {
-    display: block;
-    width: 4rem;
-    height: 1.5rem;
-    border: solid thin light-dark(black, white);
-    border-radius: 3px;
-
-    i {
-        position: absolute;
-        top: 50%;
-        translate: -50% -50%;
-        color: $hight-base-color;
-    }
-
-    i:first-of-type {
-        left: 25%;
-    }
-
-    i:last-of-type {
-        left: 75%;
-    }
-
-    &::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        width: calc(2rem - 2px);
-        height: calc(1.5rem - 2px);
-        background-color: $assort-color;
-        border-radius: 2px;
-        transition: left .1s;
-    }
-
-    &:has(input[type="checkbox"]:not(:checked))::before {
-        left: 0;
-    }
-
-    &:has(input[type="checkbox"]:checked)::before {
-        left: 2rem;
-    }
-
-    input[type="checkbox"] {
-        display: none;
-    }
-}
-
 .container:has(#select_logvisible input[type="hidden"][value=false])+.container table tr.visible,
-.container:has(#select_logvisible input[type="hidden"][value=true])+.container table tr.hidden {
+.container:has(#select_logvisible input[type="hidden"][value=true])+.container table tr.hidden,
+.container:has(#select_logvisible input[type="hidden"][value=false])~.container .sp_loglist li.visible,
+.container:has(#select_logvisible input[type="hidden"][value=true])~.container .sp_loglist li.hidden {
     display: none;
 }
 
 tr:nth-last-child(1 of .visible),
 tr:nth-last-child(1 of .hidden) {
     border-bottom: none;
+}
+
+.pc_loglist {
+    @include sp {
+        display: none;
+    }
+}
+
+.sp_loglist {
+    li {
+        padding: 15px;
+        list-style: none;
+        border-bottom: solid thin gray;
+
+        &:hover {
+            background-color: rgba(128, 128, 128, 0.2);
+        }
+
+        span.log_name {
+            font-size: 1.5em;
+        }
+
+        span.log_member {
+            padding-left: 1em;
+            color: $sub-assort-color;
+        }
+
+        a:has(i) {
+            width: 1em;
+
+            i {
+                position: absolute;
+                top: 50%;
+                translate: 0 -50%;
+            }
+        }
+    }
+
+    @include pc {
+        display: none;
+    }
 }

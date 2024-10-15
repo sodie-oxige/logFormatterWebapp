@@ -13,7 +13,7 @@
     <input type="hidden" value=true>
 </div>
 
-<table>
+<table class="pc_loglist">
     <tr>
         <th><%= Log.human_attribute_name(:name) %></th>
         <th><%= Log.human_attribute_name(:date) %></th>
@@ -40,6 +40,28 @@
     </tr>
     <% end %>
 </table>
+
+<ul class="sp_loglist table">
+    <% @logs.each do |log| %>
+    <li data-url="<%= log_path(log.id) %>" class="vflex <%= log.hidden ? "hidden" : "visible" %>" style="view-transition-name:log_<%=log.id%>">
+        <div class="hflex" style="flex-grow:1;">
+            <span class="log_name" style="flex:1">
+                <%= log.name %>
+            </span>
+            <%= link_to edit_log_path(log.id) do %>
+                <i class="bi bi-vector-pen"></i>
+            <% end %>
+        </div>
+        <span class="log_member">
+            <%= log.gm.name %> / 
+            <% log.pcs.each do |pc| %>
+                <%= pc.name %>　
+            <% end %>
+        </span>
+    </li>
+    <% end %>
+</ul>
+
 <% else %>
     <p><%= t(".message") %></p>
 <% end %>

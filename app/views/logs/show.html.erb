@@ -40,8 +40,8 @@
     {
         const comment_elem = document.getElementById("comment");
         let page = <%= @page %>;
-        const getLogContent = async (gpage) => {
-            await navigator.serviceWorker.ready;
+        window.getLogContent = async (gpage) => {
+            if ('serviceWorker' in navigator) await navigator.serviceWorker.ready;
             const imageL = document.getElementById("imageL");
             const imageR = document.getElementById("imageR");
             page = gpage;
@@ -50,6 +50,7 @@
             }, 1000);
             const res = await fetch(`/logs/<%= @id %>/logcontent?page=${gpage}`);
             const json = await res.json();
+
             clearTimeout(timeout)
             document.getElementById("loading_mask").classList.add("hidden");
 
@@ -81,7 +82,7 @@
                 document.querySelector("#comment_content>p").innerHTML="";
                 clearInterval(inter);
             }, {once: true})
-            
+
             if(json.char){
                 if(json.char.is_pc && json.char.pl_id!=<%=@log.gm.id%>){
                     if(imageL.src == json.images[0]){

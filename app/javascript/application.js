@@ -46,7 +46,8 @@ document.addEventListener("DOMContentLoaded", () => {
 })
 
 // スワイプでの戻る進むを禁止
-document.addEventListener('touchmove', e => {
+document.addEventListener('touchstart', e => {
+    if (e.touches[0].pageX > 16 && e.touches[0].pageX < window.innerWidth - 16) return;
     e.preventDefault();
 },
     { passive: false }
