@@ -6,7 +6,7 @@
 </div>
 
 <div id="html_container">
-    <%= sanitize(ERB.new(File.open("#{Rails.public_path}/logfile/#{@id}.html").read).result(binding), tags: %w(p span br), attributes: %w(style)) %>
+    <%= sanitize(File.read(Rails.public_path.join("logfile/#{@id}.html")), tags: %w(p span br), attributes: %w(style)) %>
 </div>
 
 <script>
