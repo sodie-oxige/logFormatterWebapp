@@ -169,10 +169,6 @@
         line-height: 1;
     }
 
-    .container:nth-child(1 of .container:has(:is(h1, h2, h3, h4, h5, h6))) :is(h1, h2, h3, h4, h5, h6):first-child {
-        margin-top: 0;
-    }
-
     .xflex,
     .hflex,
     .vflex {
@@ -560,8 +556,9 @@ main {
             height: calc(100vh - env(safe-area-inset-top) - 60px - var(--bottom));
         }
 
-        >.container {
-            padding: 0 50px;
+        >* {
+            margin-left: 50px;
+            margin-right: 50px;
             overflow-x: auto;
             overflow-y: clip;
             scrollbar-width: thin;

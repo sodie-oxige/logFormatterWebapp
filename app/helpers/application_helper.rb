@@ -10,4 +10,9 @@ module ApplicationHelper
       referer_host_with_port != current_host_with_port
     end
   end
+
+  def default_hidden?
+    side_close = [ [ "logs", "show" ], [ "logs", "preparing" ], [ "sessions", "new" ] ]
+    side_close.any? { |cond| params[:controller] == cond[0] && params[:action] == cond[1] }
+  end
 end

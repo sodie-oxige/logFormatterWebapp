@@ -53,19 +53,6 @@ document.addEventListener('touchstart', e => {
     { passive: false }
 );
 
-// #main直下要素を.containerで囲う
-{
-    const wrapContainer = () => {
-        const elements = document.querySelectorAll('#main > *:not(.container)');
-        elements.forEach(element => {
-            const container = document.createElement('div');
-            container.classList.add('container');
-            element.parentNode.insertBefore(container, element);
-            container.appendChild(element);
-        });
-    }
-    document.addEventListener("turbo:load", wrapContainer);
-}
 // startup_maskを画面読み込み終了時に消去
 window.addEventListener("load", () => {
     document.getElementById("startup_mask")?.classList.add("hidden");

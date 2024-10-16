@@ -32,4 +32,6 @@ Rails.application.routes.draw do
   get "users" => "users#index"
   get "users/edit" => "users#edit"
   patch "users/update" => "users#update", as: "user"
+
+  get "*path", to: "application#page404"
 end
