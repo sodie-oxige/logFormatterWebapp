@@ -1,19 +1,27 @@
 @use "sass:math";
 @use "global" as *;
 
+:root{
+    --bottom: env(safe-area-inset-bottom);
+
+    @include sp{
+        --bottom: calc(env(safe-area-inset-bottom) + 60px);
+    }
+}
+
 #screen {
     position: fixed;
     top: calc(env(safe-area-inset-top) + 60px);
-    bottom: 0;
+    bottom: var(--bottom);
     left: 0;
-    width: 100dvw;
+    width: 100vw;
 
     #backgrond {
         position: absolute;
         top: 0;
         left: 0;
-        width: 100dvw;
-        height: 100dvh;
+        width: 100vw;
+        height: 100vh;
         background-color: #333;
         background-image: linear-gradient(90deg, #ffffff80 1px, transparent 1px), linear-gradient(#ffffff80 1px, transparent 1px);
         background-size: 48px 48px;
@@ -22,7 +30,7 @@
 
     #imageL,
     #imageR {
-        width: 60dvh;
+        width: 60vh;
         position: absolute;
         top: 10%;
 
@@ -37,7 +45,7 @@
     }
 
     #imageL {
-        left: min(30dvw, 40dvh);
+        left: min(30vw, 40vh);
         translate: -50%;
 
         &.silent {
@@ -46,7 +54,7 @@
     }
 
     #imageR {
-        right: min(30dvw, 40dvh);
+        right: min(30vw, 40vh);
         translate: 50%;
 
         &.silent {
@@ -59,8 +67,8 @@
         top: 0;
         left: 0;
         z-index: 40;
-        width: 100dvw;
-        height: 100dvh;
+        width: 100vw;
+        height: 100vh;
         background-color: black;
         opacity: 0;
         transition: opacity 0.1s;
@@ -73,7 +81,7 @@
     .comment-buttons {
         $button-radius : 2em;
         position: absolute;
-        bottom: calc(30dvh + 5px);
+        bottom: calc(30vh + 5px);
         left: 2em;
         z-index: 50;
         display: flex;
@@ -110,7 +118,7 @@
         display: flex;
         flex-direction: column;
         width: calc(100% - 2rem);
-        height: 30dvh;
+        height: 30vh;
         background-image: linear-gradient(10deg, rgba(66, 66, 66, 0.9), rgba(0, 0, 0, 0.9));
         border: solid black;
         border-width: 5px 5px 0;
@@ -129,7 +137,7 @@
 
         #comment_content {
             margin: 5px 30px 15px 2rem;
-            height: calc(30dvh - 36px);
+            height: calc(30vh - 36px);
             overflow-y: scroll;
 
             p {
@@ -183,8 +191,8 @@
         left: 0;
         z-index: 60;
         padding: 20px;
-        width: 100dvw;
-        height: calc(100dvh - env(safe-area-inset-top) - 60px);
+        width: 100vw;
+        height: calc(100vh - env(safe-area-inset-top) - 60px);
         background-color: rgba(0, 0, 0, 0.7);
         overflow-y: auto;
 
@@ -198,7 +206,7 @@
 
         #backlog_close {
             position: fixed;
-            top: 70px;
+            top: calc(70px + env(safe-area-inset-top));
             right: 10px;
             z-index: 10;
 

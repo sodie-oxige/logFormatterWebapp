@@ -24,7 +24,12 @@
 
     :root {
         color: light-dark(black, #eee);
-        font-size: unquote('min(20px, 3dvw, 3dvh)');
+        font-size: unquote('min(20px, 3vw, 3vh)');
+        --bottom: env(safe-area-inset-bottom);
+
+        @include sp{
+            --bottom: calc(env(safe-area-inset-bottom) + 60px);
+        }
 
         &[colorschemetype="0"] {
             color-scheme: light dark;
@@ -45,7 +50,7 @@
     }
 
     body {
-        min-height: 100dvh;
+        min-height: 100vh;
     }
 
     h1,
@@ -66,7 +71,8 @@
 
         tbody {
             display: table;
-            @include sp{
+
+            @include sp {
                 width: 100%;
                 table-layout: fixed;
             }
@@ -278,8 +284,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 100dvw;
-    height: 100dvh;
+    width: 100vw;
+    height: 100vh;
     background-color: rgba(128, 128, 128, 0.2);
     pointer-events: none;
 
@@ -426,6 +432,36 @@ nav {
     }
 }
 
+footer {
+    position: fixed;
+    bottom: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    padding: 5px 5px calc(env(safe-area-inset-bottom) + 5px);
+    width: 100%;
+    height: calc(env(safe-area-inset-bottom) + 60px);
+    background-color: $hight-base-color;
+    box-shadow: 0 0 10px rgba(128, 128, 128, 0.2);
+
+    @include pc {
+        display: none;
+    }
+
+    >* {
+        flex: 1;
+        height: 100%;
+        font-size: 30px;
+
+        i {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            translate: -50% -50%;
+        }
+    }
+}
+
 main {
     position: fixed;
     top: 0;
@@ -433,14 +469,15 @@ main {
     z-index: 0;
     display: flex;
     padding-top: calc(env(safe-area-inset-top) + 60px);
+    padding-bottom: var(--bottom);
 
     #sidebar {
         position: sticky;
         top: calc(env(safe-area-inset-top) + 60px);
         z-index: 5;
         padding-left: env(safe-area-inset-left);
-        width: 20dvw;
-        height: calc(100dvh - env(safe-area-inset-top) - 60px);
+        width: 20vw;
+        height: calc(100vh - env(safe-area-inset-top) - 60px);
         border-right: solid thin rgba(128, 128, 128, 0.5);
         background-color: $hight-base-color;
         overflow-x: hidden;
@@ -452,7 +489,8 @@ main {
         }
 
         @include sp {
-            width: 50dvw;
+            height: calc(100vh - env(safe-area-inset-top) - 60px - var(--bottom));
+            width: 50vw;
 
             &.open {
                 border-right: none;
@@ -460,15 +498,15 @@ main {
             }
 
             &:not(.open) {
-                max-width: 50dvw;
+                max-width: 50vw;
             }
         }
 
         >#sidebar_container {
-            width: 20dvw;
+            width: 20vw;
 
             @include sp {
-                width: 50dvw;
+                width: 50vw;
             }
 
             >* {
@@ -515,8 +553,12 @@ main {
         margin: 0 auto;
         padding: 30px 0;
         padding-right: env(safe-area-inset-right);
-        height: calc(100dvh - env(safe-area-inset-top) - 60px);
+        height: calc(100vh - env(safe-area-inset-top) - 60px);
         overflow: auto;
+
+        @include sp {
+            height: calc(100vh - env(safe-area-inset-top) - 60px - var(--bottom));
+        }
 
         >.container {
             padding: 0 50px;
@@ -549,17 +591,17 @@ main {
         }
 
         @include sp {
-            width: 100dvw !important;
+            width: 100vw !important;
         }
     }
 
     #sidebar.open:not(.default-hidden)+#main,
     #sidebar.default-hidden:not(.open)+#main {
-        width: 80dvw;
+        width: 80vw;
     }
 
     #sidebar:not(.open):not(.default-hidden)+#main,
     #sidebar.open.default-hidden+#main {
-        width: 100dvw;
+        width: 100vw;
     }
 }

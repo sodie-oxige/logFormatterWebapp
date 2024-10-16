@@ -24,8 +24,6 @@
     <%= yield(:js) %>
   </head>
 
-  <% side_close=[["logs","show"],["logs","preparing"],["sessions","new"]] %>
-
   <body>
     <%= render "layouts/navbar" %>
     <% if !request.referer&.include?(root_url) %>
@@ -38,7 +36,7 @@
       <div id="loader"></div>
     </div>
     <main>
-      <div id="sidebar" class="open<%= if side_close.any?{ |cond| params[:controller] == cond[0] && params[:action] == cond[1] } then " default-hidden" end %>">
+      <div id="sidebar" class="open<%= if default_hidden? then " default-hidden" end %>">
         <div id="sidebar_container">
           <%= render "layouts/sidebar" %>
         </div>
@@ -47,5 +45,6 @@
         <%= yield %>
       </div>
     </main>
+    <%= render "layouts/footer" %>
   </body>
 </html>
