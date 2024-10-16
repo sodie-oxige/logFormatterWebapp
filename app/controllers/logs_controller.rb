@@ -99,6 +99,10 @@ class LogsController < ApplicationController
 
   def preparing # get
     @id = params[:id]
+    unless @id =~ /\A\d+\z/ then redirect_to(logs_path) end
+    file_path = Rails.public_path.join("logfile/#{@id}.html").cleanpath
+    # brakeman -ignore
+    @file_content = File.read(file_path)
   end
 
   def make_log_content # post

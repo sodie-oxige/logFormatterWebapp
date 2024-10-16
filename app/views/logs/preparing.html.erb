@@ -6,7 +6,7 @@
 </div>
 
 <div id="html_container">
-    <%= sanitize(File.read(Rails.public_path.join("logfile/#{@id}.html")), tags: %w(p span br), attributes: %w(style)) %>
+    <%= sanitize(@file_content, tags: %w(p span br), attributes: %w(style)) %>
 </div>
 
 <script>

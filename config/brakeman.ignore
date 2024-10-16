@@ -1,0 +1,29 @@
+{
+  "ignored_warnings": [
+    {
+      "warning_type": "File Access",
+      "warning_code": 16,
+      "fingerprint": "c7bff3261b6f47c3801af2a6604bbbd91636cc210128d5f813d09334086b2d78",
+      "check_name": "FileAccess",
+      "message": "Parameter value used in file name",
+      "file": "app/controllers/logs_controller.rb",
+      "line": 105,
+      "link": "https://brakemanscanner.org/docs/warning_types/file_access/",
+      "code": "File.read(Rails.public_path.join(\"logfile/#{params[:id]}.html\").cleanpath)",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "LogsController",
+        "method": "preparing"
+      },
+      "user_input": "params[:id]",
+      "confidence": "Weak",
+      "cwe_id": [
+        22
+      ],
+      "note": ""
+    }
+  ],
+  "updated": "2024-10-16 14:26:22 +0900",
+  "brakeman_version": "6.2.1"
+}
