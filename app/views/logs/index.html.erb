@@ -55,7 +55,7 @@
         <span class="log_member">
             <%= log.gm.name %> / 
             <% log.pcs.each do |pc| %>
-                <%= pc.name %>　
+                <%= pc.name.gsub(/\s/, "") %>
             <% end %>
         </span>
     </li>

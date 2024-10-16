@@ -14,7 +14,7 @@
                 <th>
                     <%= Character.human_attribute_name(:pl) %>
                 </th>
-                <th></th>
+                <th style="width:calc(60px + 1em)"></th>
             </tr>
             <% @pc.each do |pc| %>
                 <tr data-url="<%= character_path(pc.id) %>">
@@ -24,7 +24,7 @@
                     <td>
                         <%= pc.pl_name %>
                     </td>
-                    <td>
+                    <td style="width:calc(60px + 1em)">
                         <%= link_to edit_character_path(pc.id) do %>
                             <i class="bi bi-vector-pen"></i>
                         <% end %>
@@ -44,7 +44,7 @@
                 <th>
                     <%= Character.human_attribute_name(:pl) %>
                 </th>
-                <th></th>
+                <th style="width:calc(60px + 1em)"></th>
             </tr>
             <% @npc.each do |npc| %>
                 <tr data-url="<%= character_path(npc.id) %>">
@@ -54,7 +54,7 @@
                     <td>
                         <%= npc.pl_name %>
                     </td>
-                    <td>
+                    <td style="width:calc(60px + 1em)">
                         <%= link_to edit_character_path(npc.id) do %>
                             <i class="bi bi-vector-pen"></i>
                         <% end %>

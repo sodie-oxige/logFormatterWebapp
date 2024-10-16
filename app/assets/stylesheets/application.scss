@@ -66,6 +66,10 @@
 
         tbody {
             display: table;
+            @include sp{
+                width: 100%;
+                table-layout: fixed;
+            }
         }
 
         tr {
@@ -88,6 +92,7 @@
         td {
             padding: .5em 1em;
             white-space: nowrap;
+            text-align: center;
 
             &:has(>a) {
                 padding: 0;

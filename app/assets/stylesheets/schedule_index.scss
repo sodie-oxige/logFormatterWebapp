@@ -2,8 +2,10 @@
 
 @each $n, $color, $text in $table_colorlist {
     tr[data-type="#{$n}"] {
+        background-color: color-mix(in srgb, $color 20%, $hight-base-color);
+
         :is(th, td) {
-            background-color: $color;
+            background-color: color-mix(in srgb, $color 20%, $hight-base-color);
         }
 
         th::after {
@@ -16,36 +18,55 @@
     }
 }
 
-td,
-th {
-    padding: 10px;
-    $box-shadow: 0 0 30px 5px;
+tbody {
+    table-layout: auto;
 
-    &::after {
-        display: block;
-        margin: auto;
-        height: 1.2em;
-        font-size: 1.2em;
-        font-weight: bold;
-        text-align: center;
+    tr:fitst-child :is(td,th){
+        position: sticky;
+        top: 0;
     }
 
-    &:first-child {
-        border-right: solid thin gray;
+    th {
+        background-color: $hight-base-color;
+    }
+
+    td,
+    th {
+        padding: 10px;
+        $box-shadow: 0 0 30px 5px;
+
+        &::after {
+            display: block;
+            margin: auto;
+            height: 1.2em;
+            font-size: 1.2em;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        &:first-child {
+            position: sticky;
+            left: 0;
+            z-index: 10;
+            box-shadow: inset gray -1px 0px 0px 0px;
+        }
     }
 }
 
 .date_controll_button {
     justify-content: center;
-    form{
-        button{
+
+    form {
+        button {
             width: 100%;
         }
-        &:not(:last-of-type) button{
+
+        &:not(:last-of-type) button {
             border-top-right-radius: 0;
             border-bottom-right-radius: 0;
         }
-        &:not(:first-of-type) button{
+
+        &:not(:first-of-type) button {
             border-top-left-radius: 0;
             border-bottom-left-radius: 0;
         }
