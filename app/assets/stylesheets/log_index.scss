@@ -1,9 +1,9 @@
 @use "global" as *;
 
-.container:has(#select_logvisible input[type="hidden"][value=false])+.container table tr.visible,
-.container:has(#select_logvisible input[type="hidden"][value=true])+.container table tr.hidden,
-.container:has(#select_logvisible input[type="hidden"][value=false])~.container .sp_loglist li.visible,
-.container:has(#select_logvisible input[type="hidden"][value=true])~.container .sp_loglist li.hidden {
+#select_logvisible:has(input[type="hidden"][value=false])~table tr.visible,
+#select_logvisible:has(input[type="hidden"][value=true])~table tr.hidden,
+#select_logvisible:has(input[type="hidden"][value=false])~.sp_loglist li.visible,
+#select_logvisible:has(input[type="hidden"][value=true])~.sp_loglist li.hidden {
     display: none;
 }
 
