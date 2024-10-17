@@ -21,6 +21,8 @@ jp:
         password: パスワード
         appearanceMode: 外観モード
   helpers:
+    button:
+      edit: 編集
     submit:
       create: 作成
       update: 更新

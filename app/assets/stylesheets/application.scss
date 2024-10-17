@@ -27,7 +27,7 @@
         font-size: unquote('min(20px, 3vw, 3vh)');
         --bottom: env(safe-area-inset-bottom);
 
-        @include sp{
+        @include sp {
             --bottom: calc(env(safe-area-inset-bottom) + 60px);
         }
 
@@ -64,13 +64,10 @@
     }
 
     table {
-        display: block;
         width: fit-content;
-        min-width: 100%;
         border-collapse: collapse;
 
         tbody {
-            display: table;
 
             @include sp {
                 width: 100%;
@@ -230,6 +227,22 @@
                 display: block;
                 aspect-ratio: 1;
             }
+        }
+    }
+
+    ul li {
+        padding-left: 1.5em;
+
+        &::before {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: .75em;
+            translate: -50% -50%;
+            width: 5px;
+            aspect-ratio: 1;
+            background-color: gray;
+            border-radius: 50%;
         }
     }
 }

@@ -1,8 +1,8 @@
 <%= stylesheet_link_tag "character_show", "data-turbo-track": "reload" %>
 
-<h1><%= @character.name %></h1>
-<span class="gray">PL: <%= @character.pl.name %></span>
+<%= button_to t("helpers.button.edit"), edit_character_path(@character.id), method: :get %>
 
+<h1><%= @character.name %></h1>
 <div id="images">
     <div class="left_arrow" onclick="send_page(0, event)"></div>
     <div class="right_arrow" onclick="send_page(1, event)"></div>
@@ -16,6 +16,9 @@
         <% if i>images.length/2 then i-=images.length end %>
     <% end %>
 </div>
+
+<p>PL: <%= @character.pl.name %></p>
+<%= sanitize(@md_text, tags: %w(div p span a br strong em h1 h2 h3 h4 h5 h6 ul ol li button code pre blockquote table tbody tr td th), attributes: %w(style class))  %>
 
 <script>
     window.send_page_flag = true;

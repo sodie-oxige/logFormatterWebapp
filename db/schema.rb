@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_10_05_014351) do
+ActiveRecord::Schema[7.2].define(version: 2024_10_17_063957) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -54,6 +54,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_05_014351) do
     t.datetime "updated_at", null: false
     t.bigint "pl_id", null: false
     t.boolean "is_pc"
+    t.text "text"
     t.index ["pl_id"], name: "index_characters_on_pl_id"
   end
 

@@ -1,11 +1,8 @@
-Rails.application.config.dartsass.builds = {
-  "application.scss"  => "application.css",
-  "preparing.scss"  => "preparing.css",
-  "log_show.scss"  => "log_show.css",
-  "log_index.scss"  => "log_index.css",
-  "character.scss"  => "character.css",
-  "character_show.scss"  => "character_show.css",
-  "schedule_index.scss"  => "schedule_index.css",
-  "schedule_new.scss"  => "schedule_new.css",
-  "user_index.scss"  => "user_index.css"
-}
+Rails.application.config.dartsass.builds = Hash[
+  Dir.glob("app/assets/stylesheets/*.scss").map do |path|
+    # SCSSファイルをパスから抽出してビルド設定を作成
+    scss_path = path.sub("app/assets/stylesheets/", "")
+    css_path = scss_path.sub(".scss", ".css")
+    [ scss_path, css_path ]
+  end.to_h
+]

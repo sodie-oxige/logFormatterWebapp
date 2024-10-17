@@ -11,7 +11,7 @@ class CharactersController < ApplicationController
   end
 
   def create
-    character_params = params.require(:character).permit(:name, :is_pc, :pl_id, images: [], nicknames_attributes: [ :id, :name, :_destroy ])
+    character_params = params.require(:character).permit(:name, :is_pc, :pl_id, :text, images: [], nicknames_attributes: [ :id, :name, :_destroy ])
     character_params[:nicknames_attributes].each_key { |n| if character_params[:nicknames_attributes][n][:name]=="" then character_params[:nicknames_attributes][n][:_destroy]=true end }
     @character = User.find(character_params[:pl_id]).characters.new(character_params)
 
@@ -35,6 +35,7 @@ class CharactersController < ApplicationController
 
   def show
     @character = Character.find(params[:id])
+    @md_text = @character.text!=nil ? markdown(@character.text) : ""
   end
 
   def edit
@@ -43,7 +44,7 @@ class CharactersController < ApplicationController
 
   def update
     character = Character.find(params[:id])
-    character_params = params.require(:character).permit(:name, :is_pc, :pl_id, images: [], nicknames_attributes: [ :id, :name, :_destroy ])
+    character_params = params.require(:character).permit(:name, :is_pc, :pl_id, :text, images: [], nicknames_attributes: [ :id, :name, :_destroy ])
     character_params[:nicknames_attributes].each_key { |n| if character_params[:nicknames_attributes][n][:name]=="" then character_params[:nicknames_attributes][n][:_destroy]=true end }
     if character.update(character_params)
       redirect_to edit_character_path(params[:id])

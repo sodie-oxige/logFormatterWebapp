@@ -1,5 +1,24 @@
 @use "global" as *;
 
+#main{
+    >:is(p, ul, ol, blockquote, table){
+        margin-bottom: 1em;
+    }
+    blockquote{
+        padding: 5px 15px;
+        border-left: solid thick $accent-color;
+    }
+
+    code{
+        display: block;
+        padding: 10px;
+        border: solid thin gray;
+        border-left-width: 3px;
+        border-radius: 5px;
+        font-family: monospace;
+    }
+}
+
 #images {
     display: flex;
     height: 80vh;

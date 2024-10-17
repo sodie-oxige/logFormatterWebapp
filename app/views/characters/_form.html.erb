@@ -14,7 +14,6 @@
     <%= form.label :pl_id, Character.human_attribute_name(:pl) %>
     <%= form.collection_select :pl_id, User.filtered_all.order(:name), :id, :name %>
     <%= form.label :nickname, Character.human_attribute_name(:nickname) %>
-
     <% character.nicknames.new %>
     <%= form.fields_for :nicknames do |nickname_form| %>
         <div class="nickname-fields">
@@ -22,6 +21,8 @@
             <%= nickname_form.text_field :name %>
         </div>
     <% end %>
+    <%= form.label :text, Character.human_attribute_name(:text) %>
+    <%= form.text_area :text %>
     <%= form.file_field :images, multiple: true %>
     <% character.images.each do |image| %>
         <%= form.hidden_field :images, multiple: true, value: image.signed_id %>
