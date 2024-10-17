@@ -33,5 +33,7 @@ Rails.application.routes.draw do
   get "users/edit" => "users#edit"
   patch "users/update" => "users#update", as: "user"
 
-  get "*path", to: "application#page404"
+  get "*path", to: "application#page404", constraints: lambda { |req|
+    !req.path.starts_with?("/rails/active_storage")
+  }
 end
