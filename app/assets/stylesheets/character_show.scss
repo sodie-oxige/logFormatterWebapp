@@ -1,21 +1,25 @@
 @use "global" as *;
 
-#main{
-    >:is(p, ul, ol, blockquote, table){
+#main {
+    >:is(p, ul, ol, blockquote, table, pre) {
         margin-bottom: 1em;
     }
-    blockquote{
+
+    blockquote {
         padding: 5px 15px;
         border-left: solid thick $accent-color;
     }
 
-    code{
+    pre {
         display: block;
         padding: 10px;
         border: solid thin gray;
         border-left-width: 3px;
         border-radius: 5px;
-        font-family: monospace;
+
+        code {
+            font-family: monospace;
+        }
     }
 }
 
@@ -83,15 +87,17 @@
         $ts: .5s;
         transition: max-width $ts, margin $ts, order $ts, object-position $ts;
 
-        &.img_l{
+        &.img_l {
             max-width: 0;
             object-position: right center;
         }
-        &.img_c{
+
+        &.img_c {
             max-width: 100%;
             object-position: center center;
         }
-        &.img_r{
+
+        &.img_r {
             max-width: 0;
             object-position: left center;
         }

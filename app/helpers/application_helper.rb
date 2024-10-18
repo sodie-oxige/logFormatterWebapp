@@ -18,13 +18,20 @@ module ApplicationHelper
 
   def markdown(text)
     require "redcarpet"
-    markdown = Redcarpet::Markdown.new(CustomRender.new(with_toc_data: true, hard_wrap: true), autolink: true, tables: true, strikethrough: true, superscript: true, underline: true, highlight: true)
+    option = {
+      with_toc_data: true,
+      hard_wrap: true
+    }
+    extensions = {
+      autolink: true,
+      tables: true,
+      strikethrough: true,
+      superscript: true,
+      underline: true,
+      highlight: true,
+      fenced_code_blocks: true
+    }
+    markdown = Redcarpet::Markdown.new(Redcarpet::Render::HTML.new(option), extensions)
     markdown.render(text)
-  end
-end
-
-class CustomRender < Redcarpet::Render::HTML
-  def block_code(code, lang)
-    %(<code lang="#{lang}">#{code}</code>)
   end
 end

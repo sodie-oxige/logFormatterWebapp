@@ -21,8 +21,11 @@ tr:nth-last-child(1 of .hidden) {
 .sp_loglist {
     li {
         padding: 15px;
-        list-style: none;
         border-bottom: solid thin gray;
+
+        &::before{
+            display: none;
+        }
 
         &:hover {
             background-color: rgba(128, 128, 128, 0.2);
