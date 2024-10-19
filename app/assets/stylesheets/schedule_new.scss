@@ -1,5 +1,15 @@
 @use "global" as *;
 
+form {
+    margin-left: 0;
+    margin-right: 0;
+
+    table{
+        left: 50%;
+        translate: -50%;
+    }
+}
+
 td {
     padding: 10px;
 
@@ -17,7 +27,7 @@ td {
 
         @each $n, $color, $text in $table_colorlist {
             &:has(+:checked) {
-                &[for $= "#{$n}"] {
+                &[for $="#{$n}"] {
                     background-color: $color;
                 }
             }

@@ -7,6 +7,7 @@
     <%= button_to "＞", schedules_path(), params:{year: @month<12?@year:@year+1, month: @month<12?@month+1:@month-11}, method: :get %>
 </div>
 <% if @calendars %>
+<div id="calendar">
     <table>
         <tr>
             <th><%= Schedule.human_attribute_name(:calendar) %></th>
@@ -28,4 +29,5 @@
             </tr>
         <% end %>
     </table>
+</div>
 <% end %>

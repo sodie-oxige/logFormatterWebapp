@@ -18,57 +18,71 @@
     }
 }
 
-tbody {
-    table-layout: auto;
+#main {
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 0;
 
-    tr:fitst-child :is(td,th){
-        position: sticky;
-        top: 0;
+    #calendar {
+        margin-left: 20px;
+        margin-right: 20px;
+        flex: 1;
+        overflow: auto;
+
+        table {
+            margin-bottom: 20px;
+
+            tr:first-child {
+                position: sticky;
+                top: 0;
+                z-index: 10;
+                box-shadow: inset gray 0px -1px 0px 0px;
+
+                th {
+                    background-color: $hight-base-color;
+                }
+            }
+
+            td,
+            th {
+                padding: 10px;
+
+                &::after {
+                    display: block;
+                    margin: auto;
+                    height: 1.2em;
+                    font-size: 1.2em;
+                    font-weight: bold;
+                    text-align: center;
+                }
+
+                &:first-child {
+                    position: sticky;
+                    left: 0;
+                    z-index: 5;
+                    box-shadow: inset gray -1px 0px 0px 0px;
+                }
+            }
+        }
     }
 
-    th {
-        background-color: $hight-base-color;
-    }
+    .date_controll_button {
+        justify-content: center;
 
-    td,
-    th {
-        padding: 10px;
-        $box-shadow: 0 0 30px 5px;
+        form {
+            button {
+                width: 100%;
+            }
 
-        &::after {
-            display: block;
-            margin: auto;
-            height: 1.2em;
-            font-size: 1.2em;
-            font-weight: bold;
-            text-align: center;
-        }
+            &:not(:last-of-type) button {
+                border-top-right-radius: 0;
+                border-bottom-right-radius: 0;
+            }
 
-        &:first-child {
-            position: sticky;
-            left: 0;
-            z-index: 10;
-            box-shadow: inset gray -1px 0px 0px 0px;
-        }
-    }
-}
-
-.date_controll_button {
-    justify-content: center;
-
-    form {
-        button {
-            width: 100%;
-        }
-
-        &:not(:last-of-type) button {
-            border-top-right-radius: 0;
-            border-bottom-right-radius: 0;
-        }
-
-        &:not(:first-of-type) button {
-            border-top-left-radius: 0;
-            border-bottom-left-radius: 0;
+            &:not(:first-of-type) button {
+                border-top-left-radius: 0;
+                border-bottom-left-radius: 0;
+            }
         }
     }
 }
