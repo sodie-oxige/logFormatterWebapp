@@ -23,4 +23,4 @@ production:
   username: postgres
   password: <%= ENV["APP_DATABASE_PASSWORD"] %>
   sslmode: verify-full
-  sslrootcert: prod-ca-2021.crt
+  sslrootcert: <%= ENV['SSL_CERTIFICATE_PATH'] %>
