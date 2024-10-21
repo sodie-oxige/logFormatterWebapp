@@ -9,12 +9,10 @@ development:
   database: logformatter_development
   username: postgres
   password: password
-  sslmode: verify-full
-  sslrootcert: prod-ca-2021.crt
 
 test:
   <<: *default
-  database: logformatter_test         # テスト環境用のデータベース名。
+  database: logformatter_test
 
 production:
   <<: *default
