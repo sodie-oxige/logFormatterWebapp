@@ -1,15 +1,16 @@
 default: &default
-  adapter: mysql2            # 使用するデータベースアダプタ。MySQLの場合は "mysql2" を指定。
-  encoding: utf8mb4           # 文字コード。MySQLでは一般的に "utf8mb4" が推奨される。
-  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>  # データベース接続のプールサイズ。デフォルトは5。
-  username: root              # MySQLに接続するためのユーザー名。デフォルトは "root"。
-  password: <%= ENV["MYSQL_PASSWORD"] %>  # MySQLに接続するためのパスワード。環境変数に設定しておくと安全。
-  host: localhost             # MySQLサーバーのホスト。ローカル環境なら "localhost"。
-  port: 3306                  # MySQLサーバーのポート番号。デフォルトは "3306"。
+  adapter: postgresql
+  encoding: unicode
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
 
 development:
   <<: *default
-  database: logformatter_development  # 開発環境用のデータベース名。"myapp_development" は任意で、自分のアプリ名に合わせて変更。
+  host: <%= ENV["APP_DATABASE_HOST"] %>
+  database: logformatter_development
+  username: postgres
+  password: password
+  sslmode: verify-full
+  sslrootcert: prod-ca-2021.crt
 
 test:
   <<: *default
@@ -17,42 +18,9 @@ test:
 
 production:
   <<: *default
-  database: <%= ENV["MYSQL_DATABASE"] %>   # 本番環境用のデータベース名
-  username: <%= ENV["MYSQL_PROD_USER"] %>    # 環境変数からMySQLユーザー名を取得
-  password: <%= ENV["MYSQL_PROD_PASSWORD"] %> # 環境変数からMySQLパスワードを取得
-  host: <%= ENV["MYSQL_HOST"] %>    # RDSのエンドポイントを指定
-  port: 3306  # デフォルトのMySQLポート
-
-
-# # SQLite. Versions 3.8.0 and up are supported.
-# #   gem install sqlite3
-# #
-# #   Ensure the SQLite 3 gem is defined in your Gemfile
-# #   gem "sqlite3"
-# #
-# default: &default
-#   adapter: sqlite3
-#   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-#   timeout: 5000
-
-# development:
-#   <<: *default
-#   database: storage/development.sqlite3
-
-# # Warning: The database defined as "test" will be erased and
-# # re-generated from your development database when you run "rake".
-# # Do not set this db to the same as development or production.
-# test:
-#   <<: *default
-#   database: storage/test.sqlite3
-
-
-# # SQLite3 write its data on the local filesystem, as such it requires
-# # persistent disks. If you are deploying to a managed service, you should
-# # make sure it provides disk persistence, as many don't.
-# #
-# # Similarly, if you deploy your application as a Docker container, you must
-# # ensure the database is located in a persisted volume.
-# production:
-#   <<: *default
-#   # database: path/to/persistent/storage/production.sqlite3
+  host: <%= ENV["APP_DATABASE_HOST"] %>
+  database: postgres
+  username: postgres
+  password: <%= ENV["APP_DATABASE_PASSWORD"] %>
+  sslmode: verify-full
+  sslrootcert: prod-ca-2021.crt

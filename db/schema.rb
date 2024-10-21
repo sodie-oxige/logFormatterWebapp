@@ -11,7 +11,10 @@
 # It's strongly recommended that you check this file into your version control system.
 
 ActiveRecord::Schema[7.2].define(version: 2024_10_17_063957) do
-  create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
+  create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
     t.bigint "record_id", null: false
@@ -21,7 +24,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_17_063957) do
     t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
   end
 
-  create_table "active_storage_blobs", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "active_storage_blobs", force: :cascade do |t|
     t.string "key", null: false
     t.string "filename", null: false
     t.string "content_type"
@@ -33,13 +36,13 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_17_063957) do
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
   end
 
-  create_table "active_storage_variant_records", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "active_storage_variant_records", force: :cascade do |t|
     t.bigint "blob_id", null: false
     t.string "variation_digest", null: false
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
-  create_table "appear_pcs", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "appear_pcs", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "pc_id", null: false
@@ -48,7 +51,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_17_063957) do
     t.index ["pc_id"], name: "index_appear_pcs_on_pc_id"
   end
 
-  create_table "characters", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "characters", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -58,13 +61,13 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_17_063957) do
     t.index ["pl_id"], name: "index_characters_on_pl_id"
   end
 
-  create_table "games", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "games", force: :cascade do |t|
     t.string "name", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  create_table "log_contents", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "log_contents", force: :cascade do |t|
     t.bigint "log_id", null: false
     t.integer "index", null: false
     t.string "author", null: false
@@ -76,7 +79,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_17_063957) do
     t.index ["log_id"], name: "index_log_contents_on_log_id"
   end
 
-  create_table "logs", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "logs", force: :cascade do |t|
     t.string "name"
     t.date "date"
     t.datetime "created_at", null: false
@@ -87,7 +90,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_17_063957) do
     t.index ["gm_id"], name: "index_logs_on_gm_id"
   end
 
-  create_table "nicknames", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "nicknames", force: :cascade do |t|
     t.string "name"
     t.bigint "character_id", null: false
     t.datetime "created_at", null: false
@@ -95,7 +98,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_17_063957) do
     t.index ["character_id"], name: "index_nicknames_on_character_id"
   end
 
-  create_table "schedules", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "schedules", force: :cascade do |t|
     t.bigint "game_id", null: false
     t.date "date", null: false
     t.integer "response", null: false
@@ -104,7 +107,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_17_063957) do
     t.index ["game_id"], name: "index_schedules_on_game_id"
   end
 
-  create_table "users", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "users", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
