@@ -31,7 +31,16 @@ module ApplicationHelper
       highlight: true,
       fenced_code_blocks: true
     }
-    markdown = Redcarpet::Markdown.new(Redcarpet::Render::HTML.new(option), extensions)
+    markdown = Redcarpet::Markdown.new(CustomRender.new(option), extensions)
     markdown.render(text)
+  end
+  class CustomRender < Redcarpet::Render::HTML
+    def header(text, header_level)
+      if header_level<6
+        %(<h#{header_level+1}>#{text}</h#{header_level+1}>)
+      else
+        %(<strong>#{text}</strong>)
+      end
+    end
   end
 end

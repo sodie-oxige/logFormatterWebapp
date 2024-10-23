@@ -18,7 +18,7 @@
 </div>
 
 <p>PL: <%= @character.pl.name %></p>
-<%= sanitize(@md_text, tags: %w(div p span a br strong em h1 h2 h3 h4 h5 h6 ul ol li button code pre blockquote table tbody tr td th), attributes: %w(style class))  %>
+<%= sanitize(@md_text, tags: %w(div p span a br strong em u h1 h2 h3 h4 h5 h6 ul ol li button code pre blockquote table tbody tr td th), attributes: %w(style class href))  %>
 
 <script>
     window.send_page_flag = true;

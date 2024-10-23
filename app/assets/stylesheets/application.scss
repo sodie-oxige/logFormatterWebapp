@@ -232,17 +232,38 @@
 
     ul li {
         padding-left: 1.5em;
+        list-style: none;
 
         &::before {
             content: "";
             position: absolute;
-            top: 50%;
+            top: 0.5em;
             left: .75em;
-            translate: -50% -50%;
+            translate: -50%;
             width: 5px;
             aspect-ratio: 1;
             background-color: gray;
             border-radius: 50%;
+        }
+    }
+
+    ol {
+        counter-reset: number;
+
+        li {
+            padding-left: 1.5em;
+            list-style: none;
+
+            &::before {
+                counter-increment: number;
+                content: counter(number) '.';
+                position: absolute;
+                top: 0.1em;
+                left: .75em;
+                translate: -50%;
+                color: gray;
+                font-size: 0.9em;
+            }
         }
     }
 
