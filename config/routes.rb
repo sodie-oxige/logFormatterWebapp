@@ -29,9 +29,7 @@ Rails.application.routes.draw do
   post "characters/:id/purge" => "characters#purge", as: "character_purge"
 
   resources :schedules
-  get "users" => "users#index"
-  get "users/edit" => "users#edit"
-  patch "users/update" => "users#update", as: "user"
+  resources :users
 
   get "*path", to: "application#page404", constraints: lambda { |req|
     !req.path.starts_with?("/rails/active_storage")
