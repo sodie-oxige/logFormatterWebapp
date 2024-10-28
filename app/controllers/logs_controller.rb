@@ -21,7 +21,8 @@ class LogsController < ApplicationController
     @log = gm.logs.new(log_params)
     if @log.save
       File.rename("temp.html", "public/logfile/#{@log.id}.html")
-      redirect_to(logs_path)
+      CreateLogcontentsJob.perform_later(@log.id)
+      redirect_to logs_path, notice: "HTMLファイルの処理をバックグラウンドで実行しています"
     else
       pp @log.errors.details
       redirect_to(new_log_path)

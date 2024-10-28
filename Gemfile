@@ -58,3 +58,4 @@ end
 
 gem "dartsass-rails", "~> 0.5.1"
 gem "redcarpet" # Markdown parser
+gem "sidekiq"
