@@ -12,7 +12,8 @@ class CreateLogcontentsJob < ApplicationJob
       doc = Nokogiri::HTML(File.open("public/logfile/#{id}.html"))
       log = Log.find(id)
 
-      doc.css("p").each_with_index do |comment_element, index|
+      paragraphs = doc.css("p")
+      paragraphs.each_with_index do |comment_element, index|
         span = comment_element.css("span")
         params = {
           index: index,
@@ -27,7 +28,7 @@ class CreateLogcontentsJob < ApplicationJob
         else
           log.log_contents.create!(params)
         end
-        # ここに終わったときの通知を追加
+        ActionCable.server.broadcast("create_logcontents_progress_channel", { job_id: job_id, name: log.name, progress: index+1, max: paragraphs.size })
       end
     end
 end

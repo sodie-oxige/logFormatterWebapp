@@ -5,6 +5,12 @@
     <%= link_to "PORT", logs_path, class: "nav_logo" %>
     <div style="flex:1"></div>
     <% if logged_in? %>
+        <button onclick="document.getElementById('notion_container').classList.toggle('open')">
+            notion
+        </button>
+        <div id="notion_container" class="">
+        </div>
+
         <span>[ <%= current_user.name %> ]</span>
         <%= button_to "logout", logout_path, method: :delete %>
     <% end %>
