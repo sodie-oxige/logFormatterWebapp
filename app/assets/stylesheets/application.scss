@@ -606,6 +606,41 @@ nav {
         margin: 10px;
         border: none;
     }
+
+    #notion_container{
+        position: fixed;
+        top: 70px;
+        right: 60px;
+        z-index: 10;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        width: 15em;
+        max-height: 0;
+        aspect-ratio: 0.66;
+        background-color: $base-color;
+        border: solid 0 gray;
+        border-radius: 1em;
+        overflow: hidden;
+        transition: all .2s;
+
+        &.open{
+            display: flex;
+            max-height: 100vh;
+            border-width: thin;
+        }
+
+        li{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 1em;
+            width: 100%;
+            aspect-ratio: 3;
+            border-bottom: solid thin gray;
+            list-style: none;
+        }
+    }
 }
 
 footer {
