@@ -95,7 +95,7 @@ Rails.application.configure do
   config.x.redis = {
     host: "musical-spaniel-25309.upstash.io",
     port: 6379,
-    password: ENV("REDIS_PASSWORD"),
+    password: ENV["REDIS_PASSWORD"],
     db: 0
   }
 

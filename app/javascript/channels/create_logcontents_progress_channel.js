@@ -16,7 +16,6 @@ consumer.subscriptions.create("CreateLogcontentsProgressChannel", {
       let notion_item = document.getElementById("notion_container").querySelector(`[job="${data.job_id}"]`);
       let label = notion_item?.querySelector("span");
       let progressbar = notion_item?.querySelector("progress");
-      console.log("oh!");
       if (!notion_item) {
         notion_item = document.createElement("li");
         notion_item.dataset.status = "running";
@@ -42,7 +41,7 @@ consumer.subscriptions.create("CreateLogcontentsProgressChannel", {
         //完了
         notion_item.dataset.status = "complate";
         label.textContent = ` 完了 ：${data.name}`;
-        progressbar.remove();
+        progressbar?.remove();
         
       }
       
