@@ -1,4 +1,5 @@
 class ApplicationJob < ActiveJob::Base
+  include SessionsHelper
   # Automatically retry jobs that encountered a deadlock
   # retry_on ActiveRecord::Deadlocked
 

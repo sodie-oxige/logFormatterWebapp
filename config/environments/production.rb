@@ -92,6 +92,13 @@ Rails.application.configure do
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
 
+  config.x.redis = {
+    host: "musical-spaniel-25309.upstash.io",
+    port: 6379,
+    password: ENV("REDIS_PASSWORD"),
+    db: 0
+  }
+
   # Enable DNS rebinding protection and other `Host` header attacks.
   # config.hosts = [
   #   "example.com",     # Allow requests from example.com

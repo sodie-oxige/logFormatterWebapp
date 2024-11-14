@@ -3,6 +3,7 @@ class ApplicationController < ActionController::Base
   include ApplicationHelper
   include SessionsHelper
   before_action :autheniticate_user
+  after_action :broadcast_notifications
 
   def page404
     render template: "errors/404", status: 404

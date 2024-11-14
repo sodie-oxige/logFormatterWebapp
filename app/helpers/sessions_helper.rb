@@ -5,6 +5,14 @@ module SessionsHelper
     end
   end
 
+  def broadcast_notifications
+    keys = $redis.keys("notifications:user:#{current_user.id}:job:*")
+    keys.each do |key|
+      message = $redis.hgetall(key)
+      ActionCable.server.broadcast("create_logcontents_progress_channel", message)
+    end
+  end
+
   def log_in(user)
     session[:user_id] = user.id
   end
