@@ -86,12 +86,12 @@ class LogsController < ApplicationController
     end
   end
 
-  $backlog_size = 40
+  $log_size = 40
 
   def backlog_content
     @id = params[:id]
-    backlog_page = params[:page].to_i
-    @backlogs = Log.find(@id).log_contents.where(index: backlog_page-($backlog_size-1)/2 .. backlog_page+$backlog_size/2)
+    log_page = params[:page].to_i
+    @backlogs = Log.find(@id).log_contents.where(index: log_page-($log_size-1)/2 .. log_page+$log_size/2)
     if @backlogs.length != 0
       render partial: "backlog_content"
     else

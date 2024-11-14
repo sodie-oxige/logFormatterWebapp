@@ -3,34 +3,8 @@
 <%= stylesheet_link_tag "log_show", "data-turbo-track": "reload" %>
 
 <div id="screen" style="view-transition-name:log_<%=@log_content.log[:id]%>">
-
-        <div id="backlog" class="close">
-            <div id="backlog_close">
-                <i class="bi bi-x-lg"></i>
-            </div>
+        <div id="backlog">
             <div id="backlog_container"></div>
-        </div>
-
-        <div id="backgrond"></div>
-        <img src="" id="imageL">
-        <img src="" id="imageR">
-
-        <div id="mask"></div>
-        <div class="comment-buttons">
-            <div class="comment-button" id="comment_button_back">
-                <i class="bi bi-chevron-double-left"></i>
-            </div>
-            <div class="comment-button" id="comment_button_backlog">
-                <i class="bi bi-chat-dots"></i>
-            </div>
-        </div>
-        <div id="comment" style="--color: <%= @log_content[:color] %>">
-            <div id="comment_name">
-                <span><%= @log_content[:author] %></span>
-            </div>
-            <div id="comment_content">
-                <p></p>
-            </div>
         </div>
 </div>
 
@@ -38,98 +12,7 @@
 <script>
     //メイン台詞枠
     {
-        const comment_elem = document.getElementById("comment");
         let page = <%= @page %>;
-        window.getLogContent = async (gpage) => {
-            if ('serviceWorker' in navigator) await navigator.serviceWorker.ready;
-            const imageL = document.getElementById("imageL");
-            const imageR = document.getElementById("imageR");
-            page = gpage;
-            const timeout = setTimeout(() => {
-                document.getElementById("loading_mask").classList.remove("hidden");
-            }, 1000);
-            const res = await fetch(`/logs/<%= @id %>/logcontent?page=${gpage}`);
-            const json = await res.json();
-
-            clearTimeout(timeout)
-            document.getElementById("loading_mask").classList.add("hidden");
-
-            backlog_elem.classList.remove("open");
-            backlog_elem.classList.add("close");
-
-            comment_elem.querySelector("#comment_name>span").innerText = json.author;
-            comment_elem.style = `--color: ${json.color};`;
-            comment_elem.setAttribute("tab", json.tab);
-            
-            comment_elem.querySelector("#comment_content>p").innerHTML="";
-            let feed_text = json.content;
-            let inter = setInterval(() => {
-                if(!!feed_text){
-                    let char;
-                    if(/^&.+?;/.test(feed_text)){
-                        char = feed_text.match(/^&.+?;/)[0];
-                        feed_text = feed_text.replace(/^&.+?;/, "");
-                    }else{
-                        char = feed_text.slice(0,1);
-                        feed_text = feed_text.slice(1);
-                    }
-                    comment_elem.querySelector("#comment_content>p").innerHTML += char === "\n" ? "<br>" : char;
-                }else{
-                    clearInterval(inter);
-                }
-            }, 15);
-            comment_elem.addEventListener("click", ()=>{
-                document.querySelector("#comment_content>p").innerHTML="";
-                clearInterval(inter);
-            }, {once: true})
-
-            if(json.char){
-                if(json.char.is_pc && json.char.pl_id!=<%=@log.gm.id%>){
-                    if(imageL.src == json.images[0]){
-                        imageL.classList.remove("silent");
-                        imageR.classList.add("silent");
-                        imageL.style.zIndex = 1;
-                        imageR.style.zIndex = 0;
-                    }else{
-                        const imageL2 = imageL.cloneNode();
-                        imageL2.classList.add("silent");
-                        imageL2.src = json.images[0] ?? "";
-                        imageL2.style.zIndex = 1;
-                        imageR.style.zIndex = 0;
-                        imageR.classList.add("silent");
-                        imageL.replaceWith(imageL2);
-                        imageL2.onload=()=>{
-                            setTimeout(() => { imageL2.classList.remove("silent"); }, 10);
-                        }
-                    }
-                }else{
-                    if(imageR.src == json.images[0]){
-                        imageR.classList.remove("silent");
-                        imageL.classList.add("silent");
-                        imageR.style.zIndex = 1;
-                        imageL.style.zIndex = 0;
-                    }else{
-                        const imageR2 = imageR.cloneNode();
-                        imageR2.classList.add("silent");
-                        imageR2.src = json.images[0] ?? "";
-                        imageR2.style.zIndex = 1;
-                        imageL.style.zIndex = 0;
-                        imageL.classList.add("silent");
-                        imageR.replaceWith(imageR2);
-                        setTimeout(() => { imageR2.classList.remove("silent"); }, 10);
-                    }
-                }
-            }else{
-                imageL.classList.add("silent");
-                imageR.classList.add("silent");
-            }
-        }
-        getLogContent(page);
-        comment_elem.addEventListener("click", ()=>{getLogContent(++page)});
-
-        document.getElementById("comment_button_back").addEventListener("click", ()=>{getLogContent(--page)});
-
-        //バックログ
         const SCROLLRANGE = 200;
         const backlog_elem = document.getElementById("backlog");
         const backlog_container_elem = document.getElementById("backlog_container");
@@ -142,20 +25,12 @@
             return text;
         }
 
-        document.getElementById("comment_button_backlog").addEventListener("click", ()=>{
             scrolltop_flag = true;
             scrollbottom_flag = true;
             getBackLog(page).then(res=>{
                 backlog_container_elem.innerHTML = res;
-                backlog_elem.classList.add("open");
-                backlog_elem.classList.remove("close");
                 backlog_container_elem.querySelector(`[data-page="${page}"]+hr`).scrollIntoView({ block: "end" });
             });
-        })
-        document.getElementById("backlog_close").addEventListener("click", ()=>{
-            backlog_elem.classList.remove("open");
-            backlog_elem.classList.add("close");
-        })
 
         backlog_elem.addEventListener("scroll", ()=>{
             if(backlog_elem.scrollTop < SCROLLRANGE && scrolltop_flag){
