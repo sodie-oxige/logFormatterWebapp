@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_10_17_063957) do
+ActiveRecord::Schema[7.2].define(version: 2024_11_14_162510) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -85,7 +85,6 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_17_063957) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "gm_id", null: false
-    t.integer "bookmark"
     t.boolean "hidden"
     t.index ["gm_id"], name: "index_logs_on_gm_id"
   end

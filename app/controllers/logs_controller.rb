@@ -54,12 +54,8 @@ class LogsController < ApplicationController
   def show
     @id = params[:id]
     @log = Log.find(@id)
-    @page = (params[:page] || @log[:bookmark] || 1).to_i
+    @page = (params[:page] || 1).to_i
     @log_content = @log.log_contents.find_by(index: @page)
-    if !@log_content
-      redirect_to(log_preparing_path(@id))
-    end
-    @log.update(bookmark: @page)
   end
 
   def log_content
@@ -72,7 +68,6 @@ class LogsController < ApplicationController
     char = Character.find_by("REGEXP_REPLACE(name, '\s+', '') = ?", author)
     char ||= Nickname.find_by("REGEXP_REPLACE(name, '\s+', '') = ?", author)&.character
     if @log_content.present?
-      log.update(bookmark: @page)
       render json: {
         author: @log_content[:author],
         color: @log_content[:color],
