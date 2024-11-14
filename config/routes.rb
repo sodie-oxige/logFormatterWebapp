@@ -21,7 +21,7 @@ Rails.application.routes.draw do
   post "logs/pre_new"
   get "logs/:id/preparing" => "logs#preparing", as: "log_preparing"
   get "logs/:id/logcontent" => "logs#log_content", as: "log_logContent"
-  get "logs/:id/backlog" => "logs#backlog_content", as: "log_backlogContent"
+  get "logs/:id/logview" => "logs#logview_content", as: "log_logviewContent"
   post "logs/:id/make_log_content" => "logs#make_log_content", as: "log_makeLogContent"
 
   resources :characters

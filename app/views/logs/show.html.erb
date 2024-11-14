@@ -2,10 +2,8 @@
 
 <%= stylesheet_link_tag "log_show", "data-turbo-track": "reload" %>
 
-<div id="screen" style="view-transition-name:log_<%=@log_content.log[:id]%>">
-        <div id="backlog">
-            <div id="backlog_container"></div>
-        </div>
+<div id="logview" style="view-transition-name:log_<%=@log_content.log[:id]%>">
+    <div id="logview_container"></div>
 </div>
 
 
@@ -14,43 +12,45 @@
     {
         let page = <%= @page %>;
         const SCROLLRANGE = 200;
-        const backlog_elem = document.getElementById("backlog");
-        const backlog_container_elem = document.getElementById("backlog_container");
+        const logview_elem = document.getElementById("logview");
+        const logview_container_elem = document.getElementById("logview_container");
         let scrolltop_flag = true;
         let scrollbottom_flag = true;
 
-        const getBackLog = async (page) => {
-            let res = await fetch(`/logs/<%= @id %>/backlog?page=${page}`);
+        const getLogview = async (page) => {
+            let res = await fetch(`/logs/<%= @id %>/logview?page=${page}`);
             let text = await res.text();
+            console.log(text);
+            
             return text;
         }
 
             scrolltop_flag = true;
             scrollbottom_flag = true;
-            getBackLog(page).then(res=>{
-                backlog_container_elem.innerHTML = res;
-                backlog_container_elem.querySelector(`[data-page="${page}"]+hr`).scrollIntoView({ block: "end" });
+            getLogview(page).then(res=>{
+                logview_container_elem.innerHTML = res;
+                logview_container_elem.querySelector(`[data-page="${page}"]+hr`).scrollIntoView({ block: "end" });
             });
 
-        backlog_elem.addEventListener("scroll", ()=>{
-            if(backlog_elem.scrollTop < SCROLLRANGE && scrolltop_flag){
+        logview_elem.addEventListener("scroll", ()=>{
+            if(logview_elem.scrollTop < SCROLLRANGE && scrolltop_flag){
                 scrolltop_flag = false;
-                getBackLog(backlog_container.querySelector(".backlog_item:first-of-type").dataset.page-21).then(res=>{
+                getLogview(logview_container.querySelector(".logcontents_item:first-of-type").dataset.page-21).then(res=>{
                     const oldTop = document.documentElement.scrollTop;
-                    const oldHeight = backlog_elem.scrollHeight;
-                    backlog_container_elem.insertAdjacentHTML('afterbegin', res);
-                    const diffHeight = backlog_elem.scrollHeight - oldHeight;
-                    backlog_container_elem.scrollTop = oldTop - diffHeight;
-                    if(backlog_container.querySelector(".backlog_item:first-of-type").dataset.page!=1) scrolltop_flag = true;
+                    const oldHeight = logview_elem.scrollHeight;
+                    logview_container_elem.insertAdjacentHTML('afterbegin', res);
+                    const diffHeight = logview_elem.scrollHeight - oldHeight;
+                    logview_container_elem.scrollTop = oldTop - diffHeight;
+                    if(logview_container.querySelector(".logcontents_item:first-of-type").dataset.page!=1) scrolltop_flag = true;
                 }).catch(err => {
                     scrolltop_flag = true;
                     console.Error(err);
                 })
             }
-            if((backlog_elem.scrollHeight - backlog_elem.scrollTop - backlog_elem.clientHeight) < SCROLLRANGE && scrollbottom_flag){
+            if((logview_elem.scrollHeight - logview_elem.scrollTop - logview_elem.clientHeight) < SCROLLRANGE && scrollbottom_flag){
                 scrollbottom_flag = false;
-                getBackLog(Number(backlog_container.querySelector(".backlog_item:last-of-type").dataset.page)+20).then(res=>{
-                    backlog_container_elem.insertAdjacentHTML('beforeend', res);
+                getLogview(Number(logview_container.querySelector(".logcontents_item:last-of-type").dataset.page)+20).then(res=>{
+                    logview_container_elem.insertAdjacentHTML('beforeend', res);
                     if(res != "") scrollbottom_flag = true;
                 }).catch(err => {
                     scrolltop_flag = true;

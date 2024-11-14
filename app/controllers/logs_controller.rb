@@ -88,12 +88,13 @@ class LogsController < ApplicationController
 
   $log_size = 40
 
-  def backlog_content
+  def logview_content
     @id = params[:id]
     log_page = params[:page].to_i
-    @backlogs = Log.find(@id).log_contents.where(index: log_page-($log_size-1)/2 .. log_page+$log_size/2)
-    if @backlogs.length != 0
-      render partial: "backlog_content"
+    @logcontents = Log.find(@id).log_contents.where(index: log_page-($log_size-1)/2 .. log_page+$log_size/2).order(:index)
+    pp @logcontents
+    if @logcontents.length != 0
+      render partial: "logcontent"
     else
       render plain: ""
     end

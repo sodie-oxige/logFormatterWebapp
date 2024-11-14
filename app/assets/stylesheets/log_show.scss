@@ -1,80 +1,48 @@
 @use "sass:math";
 @use "global" as *;
 
-:root{
+:root {
     --bottom: env(safe-area-inset-bottom);
 
-    @include sp{
+    @include sp {
         --bottom: calc(env(safe-area-inset-bottom) + 60px);
     }
 }
 
-#screen {
+#logview {
     position: fixed;
-    margin: 0!important;
+    margin: 0;
     top: calc(env(safe-area-inset-top) + 60px);
-    bottom: var(--bottom);
     left: 0;
+    z-index: 60;
+    padding: 20px;
     width: 100vw;
+    height: calc(100vh - env(safe-area-inset-top) - 60px);
+    background-color: $base-color;
+    overflow-y: auto;
 
-    #backlog {
-        position: fixed;
-        top: calc(env(safe-area-inset-top) + 60px);
-        left: 0;
-        z-index: 60;
-        padding: 20px;
-        width: 100vw;
-        height: calc(100vh - env(safe-area-inset-top) - 60px);
-        background-color: rgba(0, 0, 0, 0.7);
-        overflow-y: auto;
+    .logcontents_item {
+        margin: 1em;
+        display: flex;
+        color: $assort-color;
 
-        &.close {
-            display: none;
+        .logcontents_colorbar {
+            width: 2em;
+            max-width: 5px;
+            background-color: color-mix(in srgb, var(--color), $assort-color 10%);
+            transition: max-width 0.1s;
         }
 
-        &.open {
-            display: block;
-        }
-
-        #backlog_close {
-            position: fixed;
-            top: calc(70px + env(safe-area-inset-top));
-            right: 10px;
-            z-index: 10;
-
-            i {
-                color: #eee;
-                font-size: 2rem;
-            }
-        }
-
-        .backlog_item {
-            margin: 1em;
+        .logcontents_content {
             display: flex;
-            color: white;
-
-            .backlog_jump_button {
-                width: 2em;
-                max-width: 5px;
-                background-color: color-mix(in srgb, var(--color), black 30%);
-                transition: max-width 0.1s;
-            }
-
-            .backlog_content {
-                display: flex;
-                flex-direction: column;
-                padding: 0.5em;
-                flex: 1;
-            }
-        }
-
-        hr {
-            opacity: 0.5;
+            flex-direction: column;
+            padding: 0.5em;
+            padding-left: 1em;
+            flex: 1;
         }
     }
 
-    progress {
-        width: 50%;
-        min-width: 200px;
+    hr {
+        opacity: 0.5;
     }
 }
