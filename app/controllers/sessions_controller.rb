@@ -1,5 +1,6 @@
 class SessionsController < ApplicationController
   skip_before_action :autheniticate_user
+  skip_after_action :broadcast_notifications
   def new
   end
 
