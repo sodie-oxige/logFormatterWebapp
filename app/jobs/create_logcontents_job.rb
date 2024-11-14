@@ -16,13 +16,13 @@ class CreateLogcontentsJob < ApplicationJob
     paragraphs.each_with_index do |comment_element, index|
       span = comment_element.css("span")
       params = {
-        index: index,
+        index: index+1,
         color: comment_element.get_attribute("style").match(/color:\s*([^;]+);?/).to_a[1],
         tab: span[0].text.match(/(?<=\[).+(?=\])/).to_a[0],
         author: span[1].text,
         content: span[2].inner_html.strip
       }
-      log_content = log.log_contents.find_by(index: index)
+      log_content = log.log_contents.find_by(index: index+1)
       if log_content.present?
         log_content.update(params)
       else

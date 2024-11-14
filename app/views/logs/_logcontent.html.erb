@@ -1,0 +1,14 @@
+<% @logcontents.each do |logcontent| %>
+    <div class="logcontents_item" style="--color:<%= logcontent[:color] %>;" data-page="<%= logcontent[:index] %>">
+        <div class="logcontents_colorbar"></div>
+        <div class="logcontents_content">
+            <div class="logcontents_content_name">
+                <%= logcontent[:index] %>. <%= logcontent[:author] %> [<%= logcontent[:tab] %>]
+            </div>
+            <div class="logcontents_content_text">
+                <%= simple_format(logcontent[:content]) %>
+            </div>
+        </div>
+    </div>
+    <hr>
+<% end %>
