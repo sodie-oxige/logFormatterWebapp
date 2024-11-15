@@ -96,7 +96,8 @@ Rails.application.configure do
     host: "musical-spaniel-25309.upstash.io",
     port: 6379,
     password: ENV["REDIS_PASSWORD"],
-    db: 0
+    db: 0,
+    ssl?: true
   }
 
   # Enable DNS rebinding protection and other `Host` header attacks.

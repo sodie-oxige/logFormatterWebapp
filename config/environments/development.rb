@@ -82,7 +82,9 @@ Rails.application.configure do
   config.x.redis = {
     host: "localhost",
     port: 6379,
-    db: 0
+    password: "",
+    db: 0,
+    ssl?: false
   }
 
   config.hosts << /.*\.ngrok-free\.app/
