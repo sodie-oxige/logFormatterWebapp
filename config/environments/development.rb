@@ -84,7 +84,7 @@ Rails.application.configure do
     port: 6379,
     password: "",
     db: 0,
-    ssl?: false
+    ssl: false
   }
 
   config.hosts << /.*\.ngrok-free\.app/

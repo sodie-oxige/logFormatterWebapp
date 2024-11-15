@@ -4,5 +4,5 @@ $redis = Redis.new(
   port: redis[:port],
   password: redis[:password],
   db: redis[:db],
-  ssl: redis[:ssl?]
+  ssl: redis[:ssl]
 )
