@@ -1,6 +1,4 @@
-import consumer from "channels/consumer"
-
-consumer.subscriptions.create({ channel: "CreateLogcontentsProgressChannel" })
+import consumer from "channels/consumer";
 
 consumer.subscriptions.create("CreateLogcontentsProgressChannel", {
   connected() {
@@ -12,6 +10,7 @@ consumer.subscriptions.create("CreateLogcontentsProgressChannel", {
   },
 
   received(data) {
+    console.log("Received data:", data);
     queueMicrotask(() => {
       let notion_item = document.getElementById("notion_container").querySelector(`[job="${data.job_id}"]`);
       let label = notion_item?.querySelector("span");
