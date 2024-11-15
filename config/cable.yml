@@ -1,7 +1,6 @@
 development:
   adapter: redis
-  url: <%= "redis://#{Rails.application.config.x.redis[:host]}:#{Rails.application.config.x.redis[:port]}/#{Rails.application.config.x.redis[:db]}" %>
-  ssl: <%= Rails.application.config.x.redis[:ssl] %>
+  url: <%= "#{Rails.application.config.x.redis[:ssl]?'rediss':'redis'}://#{Rails.application.config.x.redis[:host]}:#{Rails.application.config.x.redis[:port]}/#{Rails.application.config.x.redis[:db]}" %>
   password: <%= Rails.application.config.x.redis[:password] %>
 
 test:
@@ -9,6 +8,5 @@ test:
 
 production:
   adapter: redis
-  url: <%= "redis://#{Rails.application.config.x.redis[:host]}:#{Rails.application.config.x.redis[:port]}/#{Rails.application.config.x.redis[:db]}" %>
-  ssl: <%= Rails.application.config.x.redis[:ssl] %>
+  url: <%= "#{Rails.application.config.x.redis[:ssl]?'rediss':'redis'}://#{Rails.application.config.x.redis[:host]}:#{Rails.application.config.x.redis[:port]}/#{Rails.application.config.x.redis[:db]}" %>
   password: <%= Rails.application.config.x.redis[:password] %>

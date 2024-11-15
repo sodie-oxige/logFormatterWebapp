@@ -2,6 +2,8 @@ class CreateLogcontentsJob < ApplicationJob
   queue_as :default
 
   def perform(user_id, log_id)
+    pp "user:#{user_id}"
+    pp "log:#{log_id}"
     extract_and_save_p_elements(user_id, log_id)
   end
 
