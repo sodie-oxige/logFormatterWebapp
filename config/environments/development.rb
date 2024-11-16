@@ -82,7 +82,7 @@ Rails.application.configure do
   config.x.redis = {
     host: "localhost",
     port: 6379,
-    password: "",
+    password: nil,
     db: 0,
     ssl: false
   }

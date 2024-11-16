@@ -46,9 +46,4 @@ class CreateLogcontentsJob < ApplicationJob
     $redis.mapped_hmset(key, message)   # 通知リストに追加
     $redis.expire(key, 5.days.to_i) # 5日間後に自動削除
   end
-
-  def get_notifications(user_id)
-    key = "user:#{user_id}:notifications"
-    $redis.lrange(key, 0, -1)  # 全通知を取得
-  end
 end

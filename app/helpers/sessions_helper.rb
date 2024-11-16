@@ -6,10 +6,10 @@ module SessionsHelper
   end
 
   def broadcast_notifications
-    keys = $redis.keys("notifications:user:#{current_user.id}:job:*")
-    notions = $redis.lrange(keys, 0, -1)
-    notions.each do |notion|
-      ActionCable.server.broadcast("create_logcontents_progress_channel", notion)
+    key = "notifications:user:#{current_user.id}:job:*"
+      notions = $redis.lrange(key, 0, -1)
+      notions.each do |notion|
+        ActionCable.server.broadcast("create_logcontents_progress_channel", notion)
     end
   end
 
