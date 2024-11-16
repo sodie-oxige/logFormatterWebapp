@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_11_14_162510) do
+ActiveRecord::Schema[7.2].define(version: 2024_11_16_091109) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -58,6 +58,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_11_14_162510) do
     t.bigint "pl_id", null: false
     t.boolean "is_pc"
     t.text "text"
+    t.binary "compressed_text"
     t.index ["pl_id"], name: "index_characters_on_pl_id"
   end
 

@@ -1,3 +1,5 @@
+require "zlib"
+
 class CharactersController < ApplicationController
   def index
     @pc = Character.joins(:pl).where(is_pc: true).select("characters.*, users.name AS pl_name").order(:pl_name)
@@ -11,8 +13,10 @@ class CharactersController < ApplicationController
   end
 
   def create
-    character_params = params.require(:character).permit(:name, :is_pc, :pl_id, :text, images: [], nicknames_attributes: [ :id, :name, :_destroy ])
+    character_params = params.require(:character)
     character_params[:nicknames_attributes].each_key { |n| if character_params[:nicknames_attributes][n][:name]=="" then character_params[:nicknames_attributes][n][:_destroy]=true end }
+    character_params[:compressed_text] = Zlib::Deflate.deflate(character_params[:text])
+    character_params = character_params.permit(:name, :is_pc, :pl_id, :compressed_text, images: [], nicknames_attributes: [ :id, :name, :_destroy ])
     @character = User.find(character_params[:pl_id]).characters.new(character_params)
 
     pp @character
@@ -35,17 +39,20 @@ class CharactersController < ApplicationController
 
   def show
     @character = Character.find(params[:id])
-    @md_text = @character.text!=nil ? markdown(@character.text) : ""
+    @md_text = @character.compressed_text!=nil ? markdown(Zlib::Inflate.inflate(@character.compressed_text)) : ""
   end
 
   def edit
     @character = Character.includes(images_attachments: :blob).find(params[:id])
+    @character.text = Zlib::Inflate.inflate(@character.compressed_text)
   end
 
   def update
     character = Character.find(params[:id])
-    character_params = params.require(:character).permit(:name, :is_pc, :pl_id, :text, images: [], nicknames_attributes: [ :id, :name, :_destroy ])
+    character_params = params.require(:character)
     character_params[:nicknames_attributes].each_key { |n| if character_params[:nicknames_attributes][n][:name]=="" then character_params[:nicknames_attributes][n][:_destroy]=true end }
+    character_params[:compressed_text] = Zlib::Deflate.deflate(character_params[:text])
+    character_params = character_params.permit(:name, :is_pc, :pl_id, :compressed_text, images: [], nicknames_attributes: [ :id, :name, :_destroy ])
     if character.update(character_params)
       redirect_to edit_character_path(params[:id])
     else
