@@ -35,7 +35,7 @@
     <div id="loading_mask" class="hidden">
       <div id="loader"></div>
     </div>
-    <main>
+    <main data-controller="<%= controller_path + "--" + action_name %>">
       <div id="sidebar" class="open<%= if default_hidden? then " default-hidden" end %>">
         <div id="sidebar_container">
           <%= render "layouts/sidebar" %>

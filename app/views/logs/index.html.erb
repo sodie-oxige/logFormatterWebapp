@@ -66,12 +66,8 @@
     <p><%= t(".message") %></p>
 <% end %>
 <div style="display:none;">
-    <%= form_with url: logs_pre_new_path, id: "dropFileForm" do |form| %>
-        <%= form.file_field(:file) %>
+    <%= form_with url: logs_pre_new_path, id: "dropFileForm", data: { target: "logs--index.form" } do |form| %>
+        <%= form.file_field :file, data: { target: "logs--index.fileInput" } %>
         <%= form.submit %>
     <% end %>
 </div>
-
-<% content_for :js do %>
-    <%= javascript_import_module_tag "logs" %>
-<% end %>
