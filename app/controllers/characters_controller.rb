@@ -39,7 +39,7 @@ class CharactersController < ApplicationController
   end
 
   def edit
-    @character = Character.find(params[:id])
+    @character = Character.includes(images_attachments: :blob).find(params[:id])
   end
 
   def update

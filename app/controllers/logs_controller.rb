@@ -1,6 +1,6 @@
 class LogsController < ApplicationController
   def index
-    @logs = Log.all.order(:date)
+    @logs = Log.preload(:gm, :appear_pcs).all.order(:date)
   end
 
   def pre_new

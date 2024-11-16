@@ -55,7 +55,7 @@ class SchedulesController < ApplicationController
         @calendars.push(date)
         date = date.next_day
       end
-    @game = Game.find(params[:id])
+    @game = Game.preload(:schedules).find(params[:id])
   end
 
   def update
@@ -63,7 +63,7 @@ class SchedulesController < ApplicationController
     @month = params.fetch(:month, Time.zone.today.month).to_i
     game = params[:game]
     responses = game.select { |k, v| k.start_with?("response") }.values
-    @game = Game.find(params[:id])
+    @game = Game.preload(:schedules).find(params[:id])
     if @game.update(params.require(:game).slice(:name).permit(:name))
       i=1
       responses.each do |res|

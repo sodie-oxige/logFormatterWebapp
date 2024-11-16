@@ -11,7 +11,7 @@ class CreateLogcontentsJob < ApplicationJob
 
   def extract_and_save_p_elements(user_id, log_id)
     doc = Nokogiri::HTML(File.open("public/logfile/#{log_id}.html"))
-    log = Log.find(log_id)
+    log = Log.preload(:log_contents).find(log_id)
 
     @percent = 0
     paragraphs = doc.css("p")
@@ -24,7 +24,7 @@ class CreateLogcontentsJob < ApplicationJob
         author: span[1].text,
         content: span[2].inner_html.strip
       }
-      log_content = log.log_contents.find_by(index: index+1)
+      log_content = log.log_contents.find { |lc| lc.index == index + 1 }
       if log_content.present?
         log_content.update(params)
       else
