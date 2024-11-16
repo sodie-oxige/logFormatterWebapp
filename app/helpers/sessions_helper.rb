@@ -7,9 +7,9 @@ module SessionsHelper
 
   def broadcast_notifications
     keys = $redis.keys("notifications:user:#{current_user.id}:job:*")
-    keys.each do |key|
-      message = $redis.hgetall(key)
-      ActionCable.server.broadcast("create_logcontents_progress_channel", message)
+    notions = $redis.lrange(keys, 0, -1)
+    notions.each do |notion|
+      ActionCable.server.broadcast("create_logcontents_progress_channel", notion)
     end
   end
 

@@ -21,8 +21,7 @@ class LogsController < ApplicationController
     @log = gm.logs.new(log_params)
     if @log.save
       File.rename("public/logfile/temp.html", "public/logfile/#{@log.id}.html")
-      job = CreateLogcontentsJob.perform_later(current_user.id, @log.id)
-      ActionCable.server.broadcast("create_logcontents_progress_channel", { job_id: job.job_id, name: @log.name, progress: 0, max: 1 })
+      CreateLogcontentsJob.perform_later(current_user.id, @log.id)
       redirect_to logs_path, notice: "HTMLファイルの処理をバックグラウンドで実行しています"
     else
       pp @log.errors.details

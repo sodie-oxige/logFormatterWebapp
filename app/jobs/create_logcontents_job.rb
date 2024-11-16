@@ -7,12 +7,13 @@ class CreateLogcontentsJob < ApplicationJob
     extract_and_save_p_elements(user_id, log_id)
   end
 
-  # private
+  private
 
   def extract_and_save_p_elements(user_id, log_id)
     doc = Nokogiri::HTML(File.open("public/logfile/#{log_id}.html"))
     log = Log.find(log_id)
 
+    @percent = 0
     paragraphs = doc.css("p")
     paragraphs.each_with_index do |comment_element, index|
       span = comment_element.css("span")
@@ -29,9 +30,14 @@ class CreateLogcontentsJob < ApplicationJob
       else
         log.log_contents.create!(params)
       end
-      save_notification(user_id, job_id, { name: log.name, progress: index+1, max: paragraphs.size })
-      ActionCable.server.broadcast("create_logcontents_progress_channel", { job_id: job_id, name: log.name, progress: index+1, max: paragraphs.size })
-    end
+      if @percent < (index+1)*100.div(paragraphs.size)
+        @percent = (index+1)*100.div(paragraphs.size)
+        save_notification(user_id, job_id, { name: log.name, progress: index+1, max: paragraphs.size })
+        ActionCable.server.broadcast("create_logcontents_progress_channel", { job_id: job_id, name: log.name, progress: paragraphs.size, max: paragraphs.size })
+      end
+  end
+    save_notification(user_id, job_id, { name: log.name, progress: paragraphs.size, max: paragraphs.size })
+    ActionCable.server.broadcast("create_logcontents_progress_channel", { job_id: job_id, name: log.name, progress: paragraphs.size, max: paragraphs.size })
     File.delete("public/logfile/#{log_id}.html")
   end
 
