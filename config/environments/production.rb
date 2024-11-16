@@ -93,7 +93,7 @@ Rails.application.configure do
   config.active_record.dump_schema_after_migration = false
 
   config.x.redis = {
-    host: "musical-spaniel-25309.upstash.io",
+    host: ENV["REDIS_HOST"],
     port: 6379,
     password: ENV["REDIS_PASSWORD"],
     db: 0,
