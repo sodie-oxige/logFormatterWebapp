@@ -72,13 +72,5 @@ Rails.application.configure do
 
   config.active_job.queue_adapter = :solid_queue
 
-  # config.x.redis = {
-  #   host: "localhost",
-  #   port: 6379,
-  #   password: nil,
-  #   db: 0,
-  #   ssl: false
-  # }
-
   config.hosts << /.*\.ngrok-free\.app/
 end
