@@ -10,9 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_11_16_115951) do
+ActiveRecord::Schema[8.0].define(version: 2024_11_17_061611) do
   # These are extensions that must be enabled in order to support this database
-  enable_extension "plpgsql"
+  enable_extension "pg_catalog.plpgsql"
+
+  create_table "active_jobs", force: :cascade do |t|
+    t.string "queue_name"
+    t.text "serialized_job"
+    t.datetime "created_at", null: false
+    t.index ["queue_name"], name: "index_active_jobs_on_queue_name"
+  end
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
