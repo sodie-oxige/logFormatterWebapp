@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  job_id: MyString
+  name: MyString
+  progress: 1
+  max: 1
+
+two:
+  job_id: MyString
+  name: MyString
+  progress: 1
+  max: 1

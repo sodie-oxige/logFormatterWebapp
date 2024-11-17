@@ -10,9 +10,9 @@ development:
   username: postgres
   password: password
 
-test:
-  <<: *default
-  database: logformatter_test
+# test:
+#   <<: *default
+#   database: logformatter_test
 
 production:
   <<: *default
