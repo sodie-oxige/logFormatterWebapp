@@ -39,12 +39,33 @@ class CharactersController < ApplicationController
 
   def show
     @character = Character.find(params[:id])
-    @md_text = @character.compressed_text!=nil ? markdown(Zlib::Inflate.inflate(@character.compressed_text)) : ""
+    if @character.compressed_text.present?
+      begin
+        @character.text = Zlib::Inflate.inflate(@character.compressed_text).force_encoding("UTF-8")
+      rescue Zlib::BufError => e
+        # エラー時の処理。例えば空文字にするなど
+        @character.text = ""
+        Rails.logger.error("Error inflating compressed_text: #{e.message}")
+      end
+    else
+      @character.text = ""
+    end
+    @md_text = markdown(@character.text)
   end
 
   def edit
     @character = Character.includes(images_attachments: :blob).find(params[:id])
-    @character.text = Zlib::Inflate.inflate(@character.compressed_text)
+    if @character.compressed_text.present?
+      begin
+        @character.text = Zlib::Inflate.inflate(@character.compressed_text).force_encoding("UTF-8")
+      rescue Zlib::BufError => e
+        # エラー時の処理。例えば空文字にするなど
+        @character.text = ""
+        Rails.logger.error("Error inflating compressed_text: #{e.message}")
+      end
+    else
+      @character.text = ""
+    end
   end
 
   def update
