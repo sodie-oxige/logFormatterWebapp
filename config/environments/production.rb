@@ -50,7 +50,8 @@ Rails.application.configure do
   # config.cache_store = :mem_cache_store
 
   # Replace the default in-process and non-durable queuing backend for Active Job.
-  # config.active_job.queue_adapter = :resque
+  # config.active_job.queue_adapter = :solid_queue
+
 
   # Ignore bad email addresses and do not raise email delivery errors.
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.
@@ -77,14 +78,6 @@ Rails.application.configure do
 
   # Only use :id for inspections in production.
   config.active_record.attributes_for_inspect = [ :id ]
-
-  # config.x.redis = {
-  #   host: ENV["REDIS_HOST"],
-  #   port: 6379,
-  #   password: ENV["REDIS_PASSWORD"],
-  #   db: 0,
-  #   ssl: true
-  # }
 
   # Enable DNS rebinding protection and other `Host` header attacks.
   # config.hosts = [

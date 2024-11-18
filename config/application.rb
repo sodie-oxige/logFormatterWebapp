@@ -29,6 +29,6 @@ module Logformatter
     config.i18n.default_locale = :jp
 
     config.active_storage.replace_on_assign_to_many = false
-    config.active_job.queue_adapter = :sidekiq
+    config.active_job.queue_adapter = :solid_queue
   end
 end

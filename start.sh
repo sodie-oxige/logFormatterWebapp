@@ -1,6 +1,5 @@
 #!/bin/bash
 bundle exec puma -C config/puma.rb &
-pkill sidekiq &
-bundle exec sidekiq -C config/sidekiq.yml &
+bundle exec rails solid_queue:start &
 
 wait

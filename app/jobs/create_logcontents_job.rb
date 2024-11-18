@@ -10,11 +10,14 @@ class CreateLogcontentsJob < ApplicationJob
   private
 
   def extract_and_save_p_elements(user_id, log_id)
+    user = User.find(user_id)
     doc = Nokogiri::HTML(File.open("public/logfile/#{log_id}.html"))
     log = Log.preload(:log_contents).find(log_id)
 
     @percent = 0
     paragraphs = doc.css("p")
+    notion = user.notions.new({ job_id: job_id, name: "#{log.name}", progress: 0, max: paragraphs.size })
+    notion.save
     paragraphs.each_with_index do |comment_element, index|
       span = comment_element.css("span")
       params = {
@@ -30,20 +33,17 @@ class CreateLogcontentsJob < ApplicationJob
       else
         log.log_contents.create!(params)
       end
-      if @percent < (index+1)*100.div(paragraphs.size)
-        @percent = (index+1)*100.div(paragraphs.size)
-        save_notification(user_id, job_id, { name: log.name, progress: index+1, max: paragraphs.size })
-        ActionCable.server.broadcast("create_logcontents_progress_channel", { job_id: job_id, name: log.name, progress: paragraphs.size, max: paragraphs.size })
+      if @percent < ((index+1)*100).div(paragraphs.size)
+        @percent = ((index+1)*100).div(paragraphs.size)
+        hash = { job_id: job_id, name: "#{log.name}", progress: index+1, max: paragraphs.size }
+        pp notion
+        notion.update(hash)
+        ActionCable.server.broadcast("create_logcontents_progress_channel", hash)
       end
   end
-    save_notification(user_id, job_id, { name: log.name, progress: paragraphs.size, max: paragraphs.size })
-    ActionCable.server.broadcast("create_logcontents_progress_channel", { job_id: job_id, name: log.name, progress: paragraphs.size, max: paragraphs.size })
+    hash = { job_id: job_id, name: "#{log.name}", progress: paragraphs.size, max: paragraphs.size }
+    notion.update(hash)
+    ActionCable.server.broadcast("create_logcontents_progress_channel", hash)
     File.delete("public/logfile/#{log_id}.html")
-  end
-
-  def save_notification(user_id, job_id, message)
-    key = "notifications:user:#{user_id}:job:#{job_id}"
-    $redis.mapped_hmset(key, message)   # 通知リストに追加
-    $redis.expire(key, 5.days.to_i) # 5日間後に自動削除
   end
 end
