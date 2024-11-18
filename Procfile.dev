@@ -2,4 +2,3 @@ web: bin/rails server -b 0.0.0.0 -p 3000
 css: bin/rails dartsass:watch
 ngrok: ngrok http --url=deeply-distinct-koi.ngrok-free.app 3000
 solid: rails solid_queue:start
-redis: redis-server

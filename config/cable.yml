@@ -1,12 +1,17 @@
-development:
-  adapter: redis
-  url: <%= "#{Rails.application.config.x.redis[:ssl]?'rediss':'redis'}://#{Rails.application.config.x.redis[:host]}:#{Rails.application.config.x.redis[:port]}/#{Rails.application.config.x.redis[:db]}" %>
-  password: <%= Rails.application.config.x.redis[:password] %>
+default: &default
+  adapter: postgresql
+  database: <%= ActiveRecord::Base.connection_db_config.configuration_hash[:database] %>
+  username: <%= ActiveRecord::Base.connection_db_config.configuration_hash[:username] %>
+  password: <%= ActiveRecord::Base.connection_db_config.configuration_hash[:password] %>
+  host: <%= ActiveRecord::Base.connection_db_config.configuration_hash[:host] %>
+  port: <%= ActiveRecord::Base.connection_db_config.configuration_hash[:port] %>
 
-test:
-  adapter: test
+
+development:
+  <<: *default
+
+# test:
+#   adapter: test
 
 production:
-  adapter: redis
-  url: <%= "#{Rails.application.config.x.redis[:ssl]?'rediss':'redis'}://#{Rails.application.config.x.redis[:host]}:#{Rails.application.config.x.redis[:port]}/#{Rails.application.config.x.redis[:db]}" %>
-  password: <%= Rails.application.config.x.redis[:password] %>
+  <<: *default

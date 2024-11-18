@@ -10,11 +10,14 @@ class CreateLogcontentsJob < ApplicationJob
   private
 
   def extract_and_save_p_elements(user_id, log_id)
+    user = User.find(user_id)
     doc = Nokogiri::HTML(File.open("public/logfile/#{log_id}.html"))
     log = Log.preload(:log_contents).find(log_id)
 
     @percent = 0
     paragraphs = doc.css("p")
+    notion = user.notions.new({ job_id: job_id, name: "#{log.name}", progress: 0, max: paragraphs.size })
+    notion.save
     paragraphs.each_with_index do |comment_element, index|
       span = comment_element.css("span")
       params = {
@@ -33,30 +36,14 @@ class CreateLogcontentsJob < ApplicationJob
       if @percent < ((index+1)*100).div(paragraphs.size)
         @percent = ((index+1)*100).div(paragraphs.size)
         hash = { job_id: job_id, name: "#{log.name}", progress: index+1, max: paragraphs.size }
-        save_notification(user_id, hash)
+        pp notion
+        notion.update(hash)
         ActionCable.server.broadcast("create_logcontents_progress_channel", hash)
       end
   end
     hash = { job_id: job_id, name: "#{log.name}", progress: paragraphs.size, max: paragraphs.size }
-    save_notification(hash)
+    notion.update(hash)
     ActionCable.server.broadcast("create_logcontents_progress_channel", hash)
     File.delete("public/logfile/#{log_id}.html")
-  end
-
-  def save_notification(user_id, message)
-    pp user_id
-    notions = User.find(user_id).notions
-    pp notions
-    pp message
-    pp message["job_id"]
-    notion = notions.find_by(job_id: message["job_id"])
-    if notion.nil?
-      pp message
-      notion = notions.new(message)
-      pp notion
-      pp notion.save!
-    else
-      notion.update(progress: message["progress"])
-    end
   end
 end

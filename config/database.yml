@@ -5,7 +5,7 @@ default: &default
 
 development:
   <<: *default
-  host: <%= ENV["APP_DATABASE_HOST"] %>
+  host: localhost
   database: logformatter_development
   username: postgres
   password: password
