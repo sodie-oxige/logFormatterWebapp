@@ -6,4 +6,6 @@ class Character < ApplicationRecord
   accepts_nested_attributes_for :nicknames, allow_destroy: true
   validates :name, presence: true, uniqueness: true
   has_many_attached :images
+
+  attr_accessor :text
 end
