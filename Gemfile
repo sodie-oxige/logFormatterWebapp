@@ -60,4 +60,4 @@ gem "dartsass-rails", "~> 0.5.1"
 gem "redcarpet" # Markdown parser
 gem "sidekiq"
 
-gem "solid_queue", "~> 1.0"
+gem "solid_queue", "~> 1.1"
