@@ -1,24 +1,14 @@
-# README
+# 「PORT」(log formatter webapp)
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## 概要
 
-Things you may want to cover:
+オンラインセッションツール『[ココフォリア](https://ccfolia.com/)』にて出力したセッションログの形を見やすく整えて表示することを主とした複合ツール。  
+本来のログファイル（html形式）は色分けがされただけの文章だが、このwebアプリを通すことで整形され読みやすくなる目的。  
+他にも登場キャラクターを纏めたり、複数の予定を管理するためのカレンダー機能など複数機能が付いている。  
 
-* Ruby version
+世にいくつか整形ツールというものはあるが、どれも元htmlファイルを改変し新たなhtmlファイルとしてダウンロードする形式であった。  
+ファイルを持っておかなければならず、PCのローカルな場だけでなくスマホなど複数端末でも閲覧したいと思ったために、整形をサーバー上でやろうというもの。  
+サーバーを借りるのにお金がかかるし、友人とのプライベートなものをインターネットのサーバー上にあげるのはいかがなものか、という点でやめた。  
 
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+現在はキャラクター纏めはローカルで別形式（md形式でobsidianを使って）、カレンダーは普通にカレンダーサービス（googleカレンダー）を使用。  
+ログ整形・閲覧に関しては、デスクトップアプリ「[卓ログ置き場](https://github.com/sodie-oxige/taku-log-place)」にて整形し、google driveで同期、複数端末で閲覧できるようにしている。
